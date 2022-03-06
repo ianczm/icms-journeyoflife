@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&display=swap');
+
+$poppins: 'Poppins', sans-serif;
+
+$yellow: #FFC900;
+$dark: #0D0B00;
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: $dark;
+    color: white;
+    font-family: $poppins;
+    line-height: 1.15;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@mixin createShadow($radius: 30px, $color: $yellow, $opacity: 0.3) {
+    box-shadow: 0 0 $radius rgba($color, $opacity);
+}
+
+%button {
+    background-color: $yellow;
+    color: $dark;
+    padding: 15px 25px;
+    display: inline-block;
+    border-radius: 50px;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &:first-child {
+        margin-right: 5px;
+    }
+}
+
+.section {
+    width: 748px;
+    margin: 0 auto;
+}
+
+.landing {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .inner-container {
+        text-align: left;
+
+        .text {
+            h1 {
+                font-size: 3rem;
+                color: $yellow;
+                margin-bottom: 1rem;
+            }
+
+            p {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .event-details {
+            span {
+                @extend %button;
+                @include createShadow(30px, $yellow, 0.3)
+            }
+        }
+    }
+}

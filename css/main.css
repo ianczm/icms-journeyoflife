@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&display=swap");
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0D0B00;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.15;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.landing .inner-container .event-details span {
+  background-color: #FFC900;
+  color: #0D0B00;
+  padding: 15px 25px;
+  display: inline-block;
+  border-radius: 50px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.landing .inner-container .event-details span:hover {
+  opacity: 0.8;
+}
+.landing .inner-container .event-details span:first-child {
+  margin-right: 5px;
+}
+
+.section {
+  width: 748px;
+  margin: 0 auto;
+}
+
+.landing {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing .inner-container {
+  text-align: left;
+}
+.landing .inner-container .text h1 {
+  font-size: 3rem;
+  color: #FFC900;
+  margin-bottom: 1rem;
+}
+.landing .inner-container .text p {
+  margin-bottom: 2rem;
+}
+.landing .inner-container .event-details span {
+  box-shadow: 0 0 30px rgba(255, 201, 0, 0.3);
+}
+
+/*# sourceMappingURL=main.css.map */
