@@ -58,5 +58,23 @@
                 }
             }
         }
+
+        @media (min-width: 1325px) {
+            .desktop {
+                display: flex;
+            }
+            .mobile {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1325px) {
+            .desktop {
+                display: none;
+            }
+            .mobile {
+                display: flex;
+            }
+        }
     }
 }

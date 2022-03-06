@@ -106,5 +106,21 @@ body {
 .nav-outer-container .nav-container .right .social-media ul > *:not(:last-child) {
   margin-right: 25px;
 }
+@media (min-width: 1325px) {
+  .nav-outer-container .nav-container .desktop {
+    display: flex;
+  }
+  .nav-outer-container .nav-container .mobile {
+    display: none;
+  }
+}
+@media (max-width: 1325px) {
+  .nav-outer-container .nav-container .desktop {
+    display: none;
+  }
+  .nav-outer-container .nav-container .mobile {
+    display: flex;
+  }
+}
 
 /*# sourceMappingURL=nav.css.map */
