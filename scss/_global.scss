@@ -32,6 +32,12 @@ body {
     text-shadow: 0 0 $radius rgba($color, $opacity);
 }
 
+@mixin spaceChildren($gap) {
+    & > *:not(:last-child) {
+        margin-right: $gap;
+    }
+}
+
 ::selection {
     background-color: rgba($yellow, 0.5);
 }
@@ -58,47 +64,15 @@ body {
     }
 }
 
+.glow-button {
+    @extend %button;
+    @include createBoxShadow(30px, $yellow, 0.3);
+    mix-blend-mode: screen;
+    backdrop-filter: blur(25px);
+    color: $dark !important;
+}
+
 .section {
     width: 75vw;
     margin: 0 auto;
-}
-
-.landing {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .inner-container {
-        text-align: left;
-
-        .text {
-            h1 {
-                font-size: 3.5rem;
-                color: $yellow;
-                margin-bottom: 1rem;
-                mix-blend-mode: screen;
-                backdrop-filter: blur(25px);
-                @include createTextShadow(30px, $yellow, 0.3);
-            }
-
-            p {
-                font-size: 1.5rem;
-                margin-bottom: 2rem;
-                font-weight: 200;
-            }
-        }
-
-        .event-details {
-            span {
-                @extend %button;
-                @include createBoxShadow(30px, $yellow, 0.3);
-                margin-bottom: 10px;
-                mix-blend-mode: screen;
-                backdrop-filter: blur(25px);
-                font-size: 1rem;
-                padding: 20px 30px;
-            }
-        }
-    }
 }
