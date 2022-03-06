@@ -101,15 +101,12 @@ body {
 .nav-outer-container .nav-container .right .social-media ul > *:not(:last-child) {
   margin-right: 25px;
 }
-@media only screen and (min-width: 1325px) {
-  .nav-outer-container .nav-container .desktop {
-    display: flex;
-  }
+@media only screen and (min-width: 1080px) {
   .nav-outer-container .nav-container .mobile {
     display: none;
   }
 }
-@media only screen and (max-width: 1324px) {
+@media only screen and (max-width: 1080px) {
   .nav-outer-container .nav-container .desktop {
     display: none;
   }

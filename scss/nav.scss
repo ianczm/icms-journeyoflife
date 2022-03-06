@@ -59,16 +59,13 @@
             }
         }
 
-        @media only screen and (min-width: 1325px) {
-            .desktop {
-                display: flex;
-            }
+        @media only screen and (min-width: 1080px) {
             .mobile {
                 display: none;
             }
         }
 
-        @media only screen and (max-width: 1324px) {
+        @media only screen and (max-width: 1080px) {
             .desktop {
                 display: none;
             }
