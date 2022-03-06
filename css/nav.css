@@ -106,7 +106,7 @@ body {
 .nav-outer-container .nav-container .right .social-media ul > *:not(:last-child) {
   margin-right: 25px;
 }
-@media (min-width: 1325px) {
+@media only screen and (min-width: 1325px) {
   .nav-outer-container .nav-container .desktop {
     display: flex;
   }
@@ -114,7 +114,7 @@ body {
     display: none;
   }
 }
-@media (max-width: 1325px) {
+@media only screen and (max-width: 1324px) {
   .nav-outer-container .nav-container .desktop {
     display: none;
   }
