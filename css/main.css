@@ -18,6 +18,10 @@ body {
   padding: 0;
 }
 
+::selection {
+  background-color: rgba(255, 201, 0, 0.5);
+}
+
 .landing .inner-container .event-details span {
   background-color: #FFC900;
   color: #0D0B00;
@@ -52,16 +56,25 @@ body {
   text-align: left;
 }
 .landing .inner-container .text h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   color: #FFC900;
   margin-bottom: 1rem;
+  mix-blend-mode: screen;
+  backdrop-filter: blur(25px);
+  text-shadow: 0 0 30px rgba(255, 201, 0, 0.3);
 }
 .landing .inner-container .text p {
+  font-size: 1.5rem;
   margin-bottom: 2rem;
+  font-weight: 200;
 }
 .landing .inner-container .event-details span {
   box-shadow: 0 0 30px rgba(255, 201, 0, 0.3);
   margin-bottom: 10px;
+  mix-blend-mode: screen;
+  backdrop-filter: blur(25px);
+  font-size: 1rem;
+  padding: 20px 30px;
 }
 
 /*# sourceMappingURL=main.css.map */
