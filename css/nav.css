@@ -85,7 +85,7 @@ img:hover {
 }
 .nav-outer-container .nav-container .logo img {
   display: inline-block;
-  max-height: 35px;
+  max-height: 35px !important;
   filter: none;
   transition: filter 0.2s ease;
 }
