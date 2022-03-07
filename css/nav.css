@@ -13,6 +13,14 @@ body {
   padding: 0;
 }
 
+img {
+  transform: scale(1);
+  transition: transform 0.2s ease;
+}
+img:hover {
+  transform: scale(1.01);
+}
+
 ::selection {
   background-color: rgba(255, 201, 0, 0.5);
 }
@@ -75,6 +83,15 @@ body {
   text-shadow: none;
   transition: color 0.2s ease, text-shadow 0.2s ease;
 }
+.nav-outer-container .nav-container .logo img {
+  display: inline-block;
+  max-height: 35px;
+  filter: none;
+  transition: filter 0.2s ease;
+}
+.nav-outer-container .nav-container .logo img:hover {
+  filter: drop-shadow(0 0 25px rgba(255, 201, 0, 0.5));
+}
 .nav-outer-container .nav-container .right {
   display: flex;
   align-items: center;
@@ -83,7 +100,7 @@ body {
 .nav-outer-container .nav-container .right > *:not(:last-child) {
   margin-right: 50px;
 }
-.nav-outer-container .nav-container .right a:hover {
+.nav-outer-container .nav-container .right a:hover, .nav-outer-container .nav-container .right a.active {
   color: #FFC900;
   text-shadow: 0 0 30px rgba(255, 201, 0, 0.95);
 }
