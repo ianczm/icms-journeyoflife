@@ -14,11 +14,11 @@ body {
 }
 
 ::selection {
-  background-color: rgba(255, 201, 0, 0.5);
+  background-color: rgba(255, 0, 0, 0.5);
 }
 
 .glow-button {
-  background-color: #FFC900;
+  background-color: red;
   color: #0D0B00;
   padding: 15px 25px;
   display: inline-block;
@@ -37,7 +37,7 @@ body {
 }
 
 .glow-button {
-  box-shadow: 0 0 30px rgba(255, 201, 0, 0.3);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
   mix-blend-mode: screen;
   backdrop-filter: blur(25px);
   color: #0D0B00 !important;
@@ -69,10 +69,10 @@ body {
 }
 .landing .inner-container .text h1 {
   font-size: 3.5rem;
-  color: #FFC900;
+  color: red;
   margin-bottom: 1rem;
   mix-blend-mode: screen;
-  text-shadow: 0 0 30px rgba(255, 201, 0, 0.3);
+  text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
 }
 .landing .inner-container .text p {
   font-size: 1.5rem;
