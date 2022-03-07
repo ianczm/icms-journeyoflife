@@ -6,8 +6,7 @@
     padding: $padding;
     width: calc(100vw - 2*$padding);
     outline: 1px solid rgba(white, 0.15);
-    backdrop-filter: blur(50px) brightness(0.9) contrast(1.1);
-    // background: rgba(black, 0.2);
+    backdrop-filter: blur(50px);
     @include createBoxShadow($color: $dark);
     display: flex;
     justify-content: center;
