@@ -14,11 +14,11 @@ body {
 }
 
 ::selection {
-  background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgba(255, 201, 0, 0.5);
 }
 
 .glow-button {
-  background-color: red;
+  background-color: #FFC900;
   color: #0D0B00;
   padding: 15px 25px;
   display: inline-block;
@@ -37,7 +37,7 @@ body {
 }
 
 .glow-button {
-  box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+  box-shadow: 0 0 30px rgba(255, 201, 0, 0.3);
   mix-blend-mode: screen;
   backdrop-filter: blur(25px);
   color: #0D0B00 !important;
@@ -84,8 +84,8 @@ body {
   margin-right: 50px;
 }
 .nav-outer-container .nav-container .right a:hover {
-  color: red;
-  text-shadow: 0 0 30px rgba(255, 0, 0, 0.95);
+  color: #FFC900;
+  text-shadow: 0 0 30px rgba(255, 201, 0, 0.95);
 }
 .nav-outer-container .nav-container .right .links ul {
   display: flex;
