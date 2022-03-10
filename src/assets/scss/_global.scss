@@ -5,13 +5,38 @@ $poppins: 'Poppins', sans-serif;
 $yellow: #FFC900;
 $dark: #0D0B00;
 
+@mixin createBoxShadow($radius: 30px, $color: $yellow, $opacity: 0.3) {
+  box-shadow: 0 0 $radius rgba($color, $opacity);
+}
+
+@mixin createTextShadow($radius: 30px, $color: $yellow, $opacity: 0.3) {
+  text-shadow: 0 0 $radius rgba($color, $opacity);
+}
+
+@mixin spaceChildren($gap) {
+  & > *:not(:last-child) {
+    margin-right: $gap;
+  }
+}
+
+@mixin createGlass($color, $opacity, $blur, $shadowcolor, $outlineopacity: 0.15) {
+  outline: 1px solid rgba(white, $outlineopacity);
+  background: rgba($color, $opacity);
+  backdrop-filter: blur($blur);
+  @include createBoxShadow($color: $shadowcolor);
+}
+
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 } 
 
 body {
-    font-family: $poppins;
-    line-height: 1.15;
+  font-family: $poppins;
+  line-height: 1.15;
+}
+
+a {
+  text-decoration: none;
 }
 
 * {
@@ -20,63 +45,71 @@ body {
 }
 
 img {
-    transform: scale(1);
-    transition: transform 0.2s ease;
+  transform: scale(1);
+  transition: transform 0.2s ease;
 
-    &:hover {
-        transform: scale(1.01);
-    }
+  &:hover {
+    transform: scale(1.01);
+  }
 }
 
-@mixin createBoxShadow($radius: 30px, $color: $yellow, $opacity: 0.3) {
-    box-shadow: 0 0 $radius rgba($color, $opacity);
+h1 {
+  font-size: 5rem;
+  color: $yellow;
+  mix-blend-mode: screen;
+  @include createTextShadow(30px, $yellow, 0.3);
 }
 
-@mixin createTextShadow($radius: 30px, $color: $yellow, $opacity: 0.3) {
-    text-shadow: 0 0 $radius rgba($color, $opacity);
+h4 {
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 3rem;
+  @include createTextShadow(30px, white, 0.3);
 }
 
-@mixin spaceChildren($gap) {
-    & > *:not(:last-child) {
-        margin-right: $gap;
-    }
+p {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  @include createTextShadow(30px, white, 0.3);
 }
 
 ::selection {
-    background-color: rgba($yellow, 0.5);
+  background-color: rgba($yellow, 0.5);
 }
 
 %button {
-    background-color: $yellow;
-    color: $dark;
-    padding: 15px 25px;
-    display: inline-block;
-    border-radius: 50px;
-    opacity: 1;
-    transition: opacity 0.2s ease !important;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    
+  background-color: $yellow;
+  color: $dark;
+  padding: 15px 25px;
+  display: inline-block;
+  border-radius: 50px;
+  opacity: 1;
+  transition: opacity 0.2s ease !important;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  
 
-    &:hover {
-        opacity: 0.8;
-    }
+  &:hover {
+    opacity: 0.8;
+  }
 
-    &:first-child {
-        margin-right: 5px;
-    }
+  &:first-child {
+    margin-right: 5px;
+  }
 }
 
 .glow-button {
-    @extend %button;
-    @include createBoxShadow(30px, $yellow, 0.3);
-    mix-blend-mode: screen;
-    backdrop-filter: blur(25px);
-    color: $dark !important;
+  @extend %button;
+  @include createBoxShadow(30px, $yellow, 0.3);
+  mix-blend-mode: screen;
+  backdrop-filter: blur(25px);
+  color: $dark !important;
+  text-transform: uppercase;
 }
 
 .section {
-    width: 75vw;
-    margin: 0 auto;
+  width: 75vw;
+  margin: 0 auto;
+  font-weight: 200;
 }

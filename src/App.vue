@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="nav-outer-container">
+  <div ref="nav-height" class="nav-outer-container">
     <div class="nav-container">
       <div class="logo">
         <router-link to="/">
@@ -20,7 +20,10 @@
               <router-link to="/agenda">Agenda</router-link>
             </li>
             <li>
-              <router-link to="/register" class="glow-button">Register</router-link>
+              <router-link to="/rules">Rules</router-link>
+            </li>
+            <li>
+              <router-link to="/login" class="glow-button">Sign In</router-link>
             </li>
           </ul>
         </div>
@@ -76,8 +79,8 @@ body {
   color: white;
   font-family: $poppins;
   line-height: 1.15;
-  background-blend-mode: screen;
-  background-size: cover;
+  height: 100vh;
+  background-attachment: fixed;
   background-image: radial-gradient(
       circle at 27% 22%,
       rgba(242, 94, 153, 0.4) 0%,
@@ -100,14 +103,17 @@ body {
     );
 }
 
+.nav-spacer {
+  height: 115px;
+}
+
 .nav-outer-container {
   $padding: 20px;
   position: fixed;
+  z-index: 10;
   padding: $padding;
   width: calc(100vw - 2 * $padding);
-  outline: 1px solid rgba(white, 0.15);
-  backdrop-filter: blur(50px);
-  @include createBoxShadow($color: $dark);
+  @include createGlass($dark, 0.15, 25px, $dark);
   display: flex;
   justify-content: center;
 
@@ -150,7 +156,7 @@ body {
       @include spaceChildren(50px);
 
       a:hover,
-      a.active {
+      a.router-link-exact-active {
         color: $yellow;
         @include createTextShadow($opacity: 0.95);
       }
@@ -172,13 +178,13 @@ body {
       }
     }
 
-    @media only screen and (min-width: 1080px) {
+    @media only screen and (min-width: 950px) {
       .mobile {
         display: none;
       }
     }
 
-    @media only screen and (max-width: 1080px) {
+    @media only screen and (max-width: 950px) {
       .desktop {
         display: none;
       }

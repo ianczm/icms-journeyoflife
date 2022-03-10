@@ -6,7 +6,7 @@
         <div class="text">
           <h1>
             The<br>
-            Agenda
+            Rules
           </h1>
           <!-- <EventDetails/> -->
         </div>
@@ -16,16 +16,7 @@
 </template>
 
 <script>
-import EventDetails from '/src/components/EventDetails.vue'
 
-export default {
-  components: {EventDetails},
-  data() {
-    return {
-
-    }
-  }
-}
 </script>
 
 <style>
