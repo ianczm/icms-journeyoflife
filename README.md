@@ -1,4 +1,4 @@
-# ICMS Rag to Riches Website
+# ICMS Journey of Life Webgame
 
 Rags to Riches is an event organised by the International Council of Malaysian Scholars in collaboration with Maybank. The event is about raising financial literacy among the Malaysian Youth through learning about financial planning.
 
