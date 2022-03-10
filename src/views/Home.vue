@@ -4,8 +4,8 @@
       <div class="inner-container">
         <div class="text">
           <h1>
-            Rags
-            <br />to Riches
+            The Journey
+            <br />of Life
           </h1>
           <p>An ICMS Roundtable in collaboration with Maybank.</p>
         </div>
@@ -26,35 +26,6 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/_global.scss";
-
-body {
-  background: $dark;
-  color: white;
-  font-family: $poppins;
-  line-height: 1.15;
-  background-blend-mode: screen;
-  background-size: cover;
-  background-image: radial-gradient(
-      circle at 27% 22%,
-      rgba(242, 94, 153, 0.4) 0%,
-      rgba(242, 94, 153, 0) 90%
-    ),
-    radial-gradient(
-      ellipse at 90% 10%,
-      rgba(184, 170, 110, 0.1) 0%,
-      rgba(184, 170, 110, 0) 60%
-    ),
-    radial-gradient(
-      circle at 75% 56%,
-      rgba(250, 199, 48, 0.5) 0%,
-      rgba(250, 199, 48, 0) 40%
-    ),
-    radial-gradient(
-      farthest-side at 73% 55%,
-      rgba(86, 45, 8, 0.9) 0%,
-      rgba(86, 45, 8, 0) 100%
-    );
-}
 
 .landing {
   height: 100vh;
