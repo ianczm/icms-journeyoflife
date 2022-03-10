@@ -1,119 +1,164 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="nav-outer-container">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="/">
+          <img src="/src/assets/img/common/logo.png" alt="ICMS Logo" />
+        </a>
+      </div>
+      <div class="right desktop">
+        <div class="links">
+          <ul>
+            <li>
+              <a class="active" href="/">home</a>
+            </li>
+            <li>
+              <a href="#">agenda</a>
+            </li>
+            <!-- <li><a href="#">The Team</a></li> -->
+            <li>
+              <a class="glow-button" href="#">register</a>
+            </li>
+          </ul>
+        </div>
+        <div class="social-media">
+          <ul>
+            <li>
+              <a href="https://icmscholars.org">
+                <i class="fa-solid fa-laptop"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/icmscholars/">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/company/icmscholars/">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/icmscholars">
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.tiktok.com/@icmscholars">
+                <i class="fa-brands fa-tiktok"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="right mobile">
+        <i class="fa-solid fa-bars"></i>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <RouterView />
+  <router-view/>
 </template>
 
-<style>
-@import '@/assets/base.css';
+<script>
+export default {
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
 }
+</script>
 
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<style lang="scss">
+@import "@/assets/scss/_global.scss";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+.nav-outer-container {
+  $padding: 20px;
+  position: fixed;
+  padding: $padding;
+  width: calc(100vw - 2 * $padding);
+  outline: 1px solid rgba(white, 0.15);
+  backdrop-filter: blur(50px);
+  @include createBoxShadow($color: $dark);
+  display: flex;
+  justify-content: center;
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
+  .nav-container {
+    ul {
+      list-style: none;
+    }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
+    a {
+      text-decoration: none;
+      color: white;
+      text-shadow: none;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  body {
+    width: 80%;
     display: flex;
-    place-items: center;
-  }
+    justify-content: space-between;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 0.95rem;
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+    .logo {
+      img {
+        display: inline-block;
+        max-height: 35px !important;
+        filter: none;
+        transition: filter 0.2s ease;
 
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+        &:hover {
+          filter: drop-shadow(0 0 25px rgba($yellow, 0.5));
+        }
+      }
+    }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+    .right {
+      display: flex;
+      align-items: center;
+      text-align: right;
+      @include spaceChildren(50px);
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+      a:hover,
+      a.active {
+        color: $yellow;
+        @include createTextShadow($opacity: 0.95);
+      }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+      .links {
+        ul {
+          display: flex;
+          align-items: center;
+          @include spaceChildren(35px);
+        }
+      }
 
-    padding: 1rem 0;
-    margin-top: 1rem;
+      .social-media {
+        ul {
+          display: flex;
+          align-items: center;
+          @include spaceChildren(25px);
+        }
+      }
+    }
+
+    @media only screen and (min-width: 1080px) {
+      .mobile {
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width: 1080px) {
+      .desktop {
+        display: none;
+      }
+      .mobile {
+        display: flex;
+      }
+    }
   }
 }
 </style>
