@@ -27,7 +27,10 @@
             </li>
             <li>
               <router-link v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
-              <span @click="submitSignOut" v-else class="glow-button">Sign Out</span>
+              <div @click="submitSignOut" v-else class="glow-button sign-out">
+                <span>{{ getUsername }}</span>
+                <span class="subtitle">Sign Out</span>
+              </div>
             </li>
           </ul>
         </div>
@@ -66,7 +69,7 @@
       </div>
     </div>
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
@@ -91,7 +94,7 @@ export default {
         this.signedIn = false;
         if (this.$route.name === 'Game') {
           // redirect user to login if they are currently in game
-          this.$router.push({name: 'Login'});
+          this.$router.push({ name: 'Login' });
         }
       }
     })
@@ -99,6 +102,12 @@ export default {
   methods: {
     submitSignOut() {
       signOut(this.auth);
+    }
+  },
+  computed: {
+    getUsername() {
+      // return username part of the email
+      return this.user.email.split("@")[0];
     }
   }
 }
@@ -195,14 +204,27 @@ body {
       }
 
       .glow-button {
-
         &.router-link-active {
           @include createBoxShadow(50px, $yellow, 0.5);
           transition: box-shadow 0.2s ease;
         }
-      }
 
-      
+        &.sign-out {
+
+          text-align: center;
+          padding-top: 9px;
+          padding-bottom: 9px;
+
+          span {
+            display: block;
+          }
+
+          .subtitle {
+            font-size: 0.65rem;
+            font-weight: 600;
+          }
+        }
+      }
 
       .links {
         ul {
