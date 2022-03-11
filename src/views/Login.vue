@@ -12,10 +12,6 @@
               <strong>Error:</strong>
               {{ errorCode }}
             </div>
-            <div v-if="isSuccessful">
-              <strong>Success:</strong>
-              signed in
-            </div>
           </div>
           <div class="group">
             <label for>Username</label>
@@ -62,10 +58,12 @@ export default {
       this.auth = getAuth();
       signInWithEmailAndPassword(this.auth, this.email, this.password)
         .then((userCredential) => {
-          // Signed In
+          // Produce success message, set persistence to local and get user data
           this.user = userCredential.user;
           this.isSuccessful = true;
+          this.$router.replace({name: 'Home'});
         }).catch((error) => {
+          // Produce error if invalid sign in
           this.hasError = true;
           this.errorCode = error.code;
           this.errorMessage = error.message;
@@ -160,12 +158,6 @@ export default {
       &.error {
         background: $error;
         @include createBoxShadow($color: $error);
-      }
-
-      &.success {
-        background: $yellow;
-        color: $dark;
-        @include createBoxShadow();
       }
     }
 

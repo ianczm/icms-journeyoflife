@@ -5,6 +5,8 @@ import Game from '../views/Game.vue'
 import Rules from '../views/Rules.vue'
 import Login from '../views/Login.vue'
 
+import { getAuth } from "firebase/auth";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,7 +23,8 @@ const router = createRouter({
     {
       path: '/game',
       name: 'Game',
-      component: Game
+      component: Game,
+      meta: {requiresAuth: true}
     },
     {
       path: '/rules',
@@ -34,6 +37,21 @@ const router = createRouter({
       component: Login
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.meta.requiresAuth;
+
+  if (requiresAuth) {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      next({name: 'Login'});
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 })
 
 export default router

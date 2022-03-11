@@ -26,7 +26,8 @@
               <router-link to="/game">Game</router-link>
             </li>
             <li>
-              <router-link to="/login" class="glow-button">Sign In</router-link>
+              <router-link v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
+              <span @click="submitSignOut" v-else class="glow-button">Sign Out</span>
             </li>
           </ul>
         </div>
@@ -69,8 +70,37 @@
 </template>
 
 <script>
-export default {
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
+export default {
+  data() {
+    return {
+      // Authentication details
+      user: null,
+      signedIn: false,
+      auth: null
+    }
+  },
+  created() {
+    this.auth = getAuth();
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.user = user;
+        this.signedIn = true;
+      } else {
+        this.signedIn = false;
+        if (this.$route.name === 'Game') {
+          // redirect user to login if they are currently in game
+          this.$router.push({name: 'Login'});
+        }
+      }
+    })
+  },
+  methods: {
+    submitSignOut() {
+      signOut(this.auth);
+    }
+  }
 }
 </script>
 
