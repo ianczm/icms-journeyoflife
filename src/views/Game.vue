@@ -85,7 +85,7 @@ export default {
   grid-template-rows: auto auto;
   grid-template-areas: 'character scenario' 'character choices';
   grid-gap: 50px;
-  @include createGlass($dark, 0.30, 25px, $dark);
+  @include createGlass($opacity: 0.2);
   border-radius: 25px;
   padding: 75px;
 
@@ -117,9 +117,9 @@ export default {
     line-height: 1.5;
   }
 
-  .character-stats {
+  // .character-stats {
 
-  }
+  // }
 
   .scenario-content {
 
@@ -147,7 +147,8 @@ export default {
 
         cursor: pointer;
 
-        @include createGlass($dark, 0.15, 25px, $dark, 0.05);
+        @include createGlass($opacity: 0.1, $outlineopacity: 0.03);
+        @include createBoxShadow(30px, $dark, 0.35);
         padding: 30px;
         border-radius: 10px;
         transition: all 0.2s ease;

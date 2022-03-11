@@ -4,6 +4,8 @@ $poppins: 'Poppins', sans-serif;
 
 $yellow: #FFC900;
 $dark: #0D0B00;
+$error: #FF3333;
+$secondary-text: #EAEAEA;
 
 @mixin createBoxShadow($radius: 30px, $color: $yellow, $opacity: 0.3) {
   box-shadow: 0 0 $radius rgba($color, $opacity);
@@ -19,7 +21,7 @@ $dark: #0D0B00;
   }
 }
 
-@mixin createGlass($color, $opacity, $blur, $shadowcolor, $outlineopacity: 0.15) {
+@mixin createGlass($color: $dark, $opacity: 0.15, $blur: 25px, $shadowcolor: $dark, $outlineopacity: 0.15) {
   outline: 1px solid rgba(white, $outlineopacity);
   background: rgba($color, $opacity);
   backdrop-filter: blur($blur);
@@ -42,6 +44,11 @@ a {
 * {
     margin: 0;
     padding: 0;
+}
+
+// disable text selection cursor for non editable text
+:not(input, a) {
+  cursor: default;
 }
 
 img {

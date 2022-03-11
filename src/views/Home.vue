@@ -59,13 +59,16 @@ export default {
       margin-bottom: 3rem;
       text-transform: uppercase;
       font-weight: 400;
-      mix-blend-mode: screen;
-      @include createTextShadow(30px, white, 0.3);
+
+      h3 {
+        @include createTextShadow(30px, white, 0.3);
+      }      
 
       .dates {
         display: flex;
         justify-content: center;
         align-items: center;
+        @include createTextShadow(30px, $yellow, 0.3);
 
         span {
           color: $yellow;
@@ -73,7 +76,6 @@ export default {
           padding: 10px 15px;
           background: none;
           transition: background 0.2s ease;
-          cursor: pointer;
           border-radius: 4px;
 
           &:hover {

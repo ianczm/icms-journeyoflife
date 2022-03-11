@@ -8,7 +8,6 @@
             The<br>
             Rules
           </h1>
-          <!-- <EventDetails/> -->
         </div>
       </div>
     </div>

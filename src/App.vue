@@ -23,6 +23,9 @@
               <router-link to="/rules">Rules</router-link>
             </li>
             <li>
+              <router-link to="/game">Game</router-link>
+            </li>
+            <li>
               <router-link to="/login" class="glow-button">Sign In</router-link>
             </li>
           </ul>
@@ -113,7 +116,7 @@ body {
   z-index: 10;
   padding: $padding;
   width: calc(100vw - 2 * $padding);
-  @include createGlass($dark, 0.15, 25px, $dark);
+  @include createGlass();
   display: flex;
   justify-content: center;
 
@@ -156,10 +159,20 @@ body {
       @include spaceChildren(50px);
 
       a:hover,
-      a.router-link-exact-active {
+      a.router-link-active {
         color: $yellow;
         @include createTextShadow($opacity: 0.95);
       }
+
+      .glow-button {
+
+        &.router-link-active {
+          @include createBoxShadow(50px, $yellow, 0.5);
+          transition: box-shadow 0.2s ease;
+        }
+      }
+
+      
 
       .links {
         ul {
