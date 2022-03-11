@@ -15,7 +15,7 @@
           </div>
           <div class="group">
             <label for>Username</label>
-            <input v-model="email" type="text" placeholder="name@example.com" />
+            <input v-model="username" type="text" placeholder="username" />
           </div>
           <div class="group">
             <label for>Password</label>
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       // User input
-      email: '',
+      username: '',
       password: '',
 
       // Authentication
@@ -56,7 +56,7 @@ export default {
 
       console.log("Submitted");
       this.auth = getAuth();
-      signInWithEmailAndPassword(this.auth, this.email, this.password)
+      signInWithEmailAndPassword(this.auth, this.emailFromUsername, this.password)
         .then((userCredential) => {
           // Produce success message, set persistence to local and get user data
           this.user = userCredential.user;
@@ -68,7 +68,7 @@ export default {
           this.errorCode = error.code;
           this.errorMessage = error.message;
         })
-      this.email = '';
+      this.username = '';
       this.password = '';
     }
   },
@@ -81,6 +81,9 @@ export default {
       } else {
         return '';
       }
+    },
+    emailFromUsername() {
+      return this.username + "@icmscholars.org";
     }
   }
 }
