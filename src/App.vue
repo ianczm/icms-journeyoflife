@@ -107,7 +107,7 @@ export default {
   computed: {
     getUsername() {
       // return username part of the email
-      return this.user.email.split("@")[0];
+      return this.user.email.split("@")[0].replace(".", " ");
     }
   }
 }
