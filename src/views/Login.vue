@@ -7,13 +7,23 @@
           <div class="divider"></div>
         </div>
         <form @submit.prevent="submitLogin">
-          <div class="group">
-            <label for="">Username</label>
-            <input v-model="email" type="text" placeholder="name@example.com">
+          <div v-if="hasError || isSuccessful" class="statusbar" :class="updateStatusClass">
+            <div v-if="hasError">
+              <strong>Error:</strong>
+              {{ errorCode }}
+            </div>
+            <div v-if="isSuccessful">
+              <strong>Success:</strong>
+              signed in
+            </div>
           </div>
           <div class="group">
-            <label for="">Password</label>
-            <input v-model="password" type="password" placeholder="password">
+            <label for>Username</label>
+            <input v-model="email" type="text" placeholder="name@example.com" />
+          </div>
+          <div class="group">
+            <label for>Password</label>
+            <input v-model="password" type="password" placeholder="password" />
           </div>
           <button type="submit" class="glow-button">Sign In</button>
         </form>
@@ -29,17 +39,49 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default {
   data() {
     return {
+      // User input
       email: '',
       password: '',
-      error: '',
+
+      // Authentication
+      hasError: false,
+      isSuccessful: false,
+      errorCode: null,
+      errorMessage: null,
+      user: null,
+      auth: null,
     }
   },
   methods: {
-    async submitLogin() {
-      try {
-        const loginToken = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-      } catch (error) {
-        
+    submitLogin() {
+
+      this.isSuccessful = false;
+      this.hasError = false;
+
+      console.log("Submitted");
+      this.auth = getAuth();
+      signInWithEmailAndPassword(this.auth, this.email, this.password)
+        .then((userCredential) => {
+          // Signed In
+          this.user = userCredential.user;
+          this.isSuccessful = true;
+        }).catch((error) => {
+          this.hasError = true;
+          this.errorCode = error.code;
+          this.errorMessage = error.message;
+        })
+      this.email = '';
+      this.password = '';
+    }
+  },
+  computed: {
+    updateStatusClass() {
+      if (this.isSuccessful) {
+        return 'success';
+      } else if (this.hasError) {
+        return 'error';
+      } else {
+        return '';
       }
     }
   }
@@ -51,14 +93,14 @@ export default {
 
 .section.login {
   $loginPadding: 50px;
-  width: min(400px, calc(80vw - 2*$loginPadding));
+  width: min(400px, calc(80vw - 2 * $loginPadding));
   padding: calc($loginPadding + 25px) $loginPadding;
   border-radius: 25px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  @include createGlass($dark, 0.15, 25px, $dark);
+  @include createGlass();
 
   h1 {
     font-size: 3rem;
@@ -91,14 +133,40 @@ export default {
   form {
     $inputpadding: 15px;
 
-    * {
+    *:not(strong) {
       display: block;
-      width: calc(100% - 2*$inputpadding);
+      width: calc(100% - 2 * $inputpadding);
       margin-bottom: 15px;
     }
 
     .group {
       width: 100%;
+    }
+
+    .statusbar {
+      width: calc(100% - 30px);
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: $secondary-text;
+      margin-bottom: 30px;
+      margin-top: -15px;
+
+      & > * {
+        margin: 0;
+      }
+
+      &.error {
+        background: $error;
+        @include createBoxShadow($color: $error);
+      }
+
+      &.success {
+        background: $yellow;
+        color: $dark;
+        @include createBoxShadow();
+      }
     }
 
     label {
@@ -107,7 +175,7 @@ export default {
 
     input {
       padding: $inputpadding;
-      @include createGlass(transparent, 0, 25px, $dark);
+      @include createGlass(transparent, 0);
       border: none;
       color: white;
       font-family: $poppins;
@@ -130,8 +198,5 @@ export default {
       padding: 20px 30px;
     }
   }
-
-
 }
-
 </style>
