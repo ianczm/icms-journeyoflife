@@ -176,6 +176,14 @@ export default {
       transition: all 0.1s ease;
       margin-bottom: 2rem;
 
+      &::selection {
+        background: rgba($yellow, 0.15);
+      }
+
+      &::placeholder {
+        color: rgba($yellow, 0.5);
+      }
+
       &:focus {
         outline: 2px $yellow solid;
         color: $yellow;
@@ -187,6 +195,7 @@ export default {
       border: none;
       width: 100%;
       margin-top: 3rem;
+      margin-bottom: 0;
       padding: 20px 30px;
     }
   }
