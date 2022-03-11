@@ -6,14 +6,14 @@
           <h1>Sign In</h1>
           <div class="divider"></div>
         </div>
-        <form action="">
+        <form @submit.prevent="submitLogin">
           <div class="group">
             <label for="">Username</label>
-            <input type="text" name="" id="">
+            <input v-model="email" type="text" placeholder="name@example.com">
           </div>
           <div class="group">
             <label for="">Password</label>
-            <input type="password" name="" id="">
+            <input v-model="password" type="password" placeholder="password">
           </div>
           <button type="submit" class="glow-button">Sign In</button>
         </form>
@@ -23,10 +23,24 @@
 </template>
 
 <script>
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 export default {
-    data() {
+  data() {
     return {
-      
+      email: '',
+      password: '',
+      error: '',
+    }
+  },
+  methods: {
+    async submitLogin() {
+      try {
+        const loginToken = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
+      } catch (error) {
+        
+      }
     }
   }
 }
@@ -95,15 +109,16 @@ export default {
       padding: $inputpadding;
       @include createGlass(transparent, 0, 25px, $dark);
       border: none;
-      color: $yellow;
+      color: white;
       font-family: $poppins;
       font-size: 1rem;
       border-radius: 5px;
-      transition: all 0.2s ease;
+      transition: all 0.1s ease;
       margin-bottom: 2rem;
 
       &:focus {
         outline: 2px $yellow solid;
+        color: $yellow;
         @include createBoxShadow($opacity: 0.1);
       }
     }
