@@ -65,8 +65,35 @@
         </div>
       </div>
       <div class="right mobile">
-        <i class="fa-solid fa-bars"></i>
+        <a @click="handleNavClick">
+          <i class="fa-solid fa-bars"></i>
+        </a>
       </div>
+    </div>
+  </div>
+  <div v-if="isMobileNavOpen || !shouldMobileNavClose" class="mobile-nav" :class="onNavClose">
+    <div class="links">
+      <ul>
+        <li>
+          <router-link @click="closeNav" to="/">Home</router-link>
+        </li>
+        <li>
+          <router-link @click="closeNav" to="/agenda">Agenda</router-link>
+        </li>
+        <li>
+          <router-link @click="closeNav" to="/rules">Rules</router-link>
+        </li>
+        <li>
+          <router-link @click="closeNav" to="/game">Game</router-link>
+        </li>
+        <li>
+          <router-link v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
+          <div @click="submitSignOut" v-else class="glow-button sign-out">
+            <span>{{ getUsername }}</span>
+            <span class="subtitle">Sign Out</span>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
   <router-view />
@@ -81,7 +108,11 @@ export default {
       // Authentication details
       user: null,
       signedIn: false,
-      auth: null
+      auth: null,
+
+      // Mobile Nav
+      isMobileNavOpen: false,
+      shouldMobileNavClose: true
     }
   },
   created() {
@@ -102,12 +133,34 @@ export default {
   methods: {
     submitSignOut() {
       signOut(this.auth);
+    },
+    openNav() {
+        this.isMobileNavOpen = true;
+        this.shouldMobileNavClose = false;
+    },
+    closeNav() {
+      this.isMobileNavOpen = true;
+      this.shouldMobileNavClose = true;
+      setTimeout(() => {
+        this.isMobileNavOpen = false;
+        this.shouldMobileNavClose = true;
+      }, 1000);
+    },
+    handleNavClick() {
+      if (!this.isMobileNavOpen) {
+        this.openNav();
+      } else {
+        this.closeNav();
+      }
     }
   },
   computed: {
     getUsername() {
       // return username part of the email
       return this.user.email.split("@")[0].replace(".", " ");
+    },
+    onNavClose() {
+      return this.isMobileNavOpen && this.shouldMobileNavClose ? 'on-nav-close' : null;
     }
   }
 }
@@ -149,6 +202,45 @@ body {
   height: 115px;
 }
 
+.glow-button {
+  &.router-link-active {
+    @include createBoxShadow(50px, $yellow, 0.5);
+    transition: box-shadow 0.2s ease;
+  }
+
+  &.sign-out {
+    text-align: center;
+    padding-top: 9px;
+    padding-bottom: 9px;
+
+    span {
+      display: block;
+    }
+
+    .subtitle {
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  text-shadow: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+a:hover,
+a.router-link-active {
+  color: $yellow;
+  @include createTextShadow($opacity: 0.95);
+}
+
 .nav-outer-container {
   $padding: 20px;
   position: fixed;
@@ -162,13 +254,6 @@ body {
   .nav-container {
     ul {
       list-style: none;
-    }
-
-    a {
-      text-decoration: none;
-      color: white;
-      text-shadow: none;
-      transition: color 0.2s ease, text-shadow 0.2s ease;
     }
 
     width: 80%;
@@ -191,40 +276,11 @@ body {
       }
     }
 
-    .right {
+    .desktop.right {
       display: flex;
       align-items: center;
       text-align: right;
       @include spaceChildren(50px);
-
-      a:hover,
-      a.router-link-active {
-        color: $yellow;
-        @include createTextShadow($opacity: 0.95);
-      }
-
-      .glow-button {
-        &.router-link-active {
-          @include createBoxShadow(50px, $yellow, 0.5);
-          transition: box-shadow 0.2s ease;
-        }
-
-        &.sign-out {
-
-          text-align: center;
-          padding-top: 9px;
-          padding-bottom: 9px;
-
-          span {
-            display: block;
-          }
-
-          .subtitle {
-            font-size: 0.65rem;
-            font-weight: 600;
-          }
-        }
-      }
 
       .links {
         ul {
@@ -243,20 +299,105 @@ body {
       }
     }
 
-    @media only screen and (min-width: 950px) {
-      .mobile {
-        display: none;
-      }
-    }
-
-    @media only screen and (max-width: 950px) {
-      .desktop {
+    @media only screen and (max-width: 1100px) {
+      .right.desktop {
         display: none;
       }
       .mobile {
         display: flex;
+
+        a {
+          font-size: 1.2rem;
+        }
       }
     }
+  }
+}
+
+.mobile-nav.on-nav-close {
+  background: none;
+  backdrop-filter: blur(0);
+  animation: mobileNavClose 0.2s ease;
+
+  .links {
+    ul {
+      @for $i from 1 through 5 {
+        li:nth-last-child(#{$i}) {
+          opacity: 0;
+          animation: flexOut #{$i * 0.15}s ease;
+        }
+      }
+    }
+  }
+}
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba($dark, 0.45);
+  backdrop-filter: blur(25px);
+  z-index: 9;
+  animation: mobileNavOpen 0.2s ease;
+
+  .links {
+    height: auto;
+
+    ul {
+      text-align: center;
+      list-style: none;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 1.5rem;
+
+      @for $i from 1 through 5 {
+        li:nth-child(#{$i}) {
+          animation: flexIn #{$i * 0.15}s ease;
+        }
+      }
+
+      li:not(:last-child) {
+        margin-bottom: 5vh;
+      }
+
+      .glow-button.sign-out {
+        font-size: 1.25rem;
+        font-weight: 800;
+        padding: 20px 40px;
+
+        .subtitle {
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+@keyframes mobileNavOpen {
+  0% {
+    background: rgba($dark, 0);
+    backdrop-filter: blur(0);
+  }
+  100% {
+    background: rgba($dark, 0.45);
+    backdrop-filter: blur(25px);
+  }
+}
+
+@keyframes mobileNavClose {
+  100% {
+    background: rgba($dark, 0);
+    backdrop-filter: blur(0);
+  }
+  0% {
+    background: rgba($dark, 0.45);
+    backdrop-filter: blur(25px);
   }
 }
 </style>

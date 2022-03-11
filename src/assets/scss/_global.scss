@@ -37,17 +37,16 @@ body {
   line-height: 1.15;
 }
 
-a {
-  text-decoration: none;
-}
-
 * {
     margin: 0;
     padding: 0;
 }
 
-// disable text selection cursor for non editable text
-:not(input, a) {
+a {
+  text-decoration: none;
+}
+
+p, h1, h2, h3, h4, span {
   cursor: default;
 }
 
@@ -120,4 +119,26 @@ p {
   width: 75vw;
   margin: 0 auto;
   font-weight: 200;
+}
+
+@keyframes flexIn {
+  0% {
+    opacity: 0;
+    transform: translate(0, 15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes flexOut {
+  100% {
+    opacity: 0;
+    transform: translate(0, 15px);
+  }
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }

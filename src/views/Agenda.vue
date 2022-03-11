@@ -3,11 +3,12 @@
   <div class="outer-container">
     <div class="section agenda">
       <div class="inner-container">
-        <div class="text">
+        <div class="header">
           <h1>
             The<br>
             Agenda
           </h1>
+          
         </div>
       </div>
     </div>
@@ -15,7 +16,10 @@
 </template>
 
 <script>
+import AgendaItem from '../components/AgendaItem.vue'
+
 export default {
+  components: {AgendaItem},
   data() {
     return {
 
@@ -24,7 +28,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .agenda {
   height: 100vh;
 }
