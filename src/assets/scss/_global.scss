@@ -81,7 +81,8 @@ p {
 }
 
 ::selection {
-  background-color: rgba($yellow, 0.5);
+  // background-color: rgba($yellow, 0.5);
+  background-color: transparent;
 }
 
 %button {

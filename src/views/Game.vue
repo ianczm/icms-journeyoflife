@@ -145,7 +145,9 @@ export default {
           transition: color 0.2s ease;
         }
 
-        cursor: pointer;
+        &, & > * {
+          cursor: pointer;
+        }
 
         @include createGlass($opacity: 0.1, $outlineopacity: 0.03);
         @include createBoxShadow(30px, $dark, 0.35);
