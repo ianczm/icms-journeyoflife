@@ -2,7 +2,7 @@
 
 $poppins: 'Poppins', sans-serif;
 
-$yellow: #FFC900;
+$yellow: #ffbb00;
 $dark: #0D0B00;
 $error: #FF3333;
 $secondary-text: #EAEAEA;
@@ -62,7 +62,8 @@ img {
 h1 {
   font-size: 5rem;
   color: $yellow;
-  mix-blend-mode: screen;
+  // mix-blend-mode: screen;
+  margin-bottom: 1.5rem;
   @include createTextShadow(30px, $yellow, 0.3);
 }
 
@@ -109,10 +110,14 @@ p {
 .glow-button {
   @extend %button;
   @include createBoxShadow(30px, $yellow, 0.3);
-  mix-blend-mode: screen;
+  // mix-blend-mode: screen;
   backdrop-filter: blur(25px);
   color: $dark !important;
   text-transform: uppercase;
+
+  * {
+    cursor: pointer !important;
+  }
 }
 
 .section {

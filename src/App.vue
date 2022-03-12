@@ -135,8 +135,8 @@ export default {
       signOut(this.auth);
     },
     openNav() {
-        this.isMobileNavOpen = true;
-        this.shouldMobileNavClose = false;
+      this.isMobileNavOpen = true;
+      this.shouldMobileNavClose = false;
     },
     closeNav() {
       this.isMobileNavOpen = true;
@@ -176,26 +176,67 @@ body {
   line-height: 1.15;
   height: 100vh;
   background-attachment: fixed;
-  background-image: radial-gradient(
-      circle at 27% 22%,
-      rgba(242, 94, 153, 0.4) 0%,
-      rgba(242, 94, 153, 0) 90%
-    ),
-    radial-gradient(
-      ellipse at 90% 10%,
-      rgba(184, 170, 110, 0.1) 0%,
-      rgba(184, 170, 110, 0) 60%
-    ),
-    radial-gradient(
-      circle at 75% 56%,
-      rgba(250, 199, 48, 0.5) 0%,
-      rgba(250, 199, 48, 0) 40%
-    ),
-    radial-gradient(
-      farthest-side at 73% 55%,
-      rgba(86, 45, 8, 0.9) 0%,
-      rgba(86, 45, 8, 0) 100%
-    );
+  
+  // background-image: radial-gradient(
+  //     circle at 55% 48%,
+  //     rgba(17, 99, 196, 0.3) 0%,
+  //     rgba(17, 99, 196, 0) 90%
+  //   ),
+  //   radial-gradient(
+  //     ellipse at 12% 61%,
+  //     rgba(98, 238, 11, 0.4) 0%,
+  //     rgba(98, 238, 11, 0) 60%
+  //   ),
+  //   radial-gradient(
+  //     circle at 35% 48%,
+  //     rgba(75, 104, 207, 0) 0%,
+  //     rgba(75, 104, 207, 0) 40%
+  //   ),
+  //   radial-gradient(
+  //     farthest-side at 46% 48%,
+  //     rgba(84, 218, 233, 0.2) 0%,
+  //     rgba(84, 218, 233, 0) 100%
+  //   );
+  // background-image: radial-gradient(
+  //     circle at 55% 48%,
+  //     rgba(196, 113, 17, 0.3) 0%,
+  //     rgba(196, 169, 17, 0) 90%
+  //   ),
+  //   radial-gradient(
+  //     ellipse at 12% 61%,
+  //     rgba(238, 215, 11, 0.4) 0%,
+  //     rgba(238, 204, 11, 0) 60%
+  //   ),
+  //   radial-gradient(
+  //     circle at 35% 48%,
+  //     rgba(207, 75, 75, 0) 0%,
+  //     rgba(207, 75, 75, 0) 40%
+  //   ),
+  //   radial-gradient(
+  //     farthest-side at 46% 48%,
+  //     rgba(233, 144, 84, 0.2) 0%,
+  //     rgba(233, 198, 84, 0) 100%
+  //   );
+  // background-image: radial-gradient(
+  //     circle at 71% 23%,
+  //     rgba(84, 11, 8, 0.1) 0%,
+  //     rgba(84, 11, 8, 0) 90%
+  //   ),
+  //   radial-gradient(
+  //     ellipse at 56% 6%,
+  //     rgba(241, 25, 25, 0.4) 0%,
+  //     rgba(241, 25, 25, 0) 60%
+  //   ),
+  //   radial-gradient(
+  //     circle at 70% 94%,
+  //     rgba(226, 146, 41, 0.5) 0%,
+  //     rgba(226, 41, 96, 0) 60%
+  //   ),
+  //   radial-gradient(
+  //     farthest-side at 3% 33%,
+  //     rgba(190, 128, 35, 0.7) 0%,
+  //     rgba(190, 128, 35, 0) 100%
+  //   );
 }
 
 .nav-spacer {
@@ -242,10 +283,10 @@ a.router-link-active {
 }
 
 .nav-outer-container {
-  $padding: 20px;
+  $padding: 5px;
   position: fixed;
   z-index: 10;
-  padding: $padding;
+  padding: 20px $padding;
   width: calc(100vw - 2 * $padding);
   @include createGlass();
   display: flex;

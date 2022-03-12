@@ -4,9 +4,12 @@
       <div class="inner-container">
         <div class="text">
           <h4>ICMS × Maybank Presents</h4>
-          <h1>The Journey<br>
-          Of Life</h1>
-          <p>Put your financial management skills to the test as we throw you challenge
+          <h1>
+            The Journey
+            <br />Of Life
+          </h1>
+          <p>
+            Put your financial management skills to the test as we throw you challenge
             after challenge in this fast-paced and intense game of life.
           </p>
         </div>
@@ -29,9 +32,9 @@
 
 <script>
 export default {
-    data() {
+  data() {
     return {
-      
+
     }
   }
 }
@@ -47,8 +50,10 @@ export default {
   align-items: center;
   justify-content: center;
 
-  h1, h4, p {
-    mix-blend-mode: screen;
+  h1,
+  h4,
+  p {
+    // mix-blend-mode: screen;
   }
 
   .inner-container {
@@ -62,7 +67,7 @@ export default {
 
       h3 {
         @include createTextShadow(30px, white, 0.3);
-      }      
+      }
 
       .dates {
         display: flex;
@@ -98,6 +103,42 @@ export default {
         font-size: 1rem;
       }
       @include spaceChildren(10px);
+    }
+  }
+}
+
+@media only screen and (max-width: 1150px) {
+  .section.landing {
+    width: 65vw;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .section.landing {
+    width: 80vw;
+    h1 {
+      font-size: 3rem;
+    }
+    p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    span {
+      font-size: 1rem;
+    }
+    h4 {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .inner-container {
+      .event-details {
+        margin-bottom: 2rem;
+      }
+      .cta {
+        a {
+          font-size: 0.85rem;
+        }
+      }
     }
   }
 }
