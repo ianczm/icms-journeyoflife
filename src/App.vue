@@ -341,7 +341,7 @@ a.router-link-active {
 
   .links {
     ul {
-      @for $i from 1 through 5 {
+      @for $i from 1 through 6 {
         li:nth-last-child(#{$i}) {
           opacity: 0;
           animation: flexOut #{$i * 0.15}s ease;
@@ -375,7 +375,7 @@ a.router-link-active {
       font-weight: 600;
       font-size: 1.5rem;
 
-      @for $i from 1 through 5 {
+      @for $i from 1 through 6 {
         li:nth-child(#{$i}) {
           animation: flexIn #{$i * 0.15}s ease;
         }

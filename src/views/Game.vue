@@ -2,61 +2,7 @@
   <div class="nav-spacer"></div>
   <div class="outer-container">
     <div class="section game">
-      <div class="character-stats">
-        <div class="header">
-          <h1>{{ characterName }}</h1>
-          <h2>Age {{ characterAge }}</h2>
-        </div>
-        <div class="divider"></div>
-        <div class="scores">
-          <div class="final">
-            <h3>Score</h3>
-            <h1>{{ finalScore.toLocaleString() }}</h1>
-          </div>
-          <div class="net-worth">
-            <h3>Net Worth</h3>
-            <h1>RM {{ netWorth.toLocaleString() }}</h1>
-          </div>
-        </div>
-        <div class="statistics">
-          <div class="stats-bar-container">
-            <p>Happiness</p>
-            <div class="stats-bar happiness">
-              <div
-                class="inner-stats-bar happiness-progress"
-                :style="{ width: happiness * 100 + '%' }"
-              >{{ happiness * 100 + '%' }}</div>
-            </div>
-          </div>
-          <div class="stats-bar-container">
-            <p>Stress</p>
-            <div class="stats-bar stress">
-              <div
-                class="inner-stats-bar stress-progress"
-                :style="{ width: stress * 100 + '%' }"
-              >{{ stress * 100 + '%' }}</div>
-            </div>
-          </div>
-          <div class="stats-bar-container">
-            <p>Health</p>
-            <div class="stats-bar health">
-              <div
-                class="inner-stats-bar health-progress"
-                :style="{ width: health * 100 + '%' }"
-              >{{ health * 100 + '%' }}</div>
-            </div>
-          </div>
-          <div class="stats-bar-container">
-            <p>Security</p>
-            <div class="stats-bar security">
-              <div
-                class="inner-stats-bar security-progress"
-                :style="{ width: security * 100 + '%' }"
-              >{{ security * 100 + '%' }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Character />
       <Scenario v-if="scenarioId" :id="scenarioId"/>
       <div class="navigation">
         <!-- <router-link>Left</router-link>
@@ -68,20 +14,12 @@
 
 <script>
 import Scenario from "../components/Scenario.vue";
+import Character from "../components/Character.vue";
 
 export default {
-  components: { Scenario },
+  components: { Scenario, Character },
   data() {
     return {
-      // Character Data
-      characterName: 'Max Fosh',
-      characterAge: 29,
-      finalScore: 27123,
-      netWorth: 14345123,
-      happiness: 0.9,
-      stress: 0.5,
-      health: 0.3,
-      security: 0.2,
 
       // Page
       scenarioId: 1,
@@ -168,14 +106,14 @@ export default {
 
     .statistics {
       & > *:not(:last-child) {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
       }
 
       .stats-bar {
-        margin-top: 5px;
+        margin-top: 10px;
         $borderradius: 50px;
         width: 100%;
-        height: 30px;
+        height: 25px;
         border-radius: $borderradius;
         display: block;
         @include createGlass($outlineopacity: 0.03);
@@ -237,7 +175,7 @@ export default {
     ul {
       list-style: none;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       grid-gap: 15px;
 
       li {
