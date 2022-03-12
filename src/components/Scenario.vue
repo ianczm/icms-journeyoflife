@@ -18,14 +18,14 @@
         <ul>
             <li v-for="n in options.length" :key="n">
                 <h3>Option {{ n }}</h3>
-                <p v-if="isOptionsReady">{{ options[n-1] }}</p>
+                <p>{{ options[n-1] }}</p>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-import { getFirestore, doc, getDoc } from "firebase/firestore"
+import { getFirestore, doc, onSnapshot } from "firebase/firestore"
 
 export default {
     props: ['id'],
@@ -49,18 +49,18 @@ export default {
     created() {
         this.db = getFirestore();
     },
-    async mounted() {
-        // Fetch Scenario
-        this.docRef = doc(this.db, "scenario", `${this.id}`);
-        await getDoc(this.docRef).then((snapshot) => {
-            const scenario = snapshot.data();
-            this.heading = scenario.heading;
-            this.phase = scenario.phase;
-            this.title = scenario.title;
-            this.body = scenario.body;
-            this.allowMultipleSelection = scenario.allowMultipleSelection;
-            this.options = scenario.options;
-        }).then(this.isOptionsReady = !!this.options);
+    mounted() {
+        // Fetch and Listen on Scenario
+        this.docRef = onSnapshot(doc(this.db, "scenario", `${this.id}`), (doc) => {
+            this.scenario = doc.data();
+            console.log(this.scenario);
+            this.heading = this.scenario.heading;
+            this.phase = this.scenario.phase;
+            this.title = this.scenario.title;
+            this.body = this.scenario.body;
+            this.allowMultipleSelection = this.scenario.allowMultipleSelection;
+            this.options = this.scenario.options;
+        });
     }
 }
 </script>
