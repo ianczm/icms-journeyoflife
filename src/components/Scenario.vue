@@ -3,8 +3,8 @@
         <div class="text">
             <h1>{{ heading }}</h1>
             <h2>
-                <strong>{{ subheadingCode }}</strong>
-                — {{ subheadingTitle }}
+                <strong>{{ phase }}</strong>
+                — {{ title }}
             </h2>
             <div class="divider"></div>
             <p>{{ body }}</p>
@@ -16,16 +16,16 @@
     </div>
     <div class="choices">
         <ul>
-            <li v-for="n in 3" :key="n">
+            <li v-for="n in options.length" :key="n">
                 <h3>Option {{ n }}</h3>
-                <p v-if="optionsReady">{{ options[n].desc }}</p>
+                <p v-if="isOptionsReady">{{ options[n-1] }}</p>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-import { getFirestore, collection, doc, getDoc } from "firebase/firestore"
+import { getFirestore, doc, getDoc } from "firebase/firestore"
 
 export default {
     props: ['id'],
@@ -33,12 +33,12 @@ export default {
         return {
             // Scenario and Phases
             heading: null,
-            subheadingCode: null,
-            subheadingTitle: null,
+            phase: null,
+            title: null,
             body: null,
             allowMultipleSelection: false,
             options: [],
-            optionsReady: false,
+            isOptionsReady: false,
 
             // Database
             db: null,
@@ -55,13 +55,12 @@ export default {
         await getDoc(this.docRef).then((snapshot) => {
             const scenario = snapshot.data();
             this.heading = scenario.heading;
-            this.subheadingCode = scenario.subheading.code;
-            this.subheadingTitle = scenario.subheading.title;
+            this.phase = scenario.phase;
+            this.title = scenario.title;
             this.body = scenario.body;
             this.allowMultipleSelection = scenario.allowMultipleSelection;
-            this.options = JSON.parse(JSON.stringify(scenario.options));
-            console.log(this.options);
-        }).then(this.optionsReady = true);
+            this.options = scenario.options;
+        }).then(this.isOptionsReady = !!this.options);
     }
 }
 </script>
