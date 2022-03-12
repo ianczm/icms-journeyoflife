@@ -4,6 +4,7 @@ import Agenda from '../views/Agenda.vue'
 import Game from '../views/Game.vue'
 import Rules from '../views/Rules.vue'
 import Login from '../views/Login.vue'
+import Admin from '../views/Admin.vue'
 
 import { getAuth } from "firebase/auth";
 
@@ -35,7 +36,12 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: Login
-    }
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin
+    },
   ]
 })
 

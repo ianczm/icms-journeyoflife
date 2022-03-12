@@ -25,10 +25,13 @@
             <li>
               <router-link to="/game">Game</router-link>
             </li>
+            <li v-if="isAdmin">
+              <router-link to="/admin">Admin</router-link>
+            </li>
             <li>
               <router-link v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
-              <div @click="submitSignOut" v-else class="glow-button sign-out">
-                <span>{{ getUsername }}</span>
+              <div v-else @click="submitSignOut" class="glow-button sign-out">
+                <span>{{ getUsernameReactive }}</span>
                 <span class="subtitle">Sign Out</span>
               </div>
             </li>
@@ -87,9 +90,12 @@
           <router-link @click="closeNav" to="/game">Game</router-link>
         </li>
         <li>
+          <router-link v-if="isAdmin" @click="closeNav" to="/admin">Admin</router-link>
+        </li>
+        <li>
           <router-link v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
           <div @click="submitSignOut" v-else class="glow-button sign-out">
-            <span>{{ getUsername }}</span>
+            <span>{{ getUsernameReactive }}</span>
             <span class="subtitle">Sign Out</span>
           </div>
         </li>
@@ -152,15 +158,25 @@ export default {
       } else {
         this.closeNav();
       }
+    },
+    getUsername() {
+      return this.user.email.split("@")[0].replace(".", " ")
     }
   },
   computed: {
-    getUsername() {
+    getUsernameReactive() {
       // return username part of the email
-      return this.user.email.split("@")[0].replace(".", " ");
+      return this.getUsername();
     },
     onNavClose() {
       return this.isMobileNavOpen && this.shouldMobileNavClose ? 'on-nav-close' : null;
+    },
+    isAdmin() {
+      if (!this.signedIn) {
+        return false;
+      } else {
+        return this.getUsername() === 'admin';
+      };
     }
   }
 }
@@ -204,6 +220,9 @@ body {
 }
 
 .glow-button {
+  min-width: 70px;
+  text-align: center;
+
   &.router-link-active {
     @include createBoxShadow(50px, $yellow, 0.5);
     transition: box-shadow 0.2s ease;
