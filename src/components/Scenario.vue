@@ -10,7 +10,7 @@
             <p>{{ body }}</p>
         </div>
     </div>
-    <div v-if="allowMultipleSelection" class="mcq-alert">
+    <div :style="{display: showMultipleSelection}" class="mcq-alert">
         <i class="fa-solid fa-circle-exclamation"></i>
         <span>You may select multiple options.</span>
     </div>
@@ -44,6 +44,11 @@ export default {
             db: null,
             docRef: null,
             scenario: null
+        }
+    },
+    computed: {
+        showMultipleSelection() {
+            return this.allowMultipleSelection ? "block" : "none";
         }
     },
     created() {

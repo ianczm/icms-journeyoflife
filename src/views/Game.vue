@@ -3,11 +3,11 @@
   <div class="outer-container">
     <div class="section game">
       <Character />
-      <Scenario v-if="scenarioId" :id="scenarioId"/>
-      <div class="navigation">
-        <!-- <router-link>Left</router-link>
-        <router-link>Right</router-link>-->
-      </div>
+      <Scenario v-if="scenarioId" :id="scenarioId" />
+      <!-- <div class="navigation">
+        <router-link>Left</router-link>
+        <router-link>Right</router-link>
+      </div>-->
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
   grid-template-columns: 2fr 4fr;
   grid-template-rows: auto auto auto;
   grid-template-areas: "character scenario" "character alert" "character choices";
-  grid-gap: 50px;
+  grid-gap: 20px 50px;
   @include createGlass($opacity: 0.2);
   border-radius: 25px;
   padding: 75px;
@@ -68,9 +68,31 @@ export default {
   }
 
   p {
-    font-size: 1.075rem;
+    font-size: 1rem;
     margin-bottom: 0;
     line-height: 1.5;
+  }
+
+  @media only screen and (max-width: 1050px) {
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
   }
 
   .character-stats {

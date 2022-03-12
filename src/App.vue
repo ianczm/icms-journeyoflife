@@ -93,7 +93,7 @@
           <router-link v-if="isAdmin" @click="closeNav" to="/admin">Admin</router-link>
         </li>
         <li>
-          <router-link v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
+          <router-link @click="closeNav" v-if="!signedIn" to="/login" class="glow-button">Sign In</router-link>
           <div @click="submitSignOut" v-else class="glow-button sign-out">
             <span>{{ getUsernameReactive }}</span>
             <span class="subtitle">Sign Out</span>
