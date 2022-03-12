@@ -176,67 +176,27 @@ body {
   line-height: 1.15;
   height: 100vh;
   background-attachment: fixed;
-  
-  // background-image: radial-gradient(
-  //     circle at 55% 48%,
-  //     rgba(17, 99, 196, 0.3) 0%,
-  //     rgba(17, 99, 196, 0) 90%
-  //   ),
-  //   radial-gradient(
-  //     ellipse at 12% 61%,
-  //     rgba(98, 238, 11, 0.4) 0%,
-  //     rgba(98, 238, 11, 0) 60%
-  //   ),
-  //   radial-gradient(
-  //     circle at 35% 48%,
-  //     rgba(75, 104, 207, 0) 0%,
-  //     rgba(75, 104, 207, 0) 40%
-  //   ),
-  //   radial-gradient(
-  //     farthest-side at 46% 48%,
-  //     rgba(84, 218, 233, 0.2) 0%,
-  //     rgba(84, 218, 233, 0) 100%
-  //   );
-  // background-image: radial-gradient(
-  //     circle at 55% 48%,
-  //     rgba(196, 113, 17, 0.3) 0%,
-  //     rgba(196, 169, 17, 0) 90%
-  //   ),
-  //   radial-gradient(
-  //     ellipse at 12% 61%,
-  //     rgba(238, 215, 11, 0.4) 0%,
-  //     rgba(238, 204, 11, 0) 60%
-  //   ),
-  //   radial-gradient(
-  //     circle at 35% 48%,
-  //     rgba(207, 75, 75, 0) 0%,
-  //     rgba(207, 75, 75, 0) 40%
-  //   ),
-  //   radial-gradient(
-  //     farthest-side at 46% 48%,
-  //     rgba(233, 144, 84, 0.2) 0%,
-  //     rgba(233, 198, 84, 0) 100%
-  //   );
-  // background-image: radial-gradient(
-  //     circle at 71% 23%,
-  //     rgba(84, 11, 8, 0.1) 0%,
-  //     rgba(84, 11, 8, 0) 90%
-  //   ),
-  //   radial-gradient(
-  //     ellipse at 56% 6%,
-  //     rgba(241, 25, 25, 0.4) 0%,
-  //     rgba(241, 25, 25, 0) 60%
-  //   ),
-  //   radial-gradient(
-  //     circle at 70% 94%,
-  //     rgba(226, 146, 41, 0.5) 0%,
-  //     rgba(226, 41, 96, 0) 60%
-  //   ),
-  //   radial-gradient(
-  //     farthest-side at 3% 33%,
-  //     rgba(190, 128, 35, 0.7) 0%,
-  //     rgba(190, 128, 35, 0) 100%
-  //   );
+  background-blend-mode: screen;
+  background-image: radial-gradient(
+      circle at 71% 23%,
+      rgba(84, 11, 8, 0.1) 0%,
+      rgba(84, 11, 8, 0) 90%
+    ),
+    radial-gradient(
+      ellipse at 56% 6%,
+      rgba(241, 25, 115, 0.5) 0%,
+      rgba(241, 25, 115, 0) 60%
+    ),
+    radial-gradient(
+      circle at 70% 94%,
+      rgba(226, 115, 41, 0.5) 0%,
+      rgba(226, 115, 41, 0) 60%
+    ),
+    radial-gradient(
+      farthest-side at 3% 33%,
+      rgba(190, 118, 35, 0.7) 0%,
+      rgba(190, 128, 35, 0) 100%
+    );
 }
 
 .nav-spacer {
