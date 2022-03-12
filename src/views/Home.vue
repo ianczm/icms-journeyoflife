@@ -50,12 +50,6 @@ export default {
   align-items: center;
   justify-content: center;
 
-  h1,
-  h4,
-  p {
-    // mix-blend-mode: screen;
-  }
-
   .inner-container {
     text-align: center;
     font-size: 1.15rem;
