@@ -1,17 +1,40 @@
 class Character {
     constructor() {
-        this.age = 15,
-            this.currentpage = 1,
-            this.happiness = 0.5,
-            this.health = 0.5,
-            this.networth = 5000,
-            this.score = 0,
-            this.security = 0.5,
-            this.stress = 0.5
+        // These fields should not be changed directly
+        // should only be through update character
+        this.age = 15;
+        this.happiness = 0.5;
+        this.health = 0.5;
+        this.networth = 5000;
+        this.score = 0;
+        this.security = 0.5;
+        this.stress = 0.5;
+
+        // Updated by scenario
+        this.currentpage = 1;
+        
+        // Scenario instances will be here
+        this.scenarioHistory = [];
     }
-    addHappiness(x) {
-        this.happiness += x;
-        return this.happiness;
+    setPage(page) {
+        this.currentpage = page;
+    }
+    pushScenarioHistory(scenario) {
+        this.options.push(scenario);
+    }
+    updateCharacterState(scenario) {
+        // Page does not have to be updated as scenario
+        // updates it on initialisation
+        this.age = scenario.characterScenario.age;
+        this.happiness = scenario.characterScenario.happiness;
+        this.health = scenario.characterScenario.health;
+        this.networth = scenario.characterScenario.networth;
+        this.score = scenario.characterScenario.score;
+        this.security = scenario.characterScenario.security;
+        this.stress = scenario.characterScenario.stress;
+
+        // Add scenario into history
+        this.pushScenarioHistory(scenario);
     }
 }
 
