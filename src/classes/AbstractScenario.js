@@ -1,4 +1,5 @@
 import Character from 'Character.js';
+import { doc, setDoc } from "firebase/firestore"; 
 
 // Usage Flow
 // 1. create new scenario, constructing with character as the one to be modified
@@ -24,7 +25,7 @@ class AbstractScenario {
         this.characterScenario = new Character(JSON.parse(JSON.stringify(this.characterOriginal)));
 
         // User selected options
-        this.currentlySelectedOptions = [];
+        this.selections = [];
         this.allowMultipleSelection = allowMultipleSelection;
     }
 
@@ -33,16 +34,24 @@ class AbstractScenario {
         // To update the database as participants select options
         // to be displayed to others in real time
 
-        if (this.currentlySelectedOptions.includes(optionNumber)) {
-            this.currentlySelectedOptions = this.currentlySelectedOptions.filter((option) => {
-                return option != optionNumber;
+        if (this.selections.includes(optionNumber)) {
+            // toggle behavior: deactivate selection if already active
+            this.selections = this.selections.filter((option) => {
+              return option != optionNumber;
             })
-        } else {
-            this.currentlySelectedOptions.push(optionNumber);
-        }
+          } else {
+            // normal behavior, add option
+            if (this.selections && this.allowMultipleSelection) {
+              // if there is another selection already, check if ms is enabled
+              this.selections.push(optionNumber);
+            } else {
+              // if not, set first element to optionNumber
+              this.selections[0] = optionNumber;
+            }
+          }
 
-        // Update database with options
-        // ..
+        // // Update database with options
+        // #createDatabaseInstance();
     }
 
     // Public, onClick event
@@ -88,8 +97,18 @@ class AbstractScenario {
 
     // Private, validation check
     #canProceedWithMultipleSelection() {
-        return !this.allowMultipleSelection && this.currentlySelectedOptions.length > 1;
+        return !this.allowMultipleSelection && this.selections.length > 1;
     }
+
+    // // Private, create new database instance
+    // #createDatabaseInstance() {
+    //     // Add a new document in collection "cities"
+    //     await setDoc(doc(db, "cities", "LA"), {
+    //         name: "Los Angeles",
+    //         state: "CA",
+    //         country: "USA"
+    //     });
+    // }
 }
 
 export { AbstractScenario };
