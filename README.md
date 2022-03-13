@@ -27,6 +27,8 @@ The website serves as the interface where participants get to interact with vari
 - migrate scenarios from content document and implement calculation
 - ~~update character statistics in real time with firebase (implemented)~~
 - enable page-by-page navigation for each scenario in vue
+    - submit answer button
+    - need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
 
 ---
 
