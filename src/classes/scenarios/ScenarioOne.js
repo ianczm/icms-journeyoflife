@@ -1,4 +1,4 @@
-import AbstractScenario from "../AbstractScenario.js"
+import AbstractScenario from "../AbstractCharacterScenario.js"
 
 class ScenarioOne extends AbstractScenario {
     constructor(character) {

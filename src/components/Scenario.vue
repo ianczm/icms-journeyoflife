@@ -49,7 +49,7 @@ export default {
 
       // Database
       db: null,
-      docRef: null,
+      scenarioSnapshot: null,
       scenario: null
     }
   },
@@ -88,7 +88,7 @@ export default {
   },
   mounted() {
     // Fetch and Listen on Scenario
-    this.docRef = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
+    this.scenarioSnapshot = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
       this.scenario = doc.data();
       // console.log(this.scenario);
       this.heading = this.scenario.heading;
