@@ -63,6 +63,11 @@ class AbstractScenario {
                     name: "MultipleSelectionError",
                     message: "You may only choose one option."
                 }
+            } else if (!this.selections) {
+                throw {
+                    name: "NoSelectionError",
+                    message: "Please choose at least one option."
+                }
             }
 
             // Proceed with answer processing
@@ -97,7 +102,7 @@ class AbstractScenario {
 
     // Private, validation check
     #canProceedWithMultipleSelection() {
-        return !this.allowMultipleSelection && this.selections.length > 1;
+        return this.allowMultipleSelection && this.selections.length > 1;
     }
 
     // // Private, create new database instance
