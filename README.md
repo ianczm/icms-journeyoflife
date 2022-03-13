@@ -17,29 +17,48 @@ Participants will participate in a "credit score simulation" game, where they wi
 
 The website serves as the interface where participants get to interact with various elements of the game.
 
-### Game (User)
+---
 
-- Sign in page will display the team's respective game state
-    - Multiple users sign in with the same credentials
-- Display scenarios page-by-page
-    - Do not allow to proceed before question is complete
-- Display game timer
-- Server-side calculation in order to allow real-time updates for
-    - Credit score
-    - Capital score (given initial capital)
+## Must Have
 
-### System (Admin)
+### Game
 
-- Multiple users from a group should be able to answer
-    - Would be good to display current selection made by another user
-- Identify each team uniquely and securely through a login
-    - Auto-generate credentials on the day before
-- Send updates through Slack of teams' choices and progress
-- Per-team game timer (2 minutes per question)
-    - Will prompt for answer but will not skip question
-- Admin dashboard
-    - Show real-time updates and statistics
-    - Allow overriding of values
-    - Master switch to reset game state
-    - Backup system to register game states at different times
-    - Start/stop game timer
+- update user choice selection with firebase in real time
+- migrate scenarios from content document and implement calculation
+- ~~update character statistics in real time with firebase (implemented)~~
+- enable page-by-page navigation for each scenario in vue
+
+---
+
+## Should Have
+
+### Admin Panel
+
+_Modify: being able to create, edit, remove, reset_
+
+- enable easy database management
+    - view and modify users (needs firebase admin sdk)
+        - display name
+        - password
+        - view uid and email (since these are read-only)
+    - view and modify individual characters
+    - view and modify scenarios (for easy scenario creation)
+- reset switch for any database tables
+    - reset all users to default state
+    - return a list of randomly generated passwords for each user
+    - ~~characters (implemented)~~
+
+---
+
+## Nice to Have
+
+### Home
+
+- add countdown timer to event
+
+### Game
+
+- add countdown timer on the game screen
+
+### Optimisations
+- improve mobile friendliness
