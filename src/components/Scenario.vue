@@ -16,7 +16,13 @@
   </div>
   <div class="choices">
     <ul>
-      <li v-for="n in options.length" :key="n" @click="onOptionsClick" :option-id="n">
+      <li
+        v-for="n in options.length"
+        :key="n"
+        @click="onOptionsClick"
+        :option-id="n"
+        :class="{ active: isActiveSelection(n) }"
+      >
         <h3 :option-id="n">Option {{ n }}</h3>
         <p :option-id="n">{{ options[n - 1] }}</p>
       </li>
@@ -54,23 +60,29 @@ export default {
   },
   methods: {
     onOptionsClick(event) {
-      const optionNumber = event.target.getAttribute("option-id");
+      const optionNumber = parseInt(event.target.getAttribute("option-id"));
       if (this.selections.includes(optionNumber)) {
-            this.selections = this.selections.filter((option) => {
-                return option != optionNumber;
-            })
+        // toggle behavior: deactivate selection if already active
+        this.selections = this.selections.filter((option) => {
+          return option != optionNumber;
+        })
+      } else {
+        // normal behavior, add option
+        if (this.selections && this.allowMultipleSelection) {
+          // if there is another selection already, check if ms is enabled
+          this.selections.push(optionNumber);
         } else {
-            this.selections.push(optionNumber);
+          // if not, set first element to optionNumber
+          this.selections[0] = optionNumber;
         }
+      }
       console.log(this.selections);
+    },
+    isActiveSelection(n) {
+      // checks if current option number is selected
+      return this.selections.includes(n);
     }
   },
-  // computed: {
-  //   isActiveSelection(n) {
-  //     // checks if current option number is selected
-  //     return this.selections.includes(n);
-  //   }
-  // },
   created() {
     this.db = getFirestore();
   },
