@@ -26,6 +26,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 
 
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
+const app = createApp(App);
+app.use(router);
+app.config.unwrapInjectedRef = true;
+app.mount('#app');

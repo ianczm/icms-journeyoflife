@@ -66,13 +66,11 @@ export default {
   methods: {
     resetAllCharacters() {
 
-      const defaultCharacter = new Character();
-
       async function setDocs(db, characterid, userid) {
-        await setDoc(doc(db, "character", `${characterid}`), {
-          ...defaultCharacter,
-          userid: userid
-        });
+        await setDoc(
+          doc(db, "character", `${characterid}`),
+          {...new Character(userid)}
+          );
       }
 
       for (var i = 0; i < useridList.length; i++) {

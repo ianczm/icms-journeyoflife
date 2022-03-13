@@ -107,6 +107,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { computed } from 'vue';
 
 export default {
   data() {
@@ -115,10 +116,18 @@ export default {
       user: null,
       signedIn: false,
       auth: null,
+      userid: null,
+      username: null,
 
       // Mobile Nav
       isMobileNavOpen: false,
       shouldMobileNavClose: true
+    }
+  },
+  provide() {
+    return {
+      userid: computed(() => this.userid),
+      username: computed(() => this.username)
     }
   },
   created() {
@@ -126,6 +135,8 @@ export default {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.user = user;
+        this.username = user.displayName;
+        this.userid = user.uid;
         this.signedIn = true;
       } else {
         this.signedIn = false;

@@ -2,8 +2,8 @@
   <div class="nav-spacer"></div>
   <div class="outer-container">
     <div class="section game">
-      <Character />
-      <Scenario v-if="scenarioId" :id="scenarioId" />
+      <CharacterStats :character="character" />
+      <Scenario v-if="scenarioPage" :pageid="scenarioPage" :userid="userid" />
       <!-- <div class="navigation">
         <router-link>Left</router-link>
         <router-link>Right</router-link>
@@ -14,16 +14,34 @@
 
 <script>
 import Scenario from "../components/Scenario.vue";
-import Character from "../components/Character.vue";
+import CharacterStats from "../components/CharacterStats.vue";
+import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+import { Character } from "/src/classes/Character.js";
 
 export default {
-  components: { Scenario, Character },
+  components: { Scenario, CharacterStats },
+  inject: ['userid', 'username'],
   data() {
     return {
+      // Database
+      db: null,
+      characterSnapshot: null,
+      character: new Character(),
+      characterid: 18,
 
       // Page
-      scenarioId: 1,
+      scenarioPage: 1,
     }
+  },
+  created() {
+    this.db = getFirestore();
+  },
+  mounted() {
+    // Fetch and Listen on Character
+    this.characterSnapshot = onSnapshot(doc(this.db, "character", `${this.characterid}`), (doc) => {
+      this.character = doc.data();
+      console.log(this.character);
+    });
   }
 }
 </script>
