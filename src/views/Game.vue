@@ -3,7 +3,7 @@
   <div class="outer-container">
     <div class="section game">
       <CharacterStats :character="character" />
-      <Scenario v-if="scenarioPage" :pageid="scenarioPage" :userid="userid" />
+      <Scenario v-if="scenarioPage" :character="character" :pageid="scenarioPage" :userid="userid" />
       <!-- <div class="navigation">
         <router-link>Left</router-link>
         <router-link>Right</router-link>
@@ -39,7 +39,7 @@ export default {
   mounted() {
     // Fetch and Listen on Character
     this.characterSnapshot = onSnapshot(doc(this.db, "character", `${this.characterid}`), (doc) => {
-      this.character = doc.data();
+      this.character = Object.assign(doc.data(), Character);
       console.log(this.character);
     });
   }

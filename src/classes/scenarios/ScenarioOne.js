@@ -1,13 +1,15 @@
-import AbstractScenario from "../AbstractCharacterScenario.js"
+import { AbstractCharacterScenario } from "/src/classes/AbstractCharacterScenario.js"
 
-class ScenarioOne extends AbstractScenario {
+
+// Page settings here
+// Set current page
+const currentPage = 1;
+// Allow multiple selection?
+const allowMultipleSelection = false;
+
+
+class ScenarioOne extends AbstractCharacterScenario {
     constructor(character) {
-        // Set current page
-        this.currentPage = 1;
-
-        // Allow multiple selection?
-        this.allowMultipleSelection = false;
-
         // Build scenario
         super(character, currentPage, allowMultipleSelection);
     }

@@ -1,4 +1,4 @@
-import Character from 'Character.js';
+import { Character } from '/src/classes/Character.js';
 import { doc, setDoc } from "firebase/firestore"; 
 
 // Usage Flow
@@ -10,13 +10,13 @@ import { doc, setDoc } from "firebase/firestore";
 //      - processes selected options --> calculation done here
 //      - updates character and history
 
-class AbstractScenario {
-    constructor(character, page, allowMultipleSelection) {
+class AbstractCharacterScenario {
+    constructor(character, currentPage, allowMultipleSelection) {
         // Reference the original character object
         this.characterOriginal = character;
 
         // Scenario current page
-        this.currentPage = page;
+        this.currentPage = currentPage;
         // Update current page of character
         this.characterOriginal.setPage(currentPage);
 
@@ -116,4 +116,4 @@ class AbstractScenario {
     // }
 }
 
-export { AbstractScenario };
+export { AbstractCharacterScenario };

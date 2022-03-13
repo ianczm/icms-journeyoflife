@@ -32,9 +32,10 @@
 
 <script>
 import { getFirestore, doc, onSnapshot } from "firebase/firestore"
+import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne.js";
 
 export default {
-  props: ['pageid', 'userid'],
+  props: ['pageid', 'userid', 'character'],
   data() {
     return {
       // Scenario and Phases
@@ -44,13 +45,14 @@ export default {
       body: null,
       allowMultipleSelection: false,
       options: [],
-      selections: [],
-      isOptionsReady: false,
+
+      // CharacterScenario Instance
+      characterScenario: new ScenarioOne(this.character),
 
       // Database
       db: null,
       scenarioSnapshot: null,
-      scenario: null
+      scenarioContent: null
     }
   },
   computed: {
@@ -61,26 +63,11 @@ export default {
   methods: {
     onOptionsClick(event) {
       const optionNumber = parseInt(event.target.getAttribute("option-id"));
-      if (this.selections.includes(optionNumber)) {
-        // toggle behavior: deactivate selection if already active
-        this.selections = this.selections.filter((option) => {
-          return option != optionNumber;
-        })
-      } else {
-        // normal behavior, add option
-        if (this.selections && this.allowMultipleSelection) {
-          // if there is another selection already, check if ms is enabled
-          this.selections.push(optionNumber);
-        } else {
-          // if not, set first element to optionNumber
-          this.selections[0] = optionNumber;
-        }
-      }
-      console.log(this.selections);
+      this.characterScenario.updateSelectedOptions(optionNumber);
     },
     isActiveSelection(n) {
       // checks if current option number is selected
-      return this.selections.includes(n);
+      return this.characterScenario.selections.includes(n);
     }
   },
   created() {
@@ -88,15 +75,15 @@ export default {
   },
   mounted() {
     // Fetch and Listen on Scenario
-    this.scenarioSnapshot = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
-      this.scenario = doc.data();
+    this.scenarioSnapshot = onSnapshot(doc(this.db, "scenario", `${this.characterScenario.currentPage}`), (doc) => {
+      this.scenarioContent = doc.data();
       // console.log(this.scenario);
-      this.heading = this.scenario.heading;
-      this.phase = this.scenario.phase;
-      this.title = this.scenario.title;
-      this.body = this.scenario.body;
-      this.allowMultipleSelection = this.scenario.allowMultipleSelection;
-      this.options = this.scenario.options;
+      this.heading = this.scenarioContent.heading;
+      this.phase = this.scenarioContent.phase;
+      this.title = this.scenarioContent.title;
+      this.body = this.scenarioContent.body;
+      this.allowMultipleSelection = this.scenarioContent.allowMultipleSelection;
+      this.options = this.scenarioContent.options;
     });
   }
 }
