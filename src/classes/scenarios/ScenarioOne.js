@@ -2,8 +2,6 @@ import { AbstractCharacterScenario } from "/src/classes/AbstractCharacterScenari
 
 
 // Page settings here
-// Set current page
-const currentPage = 1;
 // Allow multiple selection?
 const allowMultipleSelection = false;
 
@@ -11,10 +9,10 @@ const allowMultipleSelection = false;
 class ScenarioOne extends AbstractCharacterScenario {
     constructor(character) {
         // Build scenario
-        super(character, currentPage, allowMultipleSelection);
+        super(character, 1, allowMultipleSelection);
     }
     // Private, to be modified
-    #processAnswer() {
+    processAnswer() {
         // Logic for selecting operations and performing
         // calculations here.
 
@@ -25,7 +23,7 @@ class ScenarioOne extends AbstractCharacterScenario {
         // are defined in the generateCases() function
         // to parse user input
 
-        switch (this.#generateCase()) {
+        switch (this.generateCase()) {
             case 1:
                 this.characterScenario.age = 1;
                 break;
@@ -43,7 +41,7 @@ class ScenarioOne extends AbstractCharacterScenario {
     }
 
     // Private, to be overridden by subclasses
-    #generateCase() {
+    generateCase() {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 

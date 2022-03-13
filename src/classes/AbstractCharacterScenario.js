@@ -1,5 +1,5 @@
 import { Character } from '/src/classes/Character.js';
-import { doc, setDoc } from "firebase/firestore"; 
+import { getFirestore, doc, setDoc } from "firebase/firestore"; 
 
 // Usage Flow
 // 1. create new scenario, constructing with character as the one to be modified
@@ -9,9 +9,11 @@ import { doc, setDoc } from "firebase/firestore";
 //      - check if multiple options are selected
 //      - processes selected options --> calculation done here
 //      - updates character and history
+// 4. always listen for firebase updates e.g. allowMultipleSelections
 
 class AbstractCharacterScenario {
     constructor(character, currentPage, allowMultipleSelection) {
+
         // Reference the original character object
         this.characterOriginal = character;
 
@@ -27,6 +29,12 @@ class AbstractCharacterScenario {
         // User selected options
         this.selections = [];
         this.allowMultipleSelection = allowMultipleSelection;
+
+        // Initialise firebase
+        this.db = getFirestore();
+
+        // Create instance if does not already exists
+        this.createOrUpdateDatabaseInstance();
     }
 
     // Public, onClick event
@@ -48,17 +56,18 @@ class AbstractCharacterScenario {
               // if not, set first element to optionNumber
               this.selections[0] = optionNumber;
             }
-          }
 
-        // // Update database with options
-        // #createDatabaseInstance();
+            // Update database with options
+            // console.log(this.selections);
+            this.createOrUpdateDatabaseInstance();
+          }
     }
 
     // Public, onClick event
     submitAnswer() {
         // Perform multiple selection validation
         try {
-            if (!this.#canProceedWithMultipleSelection()) {
+            if (!this.canProceedWithMultipleSelection()) {
                 throw {
                     name: "MultipleSelectionError",
                     message: "You may only choose one option."
@@ -71,7 +80,7 @@ class AbstractCharacterScenario {
             }
 
             // Proceed with answer processing
-            this.#processAnswer();
+            this.processAnswer();
             // Update character upon submit after perfoming
             // logic and calculations
             this.characterOriginal.updateCharacterState(this.characterScenario);
@@ -83,12 +92,12 @@ class AbstractCharacterScenario {
     }
 
     // Private, to be overridden by subclasses
-    #processAnswer() {
+    processAnswer() {
         // Logic for performing calculations
     }
 
     // Private, to be overridden by subclasses
-    #generateCase() {
+    generateCase() {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 
@@ -101,19 +110,16 @@ class AbstractCharacterScenario {
     }
 
     // Private, validation check
-    #canProceedWithMultipleSelection() {
+    canProceedWithMultipleSelection() {
         return this.allowMultipleSelection && this.selections.length > 1;
     }
 
-    // // Private, create new database instance
-    // #createDatabaseInstance() {
-    //     // Add a new document in collection "cities"
-    //     await setDoc(doc(db, "cities", "LA"), {
-    //         name: "Los Angeles",
-    //         state: "CA",
-    //         country: "USA"
-    //     });
-    // }
+    // Private, create new database instance
+    async createOrUpdateDatabaseInstance() {
+        await setDoc(doc(this.db, "character_scenario", `_1`), {
+            selections: this.selections,
+        });
+    }
 }
 
 export { AbstractCharacterScenario };

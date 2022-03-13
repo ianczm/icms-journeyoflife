@@ -19,6 +19,10 @@ The website serves as the interface where participants get to interact with vari
 
 ---
 
+## Absolutely Urgent
+
+- prevent character resetting when loading the game pane
+
 ## Must Have
 
 ### Game
@@ -61,6 +65,7 @@ _Modify: being able to create, edit, remove, reset_
 ### Game
 
 - add countdown timer on the game screen
+- add accounting balance sheet below main scenario screen to show assets and liabilities
 
 ### Optimisations
 - improve mobile friendliness
