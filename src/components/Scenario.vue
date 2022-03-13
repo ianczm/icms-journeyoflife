@@ -16,9 +16,9 @@
   </div>
   <div class="choices">
     <ul>
-      <li v-for="n in options.length" :key="n">
-        <h3>Option {{ n }}</h3>
-        <p>{{ options[n - 1] }}</p>
+      <li v-for="n in options.length" :key="n" @click="onOptionsClick" :option-id="n">
+        <h3 :option-id="n">Option {{ n }}</h3>
+        <p :option-id="n">{{ options[n - 1] }}</p>
       </li>
     </ul>
   </div>
@@ -49,6 +49,11 @@ export default {
   computed: {
     showMultipleSelection() {
       return this.allowMultipleSelection ? "block" : "none";
+    }
+  },
+  methods: {
+    onOptionsClick(event) {
+      console.log(event.target.getAttribute("option-id"));
     }
   },
   created() {
