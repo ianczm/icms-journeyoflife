@@ -32,10 +32,14 @@ class AbstractScenario {
     updateSelectedOptions(optionNumber) {
         // To update the database as participants select options
         // to be displayed to others in real time
-        this.currentlySelectedOptions.push(optionNumber);
 
-        // Remove duplicates
-        this.currentlySelectedOptions = [...new Set(this.currentlySelectedOptions)]
+        if (this.currentlySelectedOptions.includes(optionNumber)) {
+            this.currentlySelectedOptions = this.currentlySelectedOptions.filter((option) => {
+                return option != optionNumber;
+            })
+        } else {
+            this.currentlySelectedOptions.push(optionNumber);
+        }
 
         // Update database with options
         // ..

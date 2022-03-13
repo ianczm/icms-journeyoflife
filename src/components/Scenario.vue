@@ -38,6 +38,7 @@ export default {
       body: null,
       allowMultipleSelection: false,
       options: [],
+      selections: [],
       isOptionsReady: false,
 
       // Database
@@ -53,9 +54,23 @@ export default {
   },
   methods: {
     onOptionsClick(event) {
-      console.log(event.target.getAttribute("option-id"));
+      const optionNumber = event.target.getAttribute("option-id");
+      if (this.selections.includes(optionNumber)) {
+            this.selections = this.selections.filter((option) => {
+                return option != optionNumber;
+            })
+        } else {
+            this.selections.push(optionNumber);
+        }
+      console.log(this.selections);
     }
   },
+  // computed: {
+  //   isActiveSelection(n) {
+  //     // checks if current option number is selected
+  //     return this.selections.includes(n);
+  //   }
+  // },
   created() {
     this.db = getFirestore();
   },
