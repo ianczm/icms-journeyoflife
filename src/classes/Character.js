@@ -1,5 +1,5 @@
 class Character {
-    constructor() {
+    constructor(userid) {
         // These fields should not be changed directly
         // should only be through update character
         this.age = 15;
@@ -15,6 +15,9 @@ class Character {
         
         // Scenario instances will be here
         this.scenarioHistory = [];
+
+        // Register user
+        this.userid = userid;
     }
     setPage(page) {
         this.currentpage = page;
@@ -22,19 +25,19 @@ class Character {
     pushScenarioHistory(scenario) {
         this.options.push(scenario);
     }
-    updateCharacterState(scenario) {
+    updateCharacterState(character) {
         // Page does not have to be updated as scenario
         // updates it on initialisation
-        this.age = scenario.characterScenario.age;
-        this.happiness = scenario.characterScenario.happiness;
-        this.health = scenario.characterScenario.health;
-        this.networth = scenario.characterScenario.networth;
-        this.score = scenario.characterScenario.score;
-        this.security = scenario.characterScenario.security;
-        this.stress = scenario.characterScenario.stress;
+        this.age = character.age;
+        this.happiness = character.happiness;
+        this.health = character.health;
+        this.networth = character.networth;
+        this.score = character.score;
+        this.security = character.security;
+        this.stress = character.stress;
 
-        // Add scenario into history
-        this.pushScenarioHistory(scenario);
+        // Update database with character
+        // ..
     }
 }
 

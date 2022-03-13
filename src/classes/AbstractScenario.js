@@ -45,15 +45,19 @@ class AbstractScenario {
     submitAnswer() {
         // Perform multiple selection validation
         try {
-            if (!canProceedWithMultipleSelection()) {
-                throw {name: "MultipleSelectionError", message: "You may only choose one option."}
+            if (!this.#canProceedWithMultipleSelection()) {
+                throw {
+                    name: "MultipleSelectionError",
+                    message: "You may only choose one option."
+                }
             }
 
             // Proceed with answer processing
-            processAnswer();
+            this.#processAnswer();
             // Update character upon submit after perfoming
             // logic and calculations
-            this.characterOriginal.updateCharacterState(this);
+            this.characterOriginal.updateCharacterState(this.characterScenario);
+            this.characterOriginal.updateCharacterState(this.characterScenario);
         } catch (e) {
             // Somehow render this to HTML
             alert(e.name + " " + e.message);
@@ -61,12 +65,12 @@ class AbstractScenario {
     }
 
     // Private, to be overridden by subclasses
-    processAnswer() {
+    #processAnswer() {
         // Logic for performing calculations
     }
 
     // Private, to be overridden by subclasses
-    generateCase() {
+    #generateCase() {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 
@@ -79,7 +83,7 @@ class AbstractScenario {
     }
 
     // Private, validation check
-    canProceedWithMultipleSelection() {
+    #canProceedWithMultipleSelection() {
         return !this.allowMultipleSelection && this.currentlySelectedOptions.length > 1;
     }
 }

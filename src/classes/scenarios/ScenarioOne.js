@@ -12,7 +12,7 @@ class ScenarioOne extends AbstractScenario {
         super(character, currentPage, allowMultipleSelection);
     }
     // Private, to be modified
-    processAnswer() {
+    #processAnswer() {
         // Logic for selecting operations and performing
         // calculations here.
 
@@ -23,7 +23,7 @@ class ScenarioOne extends AbstractScenario {
         // are defined in the generateCases() function
         // to parse user input
 
-        switch (generateCase()) {
+        switch (this.#generateCase()) {
             case 1:
                 this.characterScenario.age = 1;
                 break;
@@ -41,7 +41,7 @@ class ScenarioOne extends AbstractScenario {
     }
 
     // Private, to be overridden by subclasses
-    generateCase() {
+    #generateCase() {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 
