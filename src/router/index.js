@@ -40,23 +40,20 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'Admin',
-      component: Admin
+      component: Admin,
+      meta: {requiresAuth: true}
     },
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const requiresAuth = to.meta.requiresAuth;
 
   if (requiresAuth) {
     const auth = getAuth();
     if (!auth.currentUser) {
-      next({name: 'Login'});
-    } else {
-      next();
+      return {name: 'Login'};
     }
-  } else {
-    next();
   }
 })
 
