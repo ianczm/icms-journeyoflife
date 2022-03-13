@@ -28,7 +28,7 @@
 import { getFirestore, doc, onSnapshot } from "firebase/firestore"
 
 export default {
-    props: ['id'],
+    props: ['pageid', 'userid'],
     data() {
         return {
             // Scenario and Phases
@@ -56,9 +56,9 @@ export default {
     },
     mounted() {
         // Fetch and Listen on Scenario
-        this.docRef = onSnapshot(doc(this.db, "scenario", `${this.id}`), (doc) => {
+        this.docRef = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
             this.scenario = doc.data();
-            console.log(this.scenario);
+            // console.log(this.scenario);
             this.heading = this.scenario.heading;
             this.phase = this.scenario.phase;
             this.title = this.scenario.title;

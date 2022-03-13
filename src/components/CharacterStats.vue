@@ -57,14 +57,8 @@
 </template>
 
 <script>
-import { Character } from "src/classes/Character.js";
-
 export default {
-    data() {
-        return {
-            character: new Character()
-        }
-    }
+    props: ['character'],
 }
 </script>
 
