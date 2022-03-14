@@ -24,20 +24,29 @@ class ScenarioOne extends AbstractCharacterScenario {
         // are defined in the generateCases() function
         // to parse user input
 
+        // Do NOT calculate score here, score will be
+        // updated before submission automatically
+
         switch (this.generateCase()) {
             case 1:
-                this.characterScenario.age = 1;
+                this.character.health += 0.1;
+                this.character.happiness += 0.1;
+                this.character.security += 0.1;
+                this.character.stress += 0.1;
                 break;
             case 2:
-                this.characterScenario.age = 2;
+                this.character.age = 2;
                 break;
             case 3:
-                this.characterScenario.age = 3;
+                this.character.age = 3;
                 break;
             case 4:
-                this.characterScenario.age = 34;
+                this.character.age = 34;
             default:
-                throw {name: "UnmatchedOptionError", message: "Selected choices are not valid."};
+                throw {
+                    name: "UnmatchedOptionError",
+                    message: "Selected choices are not valid."
+                };
         }
     }
 
@@ -51,7 +60,7 @@ class ScenarioOne extends AbstractCharacterScenario {
 
         // e.g. if options 2 and 3 are selected, generate case 5
 
-        // this.currentlySelectedOptions
+        return this.selections[0];
     }
 }
 

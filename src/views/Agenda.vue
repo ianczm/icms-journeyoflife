@@ -45,7 +45,6 @@ export default {
         this.agendas.push({...doc.data(), id: doc.id});
       });
     });
-    console.log(this.agendas);
   },
 }
 </script>

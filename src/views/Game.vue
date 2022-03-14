@@ -2,12 +2,10 @@
   <div class="nav-spacer"></div>
   <div class="outer-container">
     <div class="section game">
-      <CharacterStats v-if="character" :character="character" />
-      <Scenario v-if="character" :character="character" :pageid="scenarioPage" :userid="userid" />
-      <!-- <div class="navigation">
-        <router-link>Left</router-link>
-        <router-link>Right</router-link>
-      </div>-->
+      <div class="game-panel">
+        <CharacterStats v-if="character" :character="character" />
+        <Scenario v-if="character" :character="character" :pageid="scenarioPage" :userid="userid" />
+      </div>
     </div>
   </div>
 </template>
@@ -50,7 +48,6 @@ export default {
     this.characterSnapshot = onSnapshot(characteridQuery, (characters) => {
       characters.forEach(character => {
         this.character = Object.assign(character.data(), Character);
-        console.log(this.character);
       })
     });
   }
@@ -65,14 +62,27 @@ export default {
 }
 
 .section.game {
-  display: grid;
-  grid-template-columns: 2fr 4fr;
-  grid-template-rows: auto auto auto;
-  grid-template-areas: "character scenario" "character alert" "character choices";
-  grid-gap: 20px 50px;
   @include createGlass($opacity: 0.2);
   border-radius: 25px;
   padding: 75px;
+
+  .submission {
+    position: absolute;
+    right: 10%;
+    bottom: -20px;
+
+    .glow-button {
+      padding: 20px 30px;
+    }
+  }
+}
+
+.game-panel {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  grid-template-rows: min-content 45px min-content;
+  grid-template-areas: "character scenario" "character alert" "character choices";
+  grid-gap: 20px 50px;
 
   h1 {
     font-size: 2.25rem;
@@ -198,6 +208,7 @@ export default {
   }
 
   .scenario-content {
+    display: flex;
     .text {
       h2 {
         font-weight: 200;
@@ -207,12 +218,11 @@ export default {
 
   .mcq-alert {
     @include createGlass($yellow, 1, 25px, $yellow, 0.05);
-    padding: 15px;
+    padding: 0 15px;
     border-radius: 10px;
     font-size: 0.9rem;
     color: $dark;
     font-weight: 600;
-    display: flex;
     align-items: center;
 
     i {

@@ -8,11 +8,11 @@
         <div class="scores">
             <div class="final">
                 <h3>Score</h3>
-                <h1>{{ character.score.toLocaleString() }}</h1>
+                <h1>{{ character.score.toLocaleFixed(2) }}</h1>
             </div>
             <div class="net-worth">
                 <h3>Net Worth</h3>
-                <h1>RM {{ character.networth.toLocaleString() }}</h1>
+                <h1>RM {{ character.networth.toLocaleFixed(2) }}</h1>
             </div>
         </div>
         <div class="statistics">
@@ -22,7 +22,7 @@
                     <div
                         class="inner-stats-bar happiness-progress"
                         :style="{ width: character.happiness * 100 + '%' }"
-                    >{{ character.happiness * 100 + '%' }}</div>
+                    >{{ (character.happiness * 100).toFixed(0) + '%' }}</div>
                 </div>
             </div>
             <div class="stats-bar-container">
@@ -31,7 +31,7 @@
                     <div
                         class="inner-stats-bar stress-progress"
                         :style="{ width: character.stress * 100 + '%' }"
-                    >{{ character.stress * 100 + '%' }}</div>
+                    >{{ (character.stress * 100).toFixed(0) + '%' }}</div>
                 </div>
             </div>
             <div class="stats-bar-container">
@@ -40,7 +40,7 @@
                     <div
                         class="inner-stats-bar health-progress"
                         :style="{ width: character.health * 100 + '%' }"
-                    >{{ character.health * 100 + '%' }}</div>
+                    >{{ (character.health * 100).toFixed(0) + '%' }}</div>
                 </div>
             </div>
             <div class="stats-bar-container">
@@ -49,7 +49,7 @@
                     <div
                         class="inner-stats-bar security-progress"
                         :style="{ width: character.security * 100 + '%' }"
-                    >{{ character.security * 100 + '%' }}</div>
+                    >{{ (character.security * 100).toFixed(0) + '%' }}</div>
                 </div>
             </div>
         </div>
@@ -57,6 +57,14 @@
 </template>
 
 <script>
+// For presentation convenience
+Number.prototype.toLocaleFixed = function(n) {
+    return this.toLocaleString(undefined, {
+      minimumFractionDigits: n,
+      maximumFractionDigits: n
+    });
+};
+
 export default {
     props: ['character'],
 }

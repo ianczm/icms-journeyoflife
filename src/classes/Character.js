@@ -6,7 +6,7 @@ class Character {
         this.happiness = 0.5;
         this.health = 0.5;
         this.networth = 5000;
-        this.score = 0;
+        this.score = 1250;
         this.security = 0.5;
         this.stress = 0.5;
 

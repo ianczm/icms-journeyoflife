@@ -92,7 +92,6 @@ export default {
       })
       this.characters = characterArray;
     });
-    console.log(this.characters);
   }
 }
 

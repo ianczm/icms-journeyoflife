@@ -28,6 +28,11 @@
       </li>
     </ul>
   </div>
+  <Teleport to=".section.game">
+    <div class="submission">
+      <button class="glow-button" @click="onSubmitClick">Submit Answer</button>
+    </div>
+  </Teleport>
 </template>
 
 <script>
@@ -60,7 +65,7 @@ export default {
   },
   computed: {
     showMultipleSelection() {
-      return this.allowMultipleSelection ? "block" : "none";
+      return this.allowMultipleSelection ? "flex" : "none";
     },
   },
   methods: {
@@ -72,6 +77,9 @@ export default {
       // checks local variable which is synced with firebase
       return this.selections.includes(n);
     },
+    onSubmitClick(event) {
+      this.characterScenario.submitAnswer();
+    }
   },
   created() {
     this.db = getFirestore();
@@ -94,7 +102,6 @@ export default {
     onSnapshot(doc(this.db, "character_scenario", `${this.character.id}_${this.pageid}`), (selectionSnapshot) => {
       var snapData = selectionSnapshot.data();
       this.selections = snapData.selections;
-      console.log(snapData.selections);
     })
   },
 }

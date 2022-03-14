@@ -54,7 +54,6 @@ export default {
       this.isSuccessful = false;
       this.hasError = false;
 
-      console.log("Submitted");
       this.auth = getAuth();
       signInWithEmailAndPassword(this.auth, this.emailFromUsername, this.password)
         .then((userCredential) => {

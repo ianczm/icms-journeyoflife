@@ -1,5 +1,5 @@
 import { Character } from '/src/classes/Character.js';
-import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 
 // Usage Flow
@@ -19,23 +19,18 @@ class AbstractCharacterScenario {
         this.db = getFirestore();
 
         // Reference the original character object
-        this.characterOriginal = character;
+        this.character = character;
 
         // Scenario current page
         this.currentPage = currentPage;
         // Update current page of character
         // [!] need to find out how to update currentPage in the database
-        // this.characterOriginal.setPage(currentPage);
-
-        // Make a copy of character and perform
-        // calculations here first before updating original
-        this.characterScenario = Object.assign(JSON.parse(JSON.stringify(this.characterOriginal)), Character);
 
         // User selected options
         this.selectionsReady = false;
         this.selections = [];
         this.getDatabaseSelections();
-        
+
         this.allowMultipleSelection = allowMultipleSelection;
     }
 
@@ -49,7 +44,6 @@ class AbstractCharacterScenario {
             this.selections = this.selections.filter((option) => {
                 return option != optionNumber;
             })
-            console.log(`Removed ${optionNumber}`);
         } else {
             // normal behavior, add option
             if (this.selections && this.allowMultipleSelection) {
@@ -59,27 +53,26 @@ class AbstractCharacterScenario {
                 // if not, set first element to optionNumber
                 this.selections[0] = optionNumber;
             }
-            console.log(`Updated ${optionNumber}`);
         }
         // Update database with options
-        
+
         this.createOrUpdateDatabaseInstance();
-        
+
     }
 
     // Public, onClick event
     submitAnswer() {
         // Perform multiple selection validation
         try {
-            if (!this.canProceedWithMultipleSelection()) {
-                throw {
-                    name: "MultipleSelectionError",
-                    message: "You may only choose one option."
-                }
-            } else if (!this.selections) {
+            if (!this.selections) {
                 throw {
                     name: "NoSelectionError",
                     message: "Please choose at least one option."
+                }
+            } else if (this.selections.length > 1 && !this.allowMultipleSelection) {
+                throw {
+                    name: "MultipleSelectionError",
+                    message: "You may only choose one option."
                 }
             }
 
@@ -87,12 +80,74 @@ class AbstractCharacterScenario {
             this.processAnswer();
             // Update character upon submit after perfoming
             // logic and calculations
-            this.characterOriginal.updateCharacterState(this.characterScenario);
+            this.character.score = this.calculateScore();
+
+            // Find a way to update the database
 
         } catch (e) {
             // Somehow render this to HTML
             alert(e.name + " " + e.message);
         }
+    }
+
+    calculateScore() {
+
+        // cap quality of life at 2
+        var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
+
+        // Perform score base calculation
+        var score = this.character.networth * qualityOfLife * this.character.health * this.character.security;
+        
+        var bonus = this.handleScoreOverflow();
+
+        // return the modified score after weighting by bonusBuffer
+        // will either be a small increase or decrease
+        return bonus * score;
+    }
+
+    handleScoreOverflow() {
+        // in case there is overflow, these 4 metrics will add a bonus
+        // to final score (which can be negative if the overflow left-sided)
+        // positive overflow > 0
+        // negative overflow < -1
+        var healthOverflow = this.character.health - 1;
+        var securityOverflow = this.character.security - 1;
+        var happinessOverflow = this.character.happiness - 1;
+        var stressOverflow = this.character.stress - 1;
+
+        // if positive overflow, set to 1, else if negative overflow, set to 0, else no change
+        if (healthOverflow > 0) {
+            this.character.health = 1;
+        } else if (healthOverflow < -1) {
+            this.character.health = 0;
+        } else {
+            healthOverflow = 0;
+        }
+        if (securityOverflow > 0) {
+            this.character.security = 1;
+        } else if (securityOverflow < -1) {
+            this.character.security = 0;
+        } else {
+            securityOverflow = 0;
+        }
+        if (happinessOverflow > 0) {
+            this.character.happiness = 1;
+        } else if (happinessOverflow < -1) {
+            this.character.happiness = 0;
+        } else {
+            happinessOverflow = 0;
+        }
+        if (stressOverflow > 0) {
+            this.character.stress = 1;
+        } else if (stressOverflow < -1) {
+            this.character.stress = 0;
+        } else {
+            stressOverflow = 0;
+        }
+
+        // average
+        var bonus = (0.25 * (healthOverflow + securityOverflow + happinessOverflow + stressOverflow)) + 1;
+        return bonus;
     }
 
     // Private, to be overridden by subclasses
@@ -115,12 +170,12 @@ class AbstractCharacterScenario {
 
     // Private, validation check
     canProceedWithMultipleSelection() {
-        return this.allowMultipleSelection && this.selections.length > 1;
+        return this.allowMultipleSelection && this.selections.length >= 1;
     }
 
     // Private, create new database instance
     async createOrUpdateDatabaseInstance() {
-        await setDoc(doc(this.db, "character_scenario", `${this.characterOriginal.id}_${this.currentPage}`), {
+        await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
             selections: this.selections,
         });
     }
@@ -128,10 +183,9 @@ class AbstractCharacterScenario {
     // Private, creates a new database instance if it doesn't exist, if not,
     // just loads regularly
     async getDatabaseSelections() {
-        const instanceRef = doc(this.db, "character_scenario", `${this.characterOriginal.id}_${this.currentPage}`);
+        const instanceRef = doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`);
         await getDoc(instanceRef).then((instance) => {
             if (instance.exists()) {
-                console.log(`Retrieved ${instance.data().selections}`);
                 this.selectionsReady = true;
                 this.selections = instance.data().selections;
             } else {
