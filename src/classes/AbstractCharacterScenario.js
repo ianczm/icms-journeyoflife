@@ -83,6 +83,7 @@ class AbstractCharacterScenario {
             this.character.score = this.calculateScore();
 
             // Find a way to update the database
+            this.updateCharacterDatabaseInstance();
 
         } catch (e) {
             // Somehow render this to HTML
@@ -177,6 +178,12 @@ class AbstractCharacterScenario {
     async createOrUpdateDatabaseInstance() {
         await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
             selections: this.selections,
+        });
+    }
+
+    async updateCharacterDatabaseInstance() {
+        await setDoc(doc(this.db, "character", `${this.character.id}`), {
+            ...this.character
         });
     }
 
