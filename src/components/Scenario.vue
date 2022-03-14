@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { getFirestore, doc, onSnapshot, getDoc } from "firebase/firestore"
+import { getFirestore, doc, onSnapshot } from "firebase/firestore"
 import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne.js";
 
 export default {
@@ -67,18 +67,11 @@ export default {
     onOptionsClick(event) {
       const optionNumber = parseInt(event.target.getAttribute("option-id"));
       this.characterScenario.updateSelectedOptions(optionNumber);
-      // this.updateActiveSelections();
-      // this.selections.push(optionNumber);
     },
     isActiveSelection(n) {
       // checks local variable which is synced with firebase
-      // console.log(n + " --> " + this.characterScenario.selections.includes(n));
       return this.selections.includes(n);
-      // return this.selections.includes(n);
     },
-    // updateActiveSelections() {
-    //   console.log(++this.renderKey);
-    // }
   },
   created() {
     this.db = getFirestore();
@@ -90,7 +83,6 @@ export default {
     // Fetch and Listen on Scenario Content
     this.scenarioContentSnapshot = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
       this.scenarioContent = doc.data();
-      // console.log(this.scenario);
       this.heading = this.scenarioContent.heading;
       this.phase = this.scenarioContent.phase;
       this.title = this.scenarioContent.title;
@@ -105,9 +97,6 @@ export default {
       console.log(snapData.selections);
     })
   },
-  // mounted() {
-  //   setTimeout(this.updateActiveSelections, 1000);
-  // }
 }
 </script>
 
