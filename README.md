@@ -21,18 +21,18 @@ The website serves as the interface where participants get to interact with vari
 
 ## Absolutely Urgent
 
-- prevent character resetting when loading the game pane
-- add character id as a property to Character
-- page navigation should update character's currentpage
+- ~~prevent character resetting when loading the game pane (implemented)~~
+- ~~add character id as a property to Character (implemented)~~
 
 ## Must Have
 
 ### Game
 
-- update user choice selection with firebase in real time
+- ~~update user choice selection with firebase in real time (implemented)~~
 - migrate scenarios from content document and implement calculation
 - ~~update character statistics in real time with firebase (implemented)~~
 - enable page-by-page navigation for each scenario in vue
+    - update character's currentpage property
     - submit answer button
     - need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
 
