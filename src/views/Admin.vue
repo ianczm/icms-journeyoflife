@@ -69,7 +69,7 @@ export default {
       async function setDocs(db, characterid, userid) {
         await setDoc(
           doc(db, "character", `${characterid}`),
-          {...new Character(userid)}
+          {...new Character(userid, characterid)}
           );
       }
 
@@ -78,7 +78,7 @@ export default {
       }
     }
   },
-  mounted() {
+  beforeMount() {
     var characterArray;
     const q = query(
       collection(this.db, "character"),
@@ -88,7 +88,7 @@ export default {
     this.colRef = onSnapshot(q, (characters) => {
       characterArray = [];
       characters.forEach((character) => {
-        characterArray.push({ ...character.data(), id: character.id });
+        characterArray.push({ ...character.data() });
       })
       this.characters = characterArray;
     });

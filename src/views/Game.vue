@@ -2,8 +2,8 @@
   <div class="nav-spacer"></div>
   <div class="outer-container">
     <div class="section game">
-      <CharacterStats :character="character" />
-      <Scenario v-if="scenarioPage" :character="character" :pageid="scenarioPage" :userid="userid" />
+      <CharacterStats v-if="character" :character="character" />
+      <Scenario v-if="character" :character="character" :pageid="scenarioPage" :userid="userid" />
       <!-- <div class="navigation">
         <router-link>Left</router-link>
         <router-link>Right</router-link>
@@ -15,7 +15,7 @@
 <script>
 import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
-import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+import { getFirestore, onSnapshot, query, where, collection } from "firebase/firestore";
 import { Character } from "/src/classes/Character.js";
 
 export default {
@@ -26,8 +26,15 @@ export default {
       // Database
       db: null,
       characterSnapshot: null,
-      character: new Character(),
-      characterid: 18,
+      
+      // [!] should display this character according to one obtained from user!
+      // this gets passed in first before the existing character is loaded
+      // if the ids are the same, it works because database access only needs character id
+      // but calculations will only work on new charcter, not the database one
+      // Can temporarily be fixed by getting character from database directly
+
+      // character: new Character(this.userid, 18),
+      character: null,
 
       // Page
       scenarioPage: 1,
@@ -36,11 +43,15 @@ export default {
   created() {
     this.db = getFirestore();
   },
-  mounted() {
-    // Fetch and Listen on Character
-    this.characterSnapshot = onSnapshot(doc(this.db, "character", `${this.characterid}`), (doc) => {
-      this.character = Object.assign(doc.data(), Character);
-      console.log(this.character);
+  beforeMount() {
+    // Query characterid based on userid
+    const characteridQuery = query(collection(this.db, "character"), where("userid", "==", `${this.userid}`));
+
+    this.characterSnapshot = onSnapshot(characteridQuery, (characters) => {
+      characters.forEach(character => {
+        this.character = Object.assign(character.data(), Character);
+        console.log(this.character);
+      })
     });
   }
 }

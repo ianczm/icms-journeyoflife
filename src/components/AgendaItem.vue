@@ -21,7 +21,7 @@ export default {
             time: '',
         }
     },
-    mounted() {
+    beforeMount() {
         const date = new Date(this.agenda.time.seconds * 1000);
         this.time = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     },

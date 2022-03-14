@@ -22,6 +22,8 @@ The website serves as the interface where participants get to interact with vari
 ## Absolutely Urgent
 
 - prevent character resetting when loading the game pane
+- add character id as a property to Character
+- page navigation should update character's currentpage
 
 ## Must Have
 

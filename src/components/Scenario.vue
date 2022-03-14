@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { getFirestore, doc, onSnapshot } from "firebase/firestore"
+import { getFirestore, doc, onSnapshot, getDoc } from "firebase/firestore"
 import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne.js";
 
 export default {
@@ -47,35 +47,48 @@ export default {
       options: [],
 
       // CharacterScenario Instance
-      characterScenario: new ScenarioOne(this.character),
+      selectionsReady: false,
+      characterScenario: null,
+      selections: [],
 
       // Database
       db: null,
-      scenarioSnapshot: null,
+      selectionsSnapshot: null,
+      scenarioContentSnapshot: null,
       scenarioContent: null
     }
   },
   computed: {
     showMultipleSelection() {
       return this.allowMultipleSelection ? "block" : "none";
-    }
+    },
   },
   methods: {
     onOptionsClick(event) {
       const optionNumber = parseInt(event.target.getAttribute("option-id"));
       this.characterScenario.updateSelectedOptions(optionNumber);
+      // this.updateActiveSelections();
+      // this.selections.push(optionNumber);
     },
     isActiveSelection(n) {
-      // checks if current option number is selected
-      return this.characterScenario.selections.includes(n);
-    }
+      // checks local variable which is synced with firebase
+      // console.log(n + " --> " + this.characterScenario.selections.includes(n));
+      return this.selections.includes(n);
+      // return this.selections.includes(n);
+    },
+    // updateActiveSelections() {
+    //   console.log(++this.renderKey);
+    // }
   },
   created() {
     this.db = getFirestore();
   },
-  mounted() {
-    // Fetch and Listen on Scenario
-    this.scenarioSnapshot = onSnapshot(doc(this.db, "scenario", `${this.characterScenario.currentPage}`), (doc) => {
+  async beforeMount() {
+    // Initialise scenario
+    this.characterScenario = new ScenarioOne(this.character, this.pageid, this);
+
+    // Fetch and Listen on Scenario Content
+    this.scenarioContentSnapshot = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
       this.scenarioContent = doc.data();
       // console.log(this.scenario);
       this.heading = this.scenarioContent.heading;
@@ -85,7 +98,16 @@ export default {
       this.allowMultipleSelection = this.scenarioContent.allowMultipleSelection;
       this.options = this.scenarioContent.options;
     });
-  }
+
+    onSnapshot(doc(this.db, "character_scenario", `${this.character.id}_${this.pageid}`), (selectionSnapshot) => {
+      var snapData = selectionSnapshot.data();
+      this.selections = snapData.selections;
+      console.log(snapData.selections);
+    })
+  },
+  // mounted() {
+  //   setTimeout(this.updateActiveSelections, 1000);
+  // }
 }
 </script>
 

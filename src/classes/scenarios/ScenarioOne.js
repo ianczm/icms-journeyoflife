@@ -7,9 +7,10 @@ const allowMultipleSelection = false;
 
 
 class ScenarioOne extends AbstractCharacterScenario {
-    constructor(character) {
+    constructor(character, currentPage) {
         // Build scenario
-        super(character, 1, allowMultipleSelection);
+        // [!] page is still hardcoded
+        super(character, currentPage, allowMultipleSelection);
     }
     // Private, to be modified
     processAnswer() {

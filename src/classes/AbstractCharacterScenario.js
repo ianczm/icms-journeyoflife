@@ -1,5 +1,6 @@
 import { Character } from '/src/classes/Character.js';
-import { getFirestore, doc, setDoc } from "firebase/firestore"; 
+import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "firebase/firestore";
+
 
 // Usage Flow
 // 1. create new scenario, constructing with character as the one to be modified
@@ -14,27 +15,28 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 class AbstractCharacterScenario {
     constructor(character, currentPage, allowMultipleSelection) {
 
+        // Initialise firebase
+        this.db = getFirestore();
+
         // Reference the original character object
         this.characterOriginal = character;
 
         // Scenario current page
         this.currentPage = currentPage;
         // Update current page of character
-        this.characterOriginal.setPage(currentPage);
+        // [!] need to find out how to update currentPage in the database
+        // this.characterOriginal.setPage(currentPage);
 
         // Make a copy of character and perform
         // calculations here first before updating original
-        this.characterScenario = new Character(JSON.parse(JSON.stringify(this.characterOriginal)));
+        this.characterScenario = Object.assign(JSON.parse(JSON.stringify(this.characterOriginal)), Character);
 
         // User selected options
+        this.selectionsReady = false;
         this.selections = [];
+        this.getDatabaseSelections();
+        
         this.allowMultipleSelection = allowMultipleSelection;
-
-        // Initialise firebase
-        this.db = getFirestore();
-
-        // Create instance if does not already exists
-        this.createOrUpdateDatabaseInstance();
     }
 
     // Public, onClick event
@@ -45,22 +47,24 @@ class AbstractCharacterScenario {
         if (this.selections.includes(optionNumber)) {
             // toggle behavior: deactivate selection if already active
             this.selections = this.selections.filter((option) => {
-              return option != optionNumber;
+                return option != optionNumber;
             })
-          } else {
+            console.log(`Removed ${optionNumber}`);
+        } else {
             // normal behavior, add option
             if (this.selections && this.allowMultipleSelection) {
-              // if there is another selection already, check if ms is enabled
-              this.selections.push(optionNumber);
+                // if there is another selection already, check if ms is enabled
+                this.selections.push(optionNumber);
             } else {
-              // if not, set first element to optionNumber
-              this.selections[0] = optionNumber;
+                // if not, set first element to optionNumber
+                this.selections[0] = optionNumber;
             }
-
-            // Update database with options
-            // console.log(this.selections);
-            this.createOrUpdateDatabaseInstance();
-          }
+            console.log(`Updated ${optionNumber}`);
+        }
+        // Update database with options
+        
+        this.createOrUpdateDatabaseInstance();
+        
     }
 
     // Public, onClick event
@@ -84,7 +88,7 @@ class AbstractCharacterScenario {
             // Update character upon submit after perfoming
             // logic and calculations
             this.characterOriginal.updateCharacterState(this.characterScenario);
-            this.characterOriginal.updateCharacterState(this.characterScenario);
+
         } catch (e) {
             // Somehow render this to HTML
             alert(e.name + " " + e.message);
@@ -116,8 +120,23 @@ class AbstractCharacterScenario {
 
     // Private, create new database instance
     async createOrUpdateDatabaseInstance() {
-        await setDoc(doc(this.db, "character_scenario", `_1`), {
+        await setDoc(doc(this.db, "character_scenario", `${this.characterOriginal.id}_${this.currentPage}`), {
             selections: this.selections,
+        });
+    }
+
+    // Private, creates a new database instance if it doesn't exist, if not,
+    // just loads regularly
+    async getDatabaseSelections() {
+        const instanceRef = doc(this.db, "character_scenario", `${this.characterOriginal.id}_${this.currentPage}`);
+        await getDoc(instanceRef).then((instance) => {
+            if (instance.exists()) {
+                console.log(`Retrieved ${instance.data().selections}`);
+                this.selectionsReady = true;
+                this.selections = instance.data().selections;
+            } else {
+                return [];
+            }
         });
     }
 }

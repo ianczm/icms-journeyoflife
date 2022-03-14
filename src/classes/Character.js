@@ -1,5 +1,5 @@
 class Character {
-    constructor(userid) {
+    constructor(userid, characterid) {
         // These fields should not be changed directly
         // should only be through update character
         this.age = 15;
@@ -16,8 +16,9 @@ class Character {
         // Scenario instances will be here
         this.scenarioHistory = [];
 
-        // Register user
+        // Register user and database characterid
         this.userid = userid;
+        this.id = characterid;
     }
     setPage(page) {
         this.currentpage = page;

@@ -38,7 +38,7 @@ export default {
   created() {
     this.db = getFirestore();
   },
-  async mounted() {
+  async beforeMount() {
     this.agendaCollection = collection(this.db, "agenda");
     await getDocs(this.agendaCollection).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
