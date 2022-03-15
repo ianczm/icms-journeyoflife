@@ -3,25 +3,25 @@
   <div class="outer-container">
     <div class="section admin">
       <div class="inner-container">
-        <div id="character-database">
-          <div class="text">
-            <h1>Admin Panel</h1>
-          </div>
+        <div class="text">
+          <h1>Admin Panel</h1>
+        </div>
+        <div id="character database">
           <h3 class="table-title">Character Database</h3>
           <div class="table-container">
             <table class="table existing">
               <tr class="character header">
                 <!-- <th>username</th> -->
-                <th>characterid</th>
+                <th>Group</th>
                 <!-- <th>userid</th> -->
-                <th>currentpage</th>
-                <th>age</th>
-                <th>networth</th>
-                <th>score</th>
-                <th>happiness</th>
-                <th>stress</th>
-                <th>health</th>
-                <th>security</th>
+                <th>Page</th>
+                <th>Age</th>
+                <th>Networth</th>
+                <th>Score</th>
+                <th>Happiness</th>
+                <th>Stress</th>
+                <th>Health</th>
+                <th>Security</th>
               </tr>
               <tr v-for="character in characters" :key="character.userid" class="character record">
                 <!-- <td>{{ character.username }}</td> -->
@@ -29,17 +29,51 @@
                 <!-- <td>{{ character.userid }}</td> -->
                 <td>{{ character.currentpage }}</td>
                 <td>{{ character.age }}</td>
-                <td>{{ ('RM ' + character.networth.toLocaleString()) }}</td>
-                <td>{{ character.score }}</td>
-                <td>{{ character.happiness * 100 + '%' }}</td>
-                <td>{{ character.stress * 100 + '%' }}</td>
-                <td>{{ character.health * 100 + '%' }}</td>
-                <td>{{ character.security * 100 + '%' }}</td>
+                <td>{{ ('RM ' + character.networth.toLocaleFixed(2)) }}</td>
+                <td>{{ character.score.toLocaleFixed(2) }}</td>
+                <td>{{ (character.happiness * 100).toFixed(1) + '%' }}</td>
+                <td>{{ (character.stress * 100).toFixed(1) + '%' }}</td>
+                <td>{{ (character.health * 100).toFixed(1) + '%' }}</td>
+                <td>{{ (character.security * 100).toFixed(1) + '%' }}</td>
               </tr>
             </table>
           </div>
           <div class="panel">
             <button @click="resetAllCharacters" class="glow-button">Reset Characters</button>
+          </div>
+        </div>
+        <div id="scenario database">
+          <h3 class="table-title">Scenario Database</h3>
+          <div class="table-container">
+            <table class="table scenario">
+              <tr class="scenario header">
+                <th>pageid</th>
+                <th>heading</th>
+                <th>phase</th>
+                <th>title</th>
+                <th>body</th>
+                <th>options</th>
+              </tr>
+              <tr v-for="scenario in scenarios" :key="scenario.pageid" class="scenario record">
+                <td>{{ scenario.pageid }}</td>
+                <td>{{ scenario.heading }}</td>
+                <td>{{ scenario.phase }}</td>
+                <td>{{ scenario.title }}</td>
+                <td>{{ scenario.body }}</td>
+                <td style="width: 50%">
+                  <ul>
+                    <li v-for="option in scenario.options" :key="option.optionid">
+                      <p><strong>Option {{ option.optionid }}</strong></p>
+                      <p>{{ option.desc }}</p>
+                      <p style="color: #ffbb00; font-weight: 400">{{ option.outcome }}</p>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="panel">
+            <button @click="duplicateScenario" class="glow-button">Duplicate Scenario</button>
           </div>
         </div>
       </div>
@@ -51,6 +85,14 @@
 import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot } from "firebase/firestore"
 import { Character, useridList } from "/src/classes/Character.js";
 
+// For presentation convenience
+Number.prototype.toLocaleFixed = function (n) {
+  return this.toLocaleString(undefined, {
+    minimumFractionDigits: n,
+    maximumFractionDigits: n
+  });
+};
+
 export default {
   data() {
     return {
@@ -58,6 +100,7 @@ export default {
       db: null,
       colRef: null,
       characters: [],
+      scenarios: [],
     }
   },
   created() {
@@ -69,28 +112,50 @@ export default {
       async function setDocs(db, characterid, userid) {
         await setDoc(
           doc(db, "character", `${characterid}`),
-          {...new Character(userid, characterid)}
-          );
+          { ...new Character(userid, characterid) }
+        );
       }
 
       for (var i = 0; i < useridList.length; i++) {
         setDocs(this.db, i + 1, useridList[i]);
       }
+    },
+    async duplicateScenario() {
+      await setDoc(
+        doc(this.db, "scenario", `${this.scenarios.length+1}`), {
+          ...this.scenarios[this.scenarios.length-1],
+          pageid: this.scenarios.length+1
+        }
+      );
     }
   },
   beforeMount() {
     var characterArray;
-    const q = query(
+    const cQ = query(
       collection(this.db, "character"),
       orderBy("score", "desc"),
       // orderBy("networth", "desc")
     );
-    this.colRef = onSnapshot(q, (characters) => {
+    this.colRef = onSnapshot(cQ, (characters) => {
       characterArray = [];
       characters.forEach((character) => {
         characterArray.push({ ...character.data() });
       })
       this.characters = characterArray;
+    });
+
+    var scenarioArray;
+    const sQ = query(
+      collection(this.db, "scenario"),
+      orderBy("pageid", "asc"),
+      // orderBy("networth", "desc")
+    );
+    this.colRef = onSnapshot(sQ, (scenarios) => {
+      scenarioArray = [];
+      scenarios.forEach((scenario) => {
+        scenarioArray.push({ ...scenario.data() });
+      })
+      this.scenarios = scenarioArray;
     });
   }
 }
@@ -146,6 +211,18 @@ export default {
       &::selection {
         background: rgba($yellow, 0.5);
       }
+
+      ul {
+        list-style: none;
+        & > *:not(:last-child) {
+          margin-bottom: 2rem;
+        }
+      }
+
+      p {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+      }
     }
   }
   .panel {
@@ -153,6 +230,11 @@ export default {
     .glow-button {
       border: none;
       font-size: 0.85rem;
+    }
+  }
+  .table.scenario {
+    td {
+      vertical-align: top;
     }
   }
 }

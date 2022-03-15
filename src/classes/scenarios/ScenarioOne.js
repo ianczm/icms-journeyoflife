@@ -29,6 +29,7 @@ class ScenarioOne extends AbstractCharacterScenario {
 
         switch (this.generateCase()) {
             case 1:
+                this.character.networth += 1000;
                 this.character.health += 0.1;
                 this.character.happiness += 0.1;
                 this.character.security += 0.1;

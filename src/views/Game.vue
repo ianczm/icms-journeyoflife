@@ -208,7 +208,6 @@ export default {
   }
 
   .scenario-content {
-    display: flex;
     .text {
       h2 {
         font-weight: 200;
@@ -224,6 +223,7 @@ export default {
     color: $dark;
     font-weight: 600;
     align-items: center;
+    display: flex;
 
     i {
       margin-right: 15px;
