@@ -1,17 +1,18 @@
-import { AbstractCharacterScenario } from "./AbstractCharacterScenario"
-import { ScenarioOne } from "./ScenarioOne"
+import { Scenario } from "./Scenario"
+import { ScenarioOneA } from "./ScenarioOneA"
+import { ScenarioOneB } from "./ScenarioOneB"
 import { Character } from "../Character"
 
 class ScenarioSelector {
 
     constructor() {}
 
-    getScenario(character: Character, pageid: number) : AbstractCharacterScenario {
+    static getScenario(character: Character, pageid: number) : Scenario {
         switch (pageid) {
             case 1:
-                return new ScenarioOne(character, pageid);
-            // case 2:
-            //     return new ScenarioTwo(character, pageid);
+                return new ScenarioOneA(character, pageid);
+            case 2:
+                return new ScenarioOneB(character, pageid);
             // case 3:
             //     return new ScenarioThree(character, pageid);
             // case 4:

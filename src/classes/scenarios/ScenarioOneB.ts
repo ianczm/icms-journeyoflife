@@ -1,5 +1,5 @@
 import { Character } from "../Character";
-import { AbstractCharacterScenario } from "./AbstractCharacterScenario"
+import { Scenario } from "./Scenario"
 
 
 // Page settings here
@@ -7,7 +7,7 @@ import { AbstractCharacterScenario } from "./AbstractCharacterScenario"
 const allowMultipleSelection: boolean = false;
 
 
-class ScenarioOne extends AbstractCharacterScenario {
+class ScenarioOneB extends Scenario {
     constructor(character: Character, currentPage: number) {
         // Build scenario
         // [!] page is still hardcoded
@@ -30,20 +30,24 @@ class ScenarioOne extends AbstractCharacterScenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += 1000;
-                this.character.health += 0.1;
-                this.character.happiness += 0.1;
-                this.character.security += 0.1;
-                this.character.stress += 0.1;
+                this.character.networth += 800;
+                this.character.happiness -= 0.15;
+                this.character.stress += 0.3;
+                this.character.health -= 0.1;
                 break;
             case 2:
-                this.character.age = 2;
+                this.character.networth += 1000;
+                this.character.happiness += 0.1;
+                this.character.stress -= 0.05;
                 break;
             case 3:
-                this.character.age = 3;
+                this.character.networth += 700;
+                this.character.happiness += 0.1;
+                this.character.stress += 0.35;
+                this.character.health -= 0.1;
                 break;
             case 4:
-                this.character.age = 34;
+                this.character.networth -= 6500;
             default:
                 throw {
                     name: "UnmatchedOptionError",
@@ -66,4 +70,4 @@ class ScenarioOne extends AbstractCharacterScenario {
     }
 }
 
-export { ScenarioOne }
+export { ScenarioOneB }

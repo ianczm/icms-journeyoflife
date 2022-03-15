@@ -1,4 +1,4 @@
-import { AbstractCharacterScenario } from "./scenarios/AbstractCharacterScenario";
+import { Scenario } from "./scenarios/Scenario";
 
 class Character {
 
@@ -16,7 +16,7 @@ class Character {
 
     // Navigation
     currentpage: number;
-    scenarioHistory: Array<AbstractCharacterScenario>;
+    scenarioHistory: Array<Scenario>;
 
     // Registration
     userid: number;

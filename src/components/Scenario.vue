@@ -36,33 +36,32 @@
   </div>
 </template>
 
-<script>
-import { getFirestore, doc, onSnapshot } from "firebase/firestore"
-import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne";
+<script lang="ts">
+import { getFirestore, doc, onSnapshot, Firestore } from "firebase/firestore"
+import { defineComponent } from "vue";
+import { Scenario } from "../classes/scenarios/Scenario";
+import { ScenarioSelector } from "../classes/scenarios/ScenarioSelector";
 
-export default {
+export default defineComponent({
   props: ['pageid', 'userid', 'character', 'submitted'],
   emits: ['endGame'],
   data() {
     return {
       // Scenario and Phases
-      heading: null,
-      phase: null,
-      title: null,
-      body: null,
+      heading: null as string,
+      phase: null as string,
+      title: null as string,
+      body: null as string,
       allowMultipleSelection: false,
       options: [],
 
       // CharacterScenario Instance
       selectionsReady: false,
-      characterScenario: null,
-      selections: [],
+      characterScenario: null as Scenario,
+      selections: [] as Array<number>,
 
       // Database
-      db: null,
-      selectionsSnapshot: null,
-      scenarioContentSnapshot: null,
-      scenarioContent: null
+      db: null as Firestore,
     }
   },
   methods: {
@@ -83,6 +82,7 @@ export default {
   watch: {
     submitted(isTrue) {
       if (isTrue) {
+        console.log("Submitted is " + isTrue);
         this.characterScenario.submitAnswer();
       } else {
         console.log("Submitted is " + isTrue)
@@ -97,17 +97,18 @@ export default {
     console.log("Before mount pageid is " + this.pageid);
     // Initialise scenario
     // might need a scenario factory here
-    this.characterScenario = new ScenarioOne(this.character, this.pageid, false);
+    this.characterScenario = ScenarioSelector.getScenario(this.character, this.pageid);
+    // this.characterScenario = new ScenarioOne(this.character, this.pageid, false);
 
     // Fetch and Listen on Scenario Content
-    this.scenarioContentSnapshot = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
+    onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
       if (doc.exists()) {
-        this.scenarioContent = doc.data();
-        this.heading = this.scenarioContent.heading;
-        this.phase = this.scenarioContent.phase;
-        this.title = this.scenarioContent.title;
-        this.body = this.scenarioContent.body;
-        this.options = this.scenarioContent.options;
+        const scenarioContent = doc.data();
+        this.heading = scenarioContent.heading;
+        this.phase = scenarioContent.phase;
+        this.title = scenarioContent.title;
+        this.body = scenarioContent.body;
+        this.options = scenarioContent.options;
       } else {
         // indicates that the game has ended
         this.$emit('endGame');
@@ -123,7 +124,7 @@ export default {
       }
     });
   },
-}
+})
 </script>
 
 <style>

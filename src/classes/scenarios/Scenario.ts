@@ -12,7 +12,7 @@ import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore
 //      - updates character and history
 // 4. always listen for firebase updates e.g. allowMultipleSelections
 
-class AbstractCharacterScenario {
+class Scenario {
 
     db: Firestore;
     character: Character;
@@ -213,4 +213,4 @@ class AbstractCharacterScenario {
     }
 }
 
-export { AbstractCharacterScenario };
+export { Scenario };
