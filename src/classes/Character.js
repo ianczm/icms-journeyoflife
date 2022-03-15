@@ -19,13 +19,22 @@ class Character {
         // Register user and database characterid
         this.userid = userid;
         this.id = characterid;
+
+        // Initiate empty assets
+        this.assets = [];
+
+        // Initiate empty liabilities
+        this.liabilities = [];
     }
+
     setPage(page) {
         this.currentpage = page;
     }
+
     pushScenarioHistory(scenario) {
         this.options.push(scenario);
     }
+
     updateCharacterState(character) {
         // Page does not have to be updated as scenario
         // updates it on initialisation
@@ -39,6 +48,14 @@ class Character {
 
         // Update database with character
         // ..
+    }
+
+    pushAsset(asset) { // { amount, interest, startAge, durationYears }
+      this.assets.push(asset);
+    }
+
+    pushLiability(liability) { // { amount, interest, startAge, durationYears }
+      this.liabilities.push(liability);
     }
 }
 
