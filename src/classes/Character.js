@@ -61,6 +61,8 @@ const useridList = [
     'hQ7MPWzXxNa4nG8ascLuUNdMK8f2',
     'kNgAGZX4awggfLx2zueWdlAdRpO2',
     'K5HConYpjzTHQjfR9Z4z07E2l7f2',
+    'ujewmjucPtgl9KcSnR6efxybPfP2',
+    'paHjQZvVkoaMdThQbz73HAZOCtF2'
 ];
 
 export { Character, useridList };
