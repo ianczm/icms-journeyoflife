@@ -1,4 +1,4 @@
-import { AbstractCharacterScenario } from "/src/classes/AbstractCharacterScenario.js"
+import { AbstractCharacterScenario } from "/src/classes/scenarios/AbstractCharacterScenario.js"
 
 
 // Page settings here
