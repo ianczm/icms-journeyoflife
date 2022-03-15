@@ -29,12 +29,13 @@ The website serves as the interface where participants get to interact with vari
 ### Game
 
 - ~~update user choice selection with firebase in real time (implemented)~~
-- migrate scenarios from content document and implement calculation
 - ~~update character statistics in real time with firebase (implemented)~~
-- enable page-by-page navigation for each scenario in vue
+- [WIP] enable page-by-page navigation for each scenario in vue
     - update character's currentpage property
     - submit answer button
     - need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
+- [WIP] add accounting balance sheet below main scenario screen to show assets and liabilities
+- [TODO] migrate scenarios from content document and implement calculation
 
 ---
 
@@ -52,7 +53,7 @@ _Modify: being able to create, edit, remove, reset_
     - view and modify individual characters
     - view and modify scenarios (for easy scenario creation)
 - reset switch for any database tables
-    - reset all users to default state
+    - ~~reset all users to default state~~
     - return a list of randomly generated passwords for each user
     - ~~characters (implemented)~~
 
@@ -67,7 +68,6 @@ _Modify: being able to create, edit, remove, reset_
 ### Game
 
 - add countdown timer on the game screen
-- add accounting balance sheet below main scenario screen to show assets and liabilities
 
 ### Optimisations
 - improve mobile friendliness
