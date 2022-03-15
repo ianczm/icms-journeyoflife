@@ -27,6 +27,12 @@ const router = createRouter({
       component: Game,
       meta: {requiresAuth: true}
     },
+    // {
+    //   path: '/game:id',
+    //   name: 'Game',
+    //   component: Game,
+    //   meta: {requiresAuth: true}
+    // },
     {
       path: '/rules',
       name: 'Rules',

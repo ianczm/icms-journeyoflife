@@ -190,13 +190,16 @@ class AbstractCharacterScenario {
     // Private, creates a new database instance if it doesn't exist, if not,
     // just loads regularly
     async getDatabaseSelections() {
+        // if does not exist, create new
         const instanceRef = doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`);
         await getDoc(instanceRef).then((instance) => {
             if (instance.exists()) {
                 this.selectionsReady = true;
                 this.selections = instance.data().selections;
             } else {
-                return [];
+                setDoc(instanceRef, {
+                    selections: this.selections
+                });
             }
         });
     }

@@ -4,7 +4,18 @@
     <div class="section game">
       <div class="game-panel">
         <CharacterStats v-if="character" :character="character" />
-        <Scenario v-if="character" :character="character" :pageid="scenarioPage" :userid="userid" />
+        <Scenario
+          v-if="character"
+          :character="character"
+          :pageid="character.currentpage"
+          :userid="userid"
+          :submitted="submitted"
+          :key="character.currentpage"
+        />
+      </div>
+      <div class="submission">
+        <button v-if="!submitted" class="glow-button" @click="onSubmitClick">Submit Answer</button>
+        <button v-else class="glow-button" @click="onNextClick">Next</button>
       </div>
     </div>
   </div>
@@ -13,7 +24,7 @@
 <script>
 import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
-import { getFirestore, onSnapshot, query, where, collection } from "firebase/firestore";
+import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc } from "firebase/firestore";
 import { Character } from "/src/classes/Character.js";
 
 export default {
@@ -24,7 +35,7 @@ export default {
       // Database
       db: null,
       characterSnapshot: null,
-      
+
       // [!] should display this character according to one obtained from user!
       // this gets passed in first before the existing character is loaded
       // if the ids are the same, it works because database access only needs character id
@@ -35,7 +46,27 @@ export default {
       character: null,
 
       // Page
-      scenarioPage: 1,
+      // character.currentpage: 1,
+
+      submitted: false,
+    }
+  },
+  methods: {
+    onSubmitClick(event) {
+      this.submitted = true;
+    },
+    onNextClick(event) {
+      this.character.currentpage += 1;
+      this.submitted = false;
+      console.log("Current page is " + this.character.currentpage);
+      // update firebase with new characterpage
+      this.updateFirebaseCharacter(this.character.currentpage);
+    },
+    async updateFirebaseCharacter(pageid) {
+      const docRef = doc(this.db, "character", `${this.character.id}`)
+      await updateDoc(docRef, {
+        currentpage: pageid,
+      });
     }
   },
   created() {

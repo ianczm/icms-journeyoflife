@@ -40,6 +40,7 @@
           </div>
           <div class="panel">
             <button @click="resetAllCharacters" class="glow-button">Reset Characters</button>
+            <button @click="resetCharacterScenarios" class="glow-button">Reset Selected Options</button>
           </div>
         </div>
         <div id="scenario database">
@@ -82,7 +83,7 @@
 </template>
 
 <script>
-import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot } from "firebase/firestore"
+import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc } from "firebase/firestore"
 import { Character, useridList } from "/src/classes/Character.js";
 
 // For presentation convenience
@@ -119,6 +120,15 @@ export default {
       for (var i = 0; i < useridList.length; i++) {
         setDocs(this.db, i + 1, useridList[i]);
       }
+    },
+    async resetCharacterScenarios() {
+      console.log("Fix reset!")
+      // const csCollection = collection(this.db, "character_scenario");
+      // await getDocs(csCollection).then(csSnapshot => {
+      //   csSnapshot.forEach(cs => {
+      //     deleteDoc(cs.ref);
+      //   });
+      // });
     },
     async duplicateScenario() {
       await setDoc(
@@ -227,6 +237,7 @@ export default {
   }
   .panel {
     text-align: center;
+    @include spaceChildren(15px);
     .glow-button {
       border: none;
       font-size: 0.85rem;

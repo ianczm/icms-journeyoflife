@@ -1,20 +1,23 @@
 <template>
   <div class="scenario-content">
     <div class="text">
-      <h1>{{ heading }} <span v-if="submitted">Outcome</span></h1>
+      <h1>
+        {{ heading }}
+        <span v-if="submitted">Outcome</span>
+      </h1>
       <h2>
         <strong>{{ phase }}</strong>
         — {{ title }}
       </h2>
       <div class="divider"></div>
       <p v-if="!submitted">{{ body }}</p>
-      <p v-else>{{ options[selections[0]-1].outcome }}</p>
+      <p v-else>{{ options[selections[0] - 1].outcome }}</p>
     </div>
   </div>
   <!-- <div v-if="allowMultipleSelection" class="mcq-alert">
     <i class="fa-solid fa-circle-exclamation"></i>
     <span>You may select multiple options.</span>
-  </div> -->
+  </div>-->
   <div v-if="!submitted" class="choices">
     <ul>
       <li
@@ -29,12 +32,6 @@
       </li>
     </ul>
   </div>
-  <Teleport to=".section.game">
-    <div class="submission">
-      <button v-if="!submitted" class="glow-button" @click="onSubmitClick">Submit Answer</button>
-      <button v-else class="glow-button" @click="onNextClick">Next</button>
-    </div>
-  </Teleport>
 </template>
 
 <script>
@@ -42,7 +39,7 @@ import { getFirestore, doc, onSnapshot } from "firebase/firestore"
 import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne.js";
 
 export default {
-  props: ['pageid', 'userid', 'character'],
+  props: ['pageid', 'userid', 'character', 'submitted'],
   data() {
     return {
       // Scenario and Phases
@@ -57,7 +54,6 @@ export default {
       selectionsReady: false,
       characterScenario: null,
       selections: [],
-      submitted: false,
 
       // Database
       db: null,
@@ -80,20 +76,30 @@ export default {
       // checks local variable which is synced with firebase
       return this.selections.includes(n);
     },
-    onSubmitClick(event) {
-      this.characterScenario.submitAnswer();
-      this.submitted = true;
-    },
-    onNextClick(event) {
-      alert("Next");
+    onSubmitClick() {
+      if (this.submitted) {
+        this.characterScenario.submitAnswer();
+      }
+    }
+  },
+  watch: {
+    submitted(isTrue) {
+      if (isTrue) {
+        this.characterScenario.submitAnswer();
+      } else {
+        console.log("Submitted is " + isTrue)
+      }
     }
   },
   created() {
     this.db = getFirestore();
   },
   async beforeMount() {
+
+    console.log("Before mount pageid is " + this.pageid);
     // Initialise scenario
-    this.characterScenario = new ScenarioOne(this.character, this.pageid, this);
+    // might need a scenario factory here
+    this.characterScenario = new ScenarioOne(this.character, this.pageid, false);
 
     // Fetch and Listen on Scenario Content
     this.scenarioContentSnapshot = onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
@@ -102,9 +108,8 @@ export default {
       this.phase = this.scenarioContent.phase;
       this.title = this.scenarioContent.title;
       this.body = this.scenarioContent.body;
-      this.allowMultipleSelection = this.scenarioContent.allowMultipleSelection;
       this.options = this.scenarioContent.options;
-      // added pageid and isquestion as properties
+      // this is for character
       // should add assets and liabilities
       // assets = {value, interest, interestDuration}
     });
