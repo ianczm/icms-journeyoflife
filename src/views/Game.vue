@@ -5,17 +5,49 @@
       <div class="game-panel">
         <CharacterStats v-if="character" :character="character" />
         <Scenario
-          v-if="character"
+          v-if="character && !endGame"
           :character="character"
           :pageid="character.currentpage"
           :userid="userid"
           :submitted="submitted"
           :key="character.currentpage"
+          @end-game="triggerEndGame"
         />
+        <div v-if="endGame" class="end-game">
+          <h1>Congratulations!</h1>
+          <h2>Thank you for playing Journey of Life with us</h2>
+          <div class="divider"></div>
+          <p>Here are some statistics that you have managed to achieve during your life,
+            as you faced challenge after challenge.
+          </p>
+          <div class="choices end-game-stats">
+            <ul>
+              <li>
+                <p>Highest Score</p>
+                <h2>3,430.00</h2>
+              </li>
+              <li>
+                <p>Highest Net Worth</p>
+                <h2>RM 7,000.00</h2>
+              </li>
+              <li>
+                <p>Most Happy At</p>
+                <h2>Age 35</h2>
+              </li>
+              <li>
+                <p>Most Stressed At</p>
+                <h2>Age 27</h2>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="submission">
+      <div v-if="!endGame" class="submission">
         <button v-if="!submitted" class="glow-button" @click="onSubmitClick">Submit Answer</button>
         <button v-else class="glow-button" @click="onNextClick">Next</button>
+      </div>
+      <div v-else class="submission">
+        <button class="glow-button" @click="onEndGameClick">Back to Home</button>
       </div>
     </div>
   </div>
@@ -49,6 +81,7 @@ export default {
       // character.currentpage: 1,
 
       submitted: false,
+      endGame: false,
     }
   },
   methods: {
@@ -61,6 +94,14 @@ export default {
       console.log("Current page is " + this.character.currentpage);
       // update firebase with new characterpage
       this.updateFirebaseCharacter(this.character.currentpage);
+    },
+    triggerEndGame() {
+      // show the endgame page
+      this.endGame = true;
+    },
+    onEndGameClick() {
+      // navigate away from the endgame page
+      this.$router.push({name: "Home"});
     },
     async updateFirebaseCharacter(pageid) {
       const docRef = doc(this.db, "character", `${this.character.id}`)
@@ -110,9 +151,9 @@ export default {
 
 .game-panel {
   display: grid;
-  grid-template-columns: 2fr 4fr;
-  grid-template-rows: min-content 45px min-content;
-  grid-template-areas: "character scenario" "character alert" "character choices";
+  grid-template-columns: 1fr 2fr;
+  // grid-template-rows: min-content 45px min-content;
+  grid-template-areas: "character scenario";
   grid-gap: 20px 50px;
 
   h1 {
@@ -238,11 +279,15 @@ export default {
     }
   }
 
-  .scenario-content {
+  .scenario-content, .end-game {
     .text {
       h2 {
         font-weight: 200;
       }
+    }
+
+    p {
+      margin-bottom: 2rem;
     }
   }
 
@@ -263,7 +308,19 @@ export default {
   }
 
   .choices {
-    grid-area: choices;
+
+    // [!] need to refactor
+    &.end-game-stats {
+      p {
+        margin-bottom: 10px;
+        color: white;
+      }
+      h2 {
+        color: $yellow;
+        margin-bottom: 0;
+      }
+    }
+
     ul {
       list-style: none;
       display: grid;
@@ -276,6 +333,11 @@ export default {
           color: white;
           transition: color 0.2s ease;
           // line-height: 1.15;
+        }
+
+        h2 {
+          color: $yellow;
+          transition: color 0.2s ease;
         }
 
         p {
@@ -299,9 +361,9 @@ export default {
           // mix-blend-mode: screen;
           @include createGlass($yellow, 1, 25px, $yellow, 0.05);
 
-          h3,
+          h3, h2,
           p {
-            color: black;
+            color: $dark;
           }
 
           p {

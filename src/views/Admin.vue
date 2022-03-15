@@ -122,13 +122,13 @@ export default {
       }
     },
     async resetCharacterScenarios() {
-      console.log("Fix reset!")
-      // const csCollection = collection(this.db, "character_scenario");
-      // await getDocs(csCollection).then(csSnapshot => {
-      //   csSnapshot.forEach(cs => {
-      //     deleteDoc(cs.ref);
-      //   });
-      // });
+      // console.log("Fix reset!")
+      const csCollection = collection(this.db, "character_scenario");
+      await getDocs(csCollection).then(csSnapshot => {
+        csSnapshot.forEach(cs => {
+          deleteDoc(cs.ref);
+        });
+      });
     },
     async duplicateScenario() {
       await setDoc(
