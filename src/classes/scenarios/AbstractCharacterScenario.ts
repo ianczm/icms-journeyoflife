@@ -1,5 +1,5 @@
-import { Character } from '/src/classes/Character.js';
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { Character } from '../Character';
+import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
 
 
 // Usage Flow
@@ -13,7 +13,15 @@ import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 // 4. always listen for firebase updates e.g. allowMultipleSelections
 
 class AbstractCharacterScenario {
-    constructor(character, currentPage, allowMultipleSelection) {
+
+    db: Firestore;
+    character: Character;
+    currentPage: number;
+    selectionsReady: boolean;
+    selections: Array<number>;
+    allowMultipleSelection: boolean;
+
+    constructor(character: Character, currentPage: number, allowMultipleSelection: boolean) {
 
         // Initialise firebase
         this.db = getFirestore();
@@ -35,7 +43,7 @@ class AbstractCharacterScenario {
     }
 
     // Public, onClick event
-    updateSelectedOptions(optionNumber) {
+    updateSelectedOptions(optionNumber: number) {
         // To update the database as participants select options
         // to be displayed to others in real time
 
@@ -91,7 +99,7 @@ class AbstractCharacterScenario {
         }
     }
 
-    calculateScore() {
+    calculateScore(): number {
 
         // cap quality of life at 2
         var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
@@ -106,7 +114,7 @@ class AbstractCharacterScenario {
         return bonus * score;
     }
 
-    handleScoreOverflow() {
+    handleScoreOverflow(): number {
         // in case there is overflow, these 4 metrics will add a bonus
         // to final score (which can be negative if the overflow left-sided)
         // positive overflow > 0
@@ -152,12 +160,12 @@ class AbstractCharacterScenario {
     }
 
     // Private, to be overridden by subclasses
-    processAnswer() {
+    processAnswer(): void {
         // Logic for performing calculations
     }
 
     // Private, to be overridden by subclasses
-    generateCase() {
+    generateCase(): void {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 
@@ -170,7 +178,7 @@ class AbstractCharacterScenario {
     }
 
     // Private, validation check
-    canProceedWithMultipleSelection() {
+    canProceedWithMultipleSelection(): boolean {
         return this.allowMultipleSelection && this.selections.length >= 1;
     }
 

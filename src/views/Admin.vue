@@ -84,7 +84,7 @@
 
 <script>
 import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc } from "firebase/firestore"
-import { Character, useridList } from "/src/classes/Character.js";
+import { Character, useridList } from "/src/classes/Character";
 
 // For presentation convenience
 Number.prototype.toLocaleFixed = function (n) {

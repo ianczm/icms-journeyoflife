@@ -38,7 +38,7 @@
 
 <script>
 import { getFirestore, doc, onSnapshot } from "firebase/firestore"
-import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne.js";
+import { ScenarioOne } from "/src/classes/scenarios/ScenarioOne";
 
 export default {
   props: ['pageid', 'userid', 'character', 'submitted'],

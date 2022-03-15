@@ -57,7 +57,7 @@
 import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
 import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc } from "firebase/firestore";
-import { Character } from "/src/classes/Character.js";
+import { Character } from "/src/classes/Character";
 
 export default {
   components: { Scenario, CharacterStats },

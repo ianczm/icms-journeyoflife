@@ -1,19 +1,20 @@
-import { AbstractCharacterScenario } from "/src/classes/scenarios/AbstractCharacterScenario.js"
+import { Character } from "../Character";
+import { AbstractCharacterScenario } from "./AbstractCharacterScenario"
 
 
 // Page settings here
 // Allow multiple selection?
-const allowMultipleSelection = false;
+const allowMultipleSelection: boolean = false;
 
 
 class ScenarioOne extends AbstractCharacterScenario {
-    constructor(character, currentPage) {
+    constructor(character: Character, currentPage: number) {
         // Build scenario
         // [!] page is still hardcoded
         super(character, currentPage, allowMultipleSelection);
     }
     // Private, to be modified
-    processAnswer() {
+    processAnswer(): void {
         // Logic for selecting operations and performing
         // calculations here.
 
@@ -52,7 +53,7 @@ class ScenarioOne extends AbstractCharacterScenario {
     }
 
     // Private, to be overridden by subclasses
-    generateCase() {
+    generateCase(): number {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 

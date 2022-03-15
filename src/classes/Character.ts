@@ -1,4 +1,27 @@
+import { AbstractCharacterScenario } from "./scenarios/AbstractCharacterScenario";
+
 class Character {
+
+    age: number;
+
+    // Main Metrics
+    score: number;
+    networth: number;
+
+    // Statistics
+    happiness: number;
+    health: number;
+    security: number;
+    stress: number;
+
+    // Navigation
+    currentpage: number;
+    scenarioHistory: Array<AbstractCharacterScenario>;
+
+    // Registration
+    userid: number;
+    id: number; // for Character
+
     constructor(userid, characterid) {
         // These fields should not be changed directly
         // should only be through update character
@@ -24,7 +47,7 @@ class Character {
         this.currentpage = page;
     }
     pushScenarioHistory(scenario) {
-        this.options.push(scenario);
+        this.scenarioHistory.push(scenario);
     }
     updateCharacterState(character) {
         // Page does not have to be updated as scenario
