@@ -162,10 +162,16 @@ class Scenario {
   // Private, to be overridden by subclasses
   processAnswer(): void {
     // Logic for performing calculations
+    this.character.age += 1;
+    this.character.networth += 5000;
+    this.character.happiness *= 1.01;
+    this.character.stress *= 1.01;
+    this.character.health *= 1.01;
+    this.character.security *= 1.01;
   }
 
   // Private, to be overridden by subclasses
-  generateCase(): void {
+  generateCase(): number {
     // Logic for parsing user input and generating
     // a case depending on combination of selections.
 
@@ -175,6 +181,7 @@ class Scenario {
     // e.g. if options 2 and 3 are selected, generate case 5
 
     // this.currentlySelectedOptions
+    return 1;
   }
 
   // Private, validation check
