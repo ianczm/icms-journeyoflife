@@ -24,6 +24,8 @@ The website serves as the interface where participants get to interact with vari
 - ~~prevent character resetting when loading the game pane (implemented)~~
 - ~~add character id as a property to Character (implemented)~~
 
+- realign calculations so that we don't get stress to 100% after first two scenarios lmao
+
 ## Must Have
 
 ### Game
@@ -36,6 +38,13 @@ The website serves as the interface where participants get to interact with vari
     - need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
 - [WIP] add accounting balance sheet below main scenario screen to show assets and liabilities
 - [TODO] migrate scenarios from content document and implement calculation
+
+- add paragraphs to scenario (allow admin to add scenarios)
+- store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
+- game needs to figure out if character is on the outcome screen or not to sync with teammates
+- networth very negative at the start
+- improve laptop friendliness (font weight)
+- progress bar for how many questions left
 
 ---
 
@@ -71,3 +80,5 @@ _Modify: being able to create, edit, remove, reset_
 
 ### Optimisations
 - improve mobile friendliness
+
+---
