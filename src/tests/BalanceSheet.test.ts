@@ -1,6 +1,6 @@
-import { assert } from "@vue/compiler-core";
 import { test, expect, describe } from "vitest";
 import { BalanceSheet } from "../classes/character/BalanceSheet";
+import { CharacterInitial } from "../classes/character/Character";
 import {
   InterestType,
   Asset,
@@ -49,7 +49,7 @@ describe("BalanceSheet", () => {
   // pushAsset
   test("shouldPushAsset", () => {
 
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushAsset(assetOne);
 
@@ -61,7 +61,7 @@ describe("BalanceSheet", () => {
   // pushLiability
   test("shouldPushLiability", () => {
 
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushLiability(liabilityOne);
 
@@ -73,7 +73,7 @@ describe("BalanceSheet", () => {
   // remainingAssets
   test("shouldTotalAssetsWithoutAge", () => {
 
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushAsset(assetOne);
     balanceSheet.pushAsset(assetTwo);
@@ -86,7 +86,7 @@ describe("BalanceSheet", () => {
   test("shouldTotalAssetsWithAge", () => {
 
     const addedAge = 4;
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushAsset(assetOne);
     balanceSheet.pushAsset(assetTwo);
@@ -107,7 +107,7 @@ describe("BalanceSheet", () => {
   // remainingLiabilities
   test("shouldTotalLiabilitiesWithoutAge", () => {
 
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushLiability(liabilityOne);
     balanceSheet.pushLiability(liabilityTwo);
@@ -127,7 +127,7 @@ describe("BalanceSheet", () => {
   test("shouldTotalLiabilitiesWithoutPaymentWithAge", () => {
 
     const addedAge = 4;
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushLiability(liabilityOne);
     balanceSheet.pushLiability(liabilityTwo);
@@ -151,7 +151,7 @@ describe("BalanceSheet", () => {
   test("shouldAutoPayLiabilities", () => {
 
     const addedAge = 4;
-    const balanceSheet = new BalanceSheet();
+    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
 
     balanceSheet.pushLiability(liabilityOne);
     balanceSheet.pushLiability(liabilityTwo);

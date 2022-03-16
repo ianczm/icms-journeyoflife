@@ -1,6 +1,10 @@
 import { Scenario } from "../scenarios/Scenario";
 import { BalanceSheet } from "./BalanceSheet";
 
+enum CharacterInitial {
+    CASH = 7500,
+}
+
 class Character {
 
     age: number;
@@ -34,7 +38,6 @@ class Character {
         this.age = 15;
         this.happiness = 0.5;
         this.health = 0.5;
-        this.networth = 5000;
         this.score = 1250;
         this.security = 0.5;
         this.stress = 0.5;
@@ -49,7 +52,10 @@ class Character {
         this.userid = userid;
         this.id = characterid;
 
-        this.balanceSheet = new BalanceSheet();
+        // to be replaced with balanceSheet.cash
+        this.networth = CharacterInitial.CASH;
+
+        this.balanceSheet = new BalanceSheet(CharacterInitial.CASH);
     }
 
     setPage(page) {
@@ -107,4 +113,4 @@ const useridList = [
     'paHjQZvVkoaMdThQbz73HAZOCtF2'
 ];
 
-export { Character, useridList };
+export { Character, useridList, CharacterInitial };

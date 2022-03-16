@@ -11,11 +11,13 @@ class BalanceSheet implements BS {
   assets: Assets;
   liabilities: Liabilities;
   amountPaid: number;
+  cash: number;
 
-  constructor() {
+  constructor(cash) {
     this.assets = [];
     this.liabilities = [];
     this.amountPaid = 0;
+    this.cash = cash;
   }
 
   // Add new amount
