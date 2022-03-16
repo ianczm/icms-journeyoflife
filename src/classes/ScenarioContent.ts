@@ -1,4 +1,4 @@
-import { doc, Firestore, setDoc } from "firebase/firestore";
+import { doc, Firestore, getDoc, setDoc } from "firebase/firestore";
 
 class Options {
 
@@ -46,6 +46,25 @@ class ScenarioContent {
             ...JSON.parse(JSON.stringify(this))
         });
     }
+
+    async retrieveFromDatabase(db: Firestore, pageid: number) {
+        const docRef = doc(db, 'scenario', `${pageid}`)
+        await getDoc(docRef).then((snapshot) => {
+            const data = snapshot.data();
+            this.pageid = data.id;
+            this.heading = data.heading;
+            this.phase = data.phase;
+            this.title = data.title;
+            this.body = data.body;
+            this.options = data.options;
+        });
+    }
 }
 
-export { ScenarioContent, Options }
+async function retrieveScenarioFromDatabase(db: Firestore, pageid: number): Promise<ScenarioContent> {
+    const docRef = doc(db, 'scenario', `${pageid}`)
+    const snapshot = await getDoc(docRef);
+    return snapshot.data() as ScenarioContent;
+}
+
+export { ScenarioContent, Options, retrieveScenarioFromDatabase }

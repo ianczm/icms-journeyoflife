@@ -69,7 +69,7 @@
 <script lang="ts">
 import { Firestore, getFirestore } from "@firebase/firestore";
 import { defineComponent } from "@vue/runtime-core"
-import { ScenarioContent, Options } from "../../classes/ScenarioContent"
+import { ScenarioContent, Options, retrieveScenarioFromDatabase } from "../../classes/ScenarioContent"
 
 export default defineComponent({
     data() {
@@ -87,6 +87,17 @@ export default defineComponent({
 
             db: null as Firestore
         }
+    },
+    beforeMount() {
+        const sampleScenario = retrieveScenarioFromDatabase(this.db, 1);
+        sampleScenario.then(sample => {
+            this.pageid = sample.pageid;
+            this.heading = sample.heading;
+            this.phase = sample.phase;
+            this.title = sample.title;
+            this.body = sample.body;
+            this.options = sample.options;
+        })
     },
     created() {
         this.db = getFirestore();
