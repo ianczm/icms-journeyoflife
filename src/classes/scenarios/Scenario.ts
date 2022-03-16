@@ -20,6 +20,7 @@ class Scenario {
   selectionsReady: boolean;
   selections: Array<number>;
   allowMultipleSelection: boolean;
+  hasCompleted: boolean;
 
   constructor(character: Character, currentPage: number, allowMultipleSelection: boolean) {
 
@@ -31,6 +32,7 @@ class Scenario {
 
     // Scenario current page
     this.currentPage = currentPage;
+    this.hasCompleted = false;
     // Update current page of character
     // [!] need to find out how to update currentPage in the database
 
@@ -91,6 +93,9 @@ class Scenario {
       this.character.score = this.calculateScore();
 
       // Find a way to update the database
+      this.hasCompleted = true;
+
+      this.createOrUpdateDatabaseInstance();
       this.updateCharacterDatabaseInstance();
 
     } catch (e) {
@@ -101,6 +106,8 @@ class Scenario {
 
   calculateScore(): number {
 
+    // Implement some default behaviour
+    
     // cap quality of life at 2
     var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
 
@@ -111,7 +118,13 @@ class Scenario {
 
     // return the modified score after weighting by bonusBuffer
     // will either be a small increase or decrease
-    return bonus * score;
+    var result = (bonus * score) + 1250;
+
+    if (this.character.networth <= 0) {
+      return 1250 * bonus;
+    } else {
+      return result * bonus;
+    }
   }
 
   handleScoreOverflow(): number {
@@ -162,10 +175,16 @@ class Scenario {
   // Private, to be overridden by subclasses
   processAnswer(): void {
     // Logic for performing calculations
+    this.character.age += 1;
+    this.character.networth += 5000;
+    this.character.happiness *= 1.01;
+    this.character.stress *= 1.01;
+    this.character.health *= 1.01;
+    this.character.security *= 1.01;
   }
 
   // Private, to be overridden by subclasses
-  generateCase(): void {
+  generateCase(): number {
     // Logic for parsing user input and generating
     // a case depending on combination of selections.
 
@@ -175,6 +194,7 @@ class Scenario {
     // e.g. if options 2 and 3 are selected, generate case 5
 
     // this.currentlySelectedOptions
+    return 1;
   }
 
   // Private, validation check
@@ -186,10 +206,12 @@ class Scenario {
   async createOrUpdateDatabaseInstance() {
     await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
       selections: this.selections,
+      hasCompleted: this.hasCompleted
     });
   }
 
   async updateCharacterDatabaseInstance() {
+    console.log("After submission: " + this.hasCompleted);
     await setDoc(doc(this.db, "character", `${this.character.id}`), {
       ...this.character
     });
@@ -204,9 +226,11 @@ class Scenario {
       if (instance.exists()) {
         this.selectionsReady = true;
         this.selections = instance.data().selections;
+        this.hasCompleted = instance.data().hasCompleted;
       } else {
         setDoc(instanceRef, {
-          selections: this.selections
+          selections: this.selections,
+          hasCompleted: this.hasCompleted
         });
       }
     });

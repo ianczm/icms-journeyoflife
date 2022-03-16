@@ -33,15 +33,15 @@ class ScenarioOneA extends Scenario {
         switch (this.generateCase()) {
             case 1:
                 this.character.networth -= 100000;
-                this.character.stress += 0.2;
+                this.character.stress += 0.02;
                 break;
             case 2:
                 this.character.networth -= 45000;
-                this.character.stress += 0.15;
+                this.character.stress += 0.015;
                 break;
             case 3:
                 this.character.networth -= 75000;
-                this.character.stress += 0.1;
+                this.character.stress += 0.01;
                 break;
 
             default:

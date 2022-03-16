@@ -20,6 +20,7 @@ class ScenarioSelector {
             // case 5:
             //     return new ScenarioFive(character, pageid);
             default:
+                return new Scenario(character, pageid, false);
                 break;
         }
     }

@@ -4,14 +4,14 @@
       <div class="text">
         <h1>
           {{ heading }}
-          <span v-if="submitted">Outcome</span>
+          <span v-if="showOutcome">Outcome</span>
         </h1>
         <h2>
           <strong>{{ phase }}</strong>
           — {{ title }}
         </h2>
         <div class="divider"></div>
-        <p v-if="!submitted">{{ body }}</p>
+        <p v-if="!showOutcome">{{ body }}</p>
         <p v-else>{{ options[selections[0] - 1].outcome }}</p>
       </div>
     </div>
@@ -19,7 +19,7 @@
     <i class="fa-solid fa-circle-exclamation"></i>
     <span>You may select multiple options.</span>
     </div>-->
-    <div v-if="!submitted" class="choices">
+    <div v-if="!showOutcome" class="choices">
       <ul>
         <li
           v-for="n in options.length"
@@ -43,8 +43,8 @@ import { Scenario } from "../classes/scenarios/Scenario";
 import { ScenarioSelector } from "../classes/scenarios/ScenarioSelector";
 
 export default defineComponent({
-  props: ['pageid', 'userid', 'character', 'submitted'],
-  emits: ['endGame'],
+  props: ['pageid', 'character', 'submitted'],
+  emits: ['endGame', 'showOutcome', 'doNotShowOutcome'],
   data() {
     return {
       // Scenario and Phases
@@ -59,6 +59,7 @@ export default defineComponent({
       selectionsReady: false as boolean,
       characterScenario: null as Scenario,
       selections: [] as Array<number>,
+      hasCompleted: false as boolean,
 
       // Database
       db: null as Firestore,
@@ -79,15 +80,17 @@ export default defineComponent({
       }
     }
   },
-  watch: {
-    submitted(isTrue) {
-      if (isTrue) {
-        console.log("Submitted is " + isTrue);
-        this.characterScenario.submitAnswer();
-      } else {
-        console.log("Submitted is " + isTrue)
-      }
+  computed: {
+    showOutcome() {
+      return this.submitted || this.hasCompleted;
     }
+  },
+  watch: {
+    submitted(isClicked) {
+      if (isClicked) {
+        this.characterScenario.submitAnswer();
+      }
+    },
   },
   created() {
     this.db = getFirestore();
@@ -118,7 +121,14 @@ export default defineComponent({
     // load in existing selections
     onSnapshot(doc(this.db, "character_scenario", `${this.character.id}_${this.pageid}`), (selectionSnapshot) => {
       if (selectionSnapshot.exists()) {
-        this.selections = selectionSnapshot.data().selections;
+        const data = selectionSnapshot.data() as Scenario;
+        this.selections = data.selections;
+        this.hasCompleted = data.hasCompleted;
+        if (this.hasCompleted) {
+          this.$emit('showOutcome');
+        } else {
+          this.$emit('doNotShowOutcome');
+        }
       } else {
         this.selections = [];
       }

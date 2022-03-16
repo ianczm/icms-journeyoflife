@@ -8,10 +8,11 @@
           v-if="character && !endGame"
           :character="character"
           :pageid="character.currentpage"
-          :userid="userid"
           :submitted="submitted"
           :key="character.currentpage"
           @end-game="triggerEndGame"
+          @show-outcome="enableShowOutcome"
+          @do-not-show-outcome="disableShowOutcome"
         />
         <div v-if="endGame" class="end-game">
           <h1>Congratulations!</h1>
@@ -43,8 +44,8 @@
         </div>
       </div>
       <div v-if="!endGame" class="submission">
-        <button v-if="!submitted" class="glow-button" @click="onSubmitClick">Submit Answer</button>
-        <button v-else class="glow-button" @click="onNextClick">Next</button>
+        <button v-if="showOutcome" class="glow-button" @click="onNextClick">Next</button>
+        <button v-else class="glow-button" @click="onSubmitClick">Submit Answer</button>
       </div>
       <div v-else class="submission">
         <button class="glow-button" @click="onEndGameClick">Back to Home</button>
@@ -53,20 +54,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
-import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc } from "firebase/firestore";
-import { Character } from "/src/classes/character/Character";
+import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc, getDoc, Firestore } from "firebase/firestore";
+import { Character } from "../classes/character/Character";
+import { defineComponent } from "@vue/runtime-core";
 
-export default {
+export default defineComponent({
   components: { Scenario, CharacterStats },
   inject: ['userid', 'username'],
   data() {
     return {
       // Database
-      db: null,
-      characterSnapshot: null,
+      db: null as Firestore,
 
       // [!] should display this character according to one obtained from user!
       // this gets passed in first before the existing character is loaded
@@ -81,12 +82,20 @@ export default {
       // character.currentpage: 1,
 
       submitted: false,
+      showOutcome: true,
+
       endGame: false,
     }
   },
   methods: {
     onSubmitClick(event) {
       this.submitted = true;
+    },
+    enableShowOutcome() {
+      this.showOutcome = true;
+    },
+    disableShowOutcome() {
+      this.showOutcome = false;
     },
     onNextClick(event) {
       this.character.currentpage += 1;
@@ -117,13 +126,13 @@ export default {
     // Query characterid based on userid
     const characteridQuery = query(collection(this.db, "character"), where("userid", "==", `${this.userid}`));
 
-    this.characterSnapshot = onSnapshot(characteridQuery, (characters) => {
+    onSnapshot(characteridQuery, (characters) => {
       characters.forEach(character => {
         this.character = Object.assign(character.data(), Character);
-      })
+      });
     });
   }
-}
+})
 </script>
 
 <style lang="scss">
