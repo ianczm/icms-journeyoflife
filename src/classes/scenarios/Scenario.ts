@@ -101,17 +101,23 @@ class Scenario {
 
   calculateScore(): number {
 
-    // cap quality of life at 2
-    var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
+    // Implement some default behaviour
 
-    // Perform score base calculation
-    var score = this.character.networth * qualityOfLife * this.character.health * this.character.security;
+    if (this.character.networth <= 0) {
+      return 1250;
+    } else {
+      // cap quality of life at 2
+      var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
 
-    var bonus = this.handleScoreOverflow();
+      // Perform score base calculation
+      var score = this.character.networth * qualityOfLife * this.character.health * this.character.security;
 
-    // return the modified score after weighting by bonusBuffer
-    // will either be a small increase or decrease
-    return bonus * score;
+      var bonus = this.handleScoreOverflow();
+
+      // return the modified score after weighting by bonusBuffer
+      // will either be a small increase or decrease
+      return (bonus * score) + 1250;
+    }
   }
 
   handleScoreOverflow(): number {
