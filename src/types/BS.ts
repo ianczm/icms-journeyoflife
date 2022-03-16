@@ -3,6 +3,7 @@ export enum InterestType {
   COMPOUND,
 }
 export interface Asset {
+  name: string;
   amount: number;
   interestType: InterestType;
   interest: number;
@@ -13,6 +14,7 @@ export interface Asset {
 export type Assets = Asset[];
 
 export interface Liability {
+  name: string;
   amount: number;
   interest: number;
   startAge: number;
@@ -33,6 +35,8 @@ export interface BS {
 
   // Return remaining amount
   remainingAssets: (age: number) => number;
+
+  liquidate: (name: string, age: number) => number;
 
   remainingLiabilities: (age: number) => number;
 

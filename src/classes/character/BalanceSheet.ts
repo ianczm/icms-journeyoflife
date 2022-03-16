@@ -27,7 +27,7 @@ class BalanceSheet implements BS {
     this.liabilities.push(liability);
   }
 
-  // Return remaining amount
+  // Assets methods
   remainingAssets(age: number): number {
     const calculateYield = (currSum: number, asset: Asset) => {
       const diff = age - asset.startAge;
@@ -52,6 +52,40 @@ class BalanceSheet implements BS {
     };
 
     return this.assets.reduce(calculateYield, 0);
+  }
+
+  liquidate(name: string, age: number): number {
+    let found = false;
+
+    const calculateYield = (asset: Asset) => {
+      const diff = age - asset.startAge;
+      if (diff >= asset.durationYears) {
+        if (asset.interestType == InterestType.COMPOUND) {
+          return (
+            asset.amount * Math.pow(1 + asset.interest, asset.durationYears)
+          );
+        } else {
+          return asset.amount * (1 + asset.interest * asset.durationYears);
+        }
+      } else {
+        if (asset.interestType == InterestType.COMPOUND) {
+          return asset.amount * Math.pow(1 + asset.interest, diff);
+        } else {
+          return asset.amount * (1 + asset.interest * diff);
+        }
+      }
+    };
+
+    for (let i = 0; i < this.assets.length; i++) {
+      if ((this.assets[i].name = name)) {
+        found = true;
+        const res = calculateYield(this.assets[i]);
+        this.assets.splice(i, 1);
+        return res;
+      }
+    }
+
+    return 0;
   }
 
   remainingLiabilities(age: number): number {
