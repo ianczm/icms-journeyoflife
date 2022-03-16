@@ -1,19 +1,20 @@
-import { AbstractCharacterScenario } from "/src/classes/AbstractCharacterScenario.js"
+import { Character } from "../character/Character";
+import { Scenario } from "./Scenario"
 
 
 // Page settings here
 // Allow multiple selection?
-const allowMultipleSelection = false;
+const allowMultipleSelection: boolean = false;
 
 
-class ScenarioOne extends AbstractCharacterScenario {
-    constructor(character, currentPage) {
+class ScenarioOneA extends Scenario {
+    
+    constructor(character: Character, currentPage: number) {
         // Build scenario
-        // [!] page is still hardcoded
         super(character, currentPage, allowMultipleSelection);
     }
     // Private, to be modified
-    processAnswer() {
+    processAnswer(): void {
         // Logic for selecting operations and performing
         // calculations here.
 
@@ -27,22 +28,22 @@ class ScenarioOne extends AbstractCharacterScenario {
         // Do NOT calculate score here, score will be
         // updated before submission automatically
 
+        this.character.happiness -= 0.05;
+
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += 1000;
-                this.character.health += 0.1;
-                this.character.happiness += 0.1;
-                this.character.security += 0.1;
-                this.character.stress += 0.1;
+                this.character.networth -= 100000;
+                this.character.stress += 0.2;
                 break;
             case 2:
-                this.character.age = 2;
+                this.character.networth -= 45000;
+                this.character.stress += 0.15;
                 break;
             case 3:
-                this.character.age = 3;
+                this.character.networth -= 75000;
+                this.character.stress += 0.1;
                 break;
-            case 4:
-                this.character.age = 34;
+
             default:
                 throw {
                     name: "UnmatchedOptionError",
@@ -52,7 +53,7 @@ class ScenarioOne extends AbstractCharacterScenario {
     }
 
     // Private, to be overridden by subclasses
-    generateCase() {
+    generateCase(): number {
         // Logic for parsing user input and generating
         // a case depending on combination of selections.
 
@@ -65,4 +66,4 @@ class ScenarioOne extends AbstractCharacterScenario {
     }
 }
 
-export { ScenarioOne }
+export { ScenarioOneA }

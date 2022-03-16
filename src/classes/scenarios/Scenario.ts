@@ -1,5 +1,6 @@
-import { Character } from "/src/classes/Character.js";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { Character } from '../character/Character';
+import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
+
 
 // Usage Flow
 // 1. create new scenario, constructing with character as the one to be modified
@@ -11,8 +12,17 @@ import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 //      - updates character and history
 // 4. always listen for firebase updates e.g. allowMultipleSelections
 
-class AbstractCharacterScenario {
-  constructor(character, currentPage, allowMultipleSelection) {
+class Scenario {
+
+  db: Firestore;
+  character: Character;
+  currentPage: number;
+  selectionsReady: boolean;
+  selections: Array<number>;
+  allowMultipleSelection: boolean;
+
+  constructor(character: Character, currentPage: number, allowMultipleSelection: boolean) {
+
     // Initialise firebase
     this.db = getFirestore();
 
@@ -33,7 +43,7 @@ class AbstractCharacterScenario {
   }
 
   // Public, onClick event
-  updateSelectedOptions(optionNumber) {
+  updateSelectedOptions(optionNumber: number) {
     // To update the database as participants select options
     // to be displayed to others in real time
 
@@ -41,7 +51,7 @@ class AbstractCharacterScenario {
       // toggle behavior: deactivate selection if already active
       this.selections = this.selections.filter((option) => {
         return option != optionNumber;
-      });
+      })
     } else {
       // normal behavior, add option
       if (this.selections && this.allowMultipleSelection) {
@@ -55,6 +65,7 @@ class AbstractCharacterScenario {
     // Update database with options
 
     this.createOrUpdateDatabaseInstance();
+
   }
 
   // Public, onClick event
@@ -64,13 +75,13 @@ class AbstractCharacterScenario {
       if (!this.selections) {
         throw {
           name: "NoSelectionError",
-          message: "Please choose at least one option.",
-        };
+          message: "Please choose at least one option."
+        }
       } else if (this.selections.length > 1 && !this.allowMultipleSelection) {
         throw {
           name: "MultipleSelectionError",
-          message: "You may only choose one option.",
-        };
+          message: "You may only choose one option."
+        }
       }
 
       // Proceed with answer processing
@@ -81,22 +92,20 @@ class AbstractCharacterScenario {
 
       // Find a way to update the database
       this.updateCharacterDatabaseInstance();
+
     } catch (e) {
       // Somehow render this to HTML
       alert(e.name + " " + e.message);
     }
   }
 
-  calculateScore() {
+  calculateScore(): number {
+
     // cap quality of life at 2
-    var qualityOfLife = this.character.happiness + 1 - this.character.stress;
+    var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
 
     // Perform score base calculation
-    var score =
-      this.character.networth *
-      qualityOfLife *
-      this.character.health *
-      this.character.security;
+    var score = this.character.networth * qualityOfLife * this.character.health * this.character.security;
 
     var bonus = this.handleScoreOverflow();
 
@@ -105,7 +114,7 @@ class AbstractCharacterScenario {
     return bonus * score;
   }
 
-  handleScoreOverflow() {
+  handleScoreOverflow(): number {
     // in case there is overflow, these 4 metrics will add a bonus
     // to final score (which can be negative if the overflow left-sided)
     // positive overflow > 0
@@ -146,53 +155,43 @@ class AbstractCharacterScenario {
     }
 
     // average
-    var bonus =
-      0.25 *
-        (healthOverflow +
-          securityOverflow +
-          happinessOverflow +
-          stressOverflow) +
-      1;
+    var bonus = (0.25 * (healthOverflow + securityOverflow + happinessOverflow + stressOverflow)) + 1;
     return bonus;
   }
 
   // Private, to be overridden by subclasses
-  processAnswer() {
+  processAnswer(): void {
     // Logic for performing calculations
   }
 
   // Private, to be overridden by subclasses
-  generateCase() {
+  generateCase(): void {
     // Logic for parsing user input and generating
     // a case depending on combination of selections.
+
     // Used in processAnswer to determine what calculation
     // to perform
+
     // e.g. if options 2 and 3 are selected, generate case 5
+
     // this.currentlySelectedOptions
   }
 
   // Private, validation check
-  canProceedWithMultipleSelection() {
+  canProceedWithMultipleSelection(): boolean {
     return this.allowMultipleSelection && this.selections.length >= 1;
   }
 
   // Private, create new database instance
   async createOrUpdateDatabaseInstance() {
-    await setDoc(
-      doc(
-        this.db,
-        "character_scenario",
-        `${this.character.id}_${this.currentPage}`
-      ),
-      {
-        selections: this.selections,
-      }
-    );
+    await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
+      selections: this.selections,
+    });
   }
 
   async updateCharacterDatabaseInstance() {
     await setDoc(doc(this.db, "character", `${this.character.id}`), {
-      ...this.character,
+      ...this.character
     });
   }
 
@@ -200,22 +199,19 @@ class AbstractCharacterScenario {
   // just loads regularly
   async getDatabaseSelections() {
     // if does not exist, create new
-    const instanceRef = doc(
-      this.db,
-      "character_scenario",
-      `${this.character.id}_${this.currentPage}`
-    );
+    const instanceRef = doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`);
     await getDoc(instanceRef).then((instance) => {
       if (instance.exists()) {
         this.selectionsReady = true;
         this.selections = instance.data().selections;
       } else {
         setDoc(instanceRef, {
-          selections: this.selections,
+          selections: this.selections
         });
       }
     });
   }
+
 
   currentAssets() {
     const calculateYield = (currSum, asset) => {
@@ -250,4 +246,4 @@ class AbstractCharacterScenario {
   }
 }
 
-export { AbstractCharacterScenario };
+export { Scenario };

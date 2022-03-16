@@ -1,4 +1,31 @@
+import { Scenario } from "../scenarios/Scenario";
+
 class Character {
+
+    age: number;
+
+    // Main Metrics
+    score: number;
+    networth: number;
+
+    // Statistics
+    happiness: number;
+    health: number;
+    security: number;
+    stress: number;
+
+    // feature/assetliability
+    assets: Array<Asset>;
+    liabilities: Array<Liability>;
+
+    // Navigation
+    currentpage: number;
+    scenarioHistory: Array<Scenario>;
+
+    // Registration
+    userid: number;
+    id: number; // for Character
+
     constructor(userid, characterid) {
         // These fields should not be changed directly
         // should only be through update character
@@ -32,7 +59,7 @@ class Character {
     }
 
     pushScenarioHistory(scenario) {
-        this.options.push(scenario);
+        this.scenarioHistory.push(scenario);
     }
 
     updateCharacterState(character) {
