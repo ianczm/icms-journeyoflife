@@ -108,10 +108,11 @@ export default defineComponent({
   methods: {
     resetAllCharacters() {
 
-      async function setDocs(db, characterid, userid) {
+      async function setDocs(db: Firestore, characterid: number, userid: string) {
         await setDoc(
           doc(db, "character", `${characterid}`),
-          { ...new Character(userid, characterid) }
+          // [!] remove balanceSheet here to get it working
+          { ...new Character(userid, characterid), balanceSheet: null }
         );
       }
 

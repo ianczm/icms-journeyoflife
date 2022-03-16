@@ -3,6 +3,7 @@ import { BalanceSheet } from "./BalanceSheet";
 
 enum CharacterInitial {
     CASH = 7500,
+    SCORE = 3125
 }
 
 class Character {
@@ -38,13 +39,13 @@ class Character {
         this.age = 15;
         this.happiness = 0.5;
         this.health = 0.5;
-        this.score = 1250;
+        // this.score = CharacterInitial.SCORE;
         this.security = 0.5;
         this.stress = 0.5;
 
         // Updated by scenario
         this.currentpage = 1;
-        
+
         // Scenario instances will be here
         this.scenarioHistory = [];
 
@@ -54,6 +55,8 @@ class Character {
 
         // to be replaced with balanceSheet.cash
         this.networth = CharacterInitial.CASH;
+
+        this.calculateScore();
 
         this.balanceSheet = new BalanceSheet(CharacterInitial.CASH);
     }
@@ -81,12 +84,76 @@ class Character {
         // ..
     }
 
+    calculateScore(): void {
+
+        // Implement some default behaviour
+
+        // cap quality of life at 2
+        var qualityOfLife = (this.happiness + 1 - this.stress);
+
+        // Perform score base calculation
+        var score = this.networth * qualityOfLife * this.health * this.security;
+
+        var bonus = this.handleScoreOverflow();
+
+        if (this.networth <= 0) {
+            this.score = CharacterInitial.SCORE * bonus;
+        } else {
+            this.score = bonus * score;
+        }
+    }
+
+    handleScoreOverflow(): number {
+        // in case there is overflow, these 4 metrics will add a bonus
+        // to final score (which can be negative if the overflow left-sided)
+        // positive overflow > 0
+        // negative overflow < -1
+        var healthOverflow = this.health - 1;
+        var securityOverflow = this.security - 1;
+        var happinessOverflow = this.happiness - 1;
+        var stressOverflow = this.stress - 1;
+
+        // if positive overflow, set to 1, else if negative overflow, set to 0, else no change
+        if (healthOverflow > 0) {
+            this.health = 1;
+        } else if (healthOverflow < -1) {
+            this.health = 0;
+        } else {
+            healthOverflow = 0;
+        }
+        if (securityOverflow > 0) {
+            this.security = 1;
+        } else if (securityOverflow < -1) {
+            this.security = 0;
+        } else {
+            securityOverflow = 0;
+        }
+        if (happinessOverflow > 0) {
+            this.happiness = 1;
+        } else if (happinessOverflow < -1) {
+            this.happiness = 0;
+        } else {
+            happinessOverflow = 0;
+        }
+        if (stressOverflow > 0) {
+            this.stress = 1;
+        } else if (stressOverflow < -1) {
+            this.stress = 0;
+        } else {
+            stressOverflow = 0;
+        }
+
+        // average
+        var bonus = (0.25 * (healthOverflow + securityOverflow + happinessOverflow + stressOverflow)) + 1;
+        return bonus;
+    }
+
     pushAsset(asset) { // { amount, interest, startAge, durationYears }
-      this.balanceSheet.assets.push(asset);
+        this.balanceSheet.assets.push(asset);
     }
 
     pushLiability(liability) { // { amount, interest, startAge, durationYears }
-      this.balanceSheet.liabilities.push(liability);
+        this.balanceSheet.liabilities.push(liability);
     }
 }
 

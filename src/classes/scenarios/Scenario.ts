@@ -90,7 +90,7 @@ class Scenario {
       this.processAnswer();
       // Update character upon submit after perfoming
       // logic and calculations
-      this.character.score = this.calculateScore();
+      this.character.calculateScore();
 
       // Find a way to update the database
       this.hasCompleted = true;
@@ -102,74 +102,6 @@ class Scenario {
       // Somehow render this to HTML
       alert(e.name + " " + e.message);
     }
-  }
-
-  calculateScore(): number {
-
-    // Implement some default behaviour
-    
-    // cap quality of life at 2
-    var qualityOfLife = (this.character.happiness + 1 - this.character.stress);
-
-    // Perform score base calculation
-    var score = this.character.networth * qualityOfLife * this.character.health * this.character.security;
-
-    var bonus = this.handleScoreOverflow();
-
-    // return the modified score after weighting by bonusBuffer
-    // will either be a small increase or decrease
-    var result = (bonus * score) + 1250;
-
-    if (this.character.networth <= 0) {
-      return 1250 * bonus;
-    } else {
-      return result * bonus;
-    }
-  }
-
-  handleScoreOverflow(): number {
-    // in case there is overflow, these 4 metrics will add a bonus
-    // to final score (which can be negative if the overflow left-sided)
-    // positive overflow > 0
-    // negative overflow < -1
-    var healthOverflow = this.character.health - 1;
-    var securityOverflow = this.character.security - 1;
-    var happinessOverflow = this.character.happiness - 1;
-    var stressOverflow = this.character.stress - 1;
-
-    // if positive overflow, set to 1, else if negative overflow, set to 0, else no change
-    if (healthOverflow > 0) {
-      this.character.health = 1;
-    } else if (healthOverflow < -1) {
-      this.character.health = 0;
-    } else {
-      healthOverflow = 0;
-    }
-    if (securityOverflow > 0) {
-      this.character.security = 1;
-    } else if (securityOverflow < -1) {
-      this.character.security = 0;
-    } else {
-      securityOverflow = 0;
-    }
-    if (happinessOverflow > 0) {
-      this.character.happiness = 1;
-    } else if (happinessOverflow < -1) {
-      this.character.happiness = 0;
-    } else {
-      happinessOverflow = 0;
-    }
-    if (stressOverflow > 0) {
-      this.character.stress = 1;
-    } else if (stressOverflow < -1) {
-      this.character.stress = 0;
-    } else {
-      stressOverflow = 0;
-    }
-
-    // average
-    var bonus = (0.25 * (healthOverflow + securityOverflow + happinessOverflow + stressOverflow)) + 1;
-    return bonus;
   }
 
   // Private, to be overridden by subclasses
