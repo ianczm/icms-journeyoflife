@@ -57,7 +57,7 @@ The website serves as the interface where participants get to interact with vari
 _Modify: being able to create, edit, remove, reset_
 
 - enable easy database management
-    - [WIP] view and modify scenarios (for easy scenario creation)
+    - [DONE] view and modify scenarios (for easy scenario creation)
     - [BACKLOG] view and modify users (needs firebase admin sdk)
         - display name
         - password
@@ -66,7 +66,7 @@ _Modify: being able to create, edit, remove, reset_
 - reset switch for any database tables
     - [DONE] reset all characters to default state
     - [DONE] remove all selections
-    - [WIP] reset current character to default state
+    - [DONE] reset current character to default state
     - [BACKLOG] return a list of randomly generated passwords for each user
 
 ---
