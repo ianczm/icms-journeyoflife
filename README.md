@@ -24,6 +24,7 @@ The website serves as the interface where participants get to interact with vari
 - [DONE] prevent character resetting when loading the game pane
 - [DONE] add character id as a property to Character
 - [WIP] realign calculations so that we don't get stress to 100% after first two scenarios lmao
+- [WIP] networth very negative at the start
 
 ## Must Have
 
@@ -42,7 +43,6 @@ The website serves as the interface where participants get to interact with vari
 - [WIP] add paragraphs to scenario (allow admin to add scenarios)
 - [DONE] store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
     - access via Character.previousOption
-- [WIP] networth very negative at the start
 
 ### Optimisation
 - [WIP] improve laptop friendliness (font weight)
