@@ -27,6 +27,7 @@ class Character {
 
     // Navigation
     currentpage: number;
+    previousOption: number;
     scenarioHistory: Array<Scenario>;
 
     // Registration
@@ -63,6 +64,10 @@ class Character {
 
     setPage(page) {
         this.currentpage = page;
+    }
+
+    rememberOption(option: number): void {
+        this.previousOption = option;
     }
 
     pushScenarioHistory(scenario) {
