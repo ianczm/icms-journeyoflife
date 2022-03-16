@@ -226,7 +226,7 @@ class Scenario {
       }
     };
 
-    return this.character.assets.reduce(calculateYield, 0);
+    return this.character.balanceSheet.assets.reduce(calculateYield, 0);
   }
 
   currentLiabilities() {
@@ -242,7 +242,7 @@ class Scenario {
       }
     };
 
-    return this.character.liabilities.reduce(calculateDebt, 0);
+    return this.character.balanceSheet.liabilities.reduce(calculateDebt, 0);
   }
 }
 
