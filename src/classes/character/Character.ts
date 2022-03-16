@@ -15,8 +15,8 @@ class Character {
     stress: number;
 
     // feature/assetliability
-    assets: Array<Asset>;
-    liabilities: Array<Liability>;
+    assets: Array<AccountItem>;
+    liabilities: Array<AccountItem>;
 
     // Navigation
     currentpage: number;

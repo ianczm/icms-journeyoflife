@@ -69,7 +69,7 @@
 <script lang="ts">
 import { Firestore, getFirestore } from "@firebase/firestore";
 import { defineComponent } from "@vue/runtime-core"
-import { ScenarioContent, Options, retrieveScenarioFromDatabase } from "../../classes/ScenarioContent"
+import { ScenarioContent, Options, retrieveScenarioFromDatabase } from "../../classes/scenarios/ScenarioContent"
 
 export default defineComponent({
     data() {
