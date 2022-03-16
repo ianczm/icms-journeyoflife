@@ -105,7 +105,7 @@
   <router-view />
 </template>
 
-<script>
+<script lang="ts">
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { computed } from 'vue';
 

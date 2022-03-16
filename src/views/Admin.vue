@@ -39,6 +39,7 @@
             </table>
           </div>
           <div class="panel">
+            <button @click="resetCurrentCharacter" class="glow-button">Reset Current Character</button>
             <button @click="resetAllCharacters" class="glow-button">Reset Characters</button>
             <button @click="resetCharacterScenarios" class="glow-button">Reset Selected Options</button>
           </div>
@@ -94,6 +95,7 @@ import ScenarioBuilderVue from "../components/admin/ScenarioBuilder.vue"
 // For presentation convenience
 export default defineComponent({
   components: {ScenarioBuilderVue},
+  inject: ['userid', 'characterid'],
   data() {
     return {
       // Database
@@ -106,6 +108,13 @@ export default defineComponent({
     this.db = getFirestore();
   },
   methods: {
+    async resetCurrentCharacter() {
+      await setDoc(
+          doc(this.db, "character", `${this.characterid}`),
+          // [!] remove balanceSheet here to get it working
+          { ...new Character(this.userid, this.characterid), balanceSheet: null }
+        );
+    },
     resetAllCharacters() {
 
       async function setDocs(db: Firestore, characterid: number, userid: string) {

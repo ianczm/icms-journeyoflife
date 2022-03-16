@@ -59,7 +59,7 @@ import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
 import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc, getDoc, Firestore } from "firebase/firestore";
 import { Character } from "../classes/character/Character";
-import { defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
   components: { Scenario, CharacterStats },
@@ -85,6 +85,11 @@ export default defineComponent({
       showOutcome: true,
 
       endGame: false,
+    }
+  },
+  provide() {
+    return {
+      characterid: computed(() => this.character.id)
     }
   },
   methods: {
