@@ -40,7 +40,8 @@ The website serves as the interface where participants get to interact with vari
 - [WIP] add accounting balance sheet below main scenario screen to show assets and liabilities
 - [WIP] implement per-scenario calculation
 - [WIP] add paragraphs to scenario (allow admin to add scenarios)
-- [WIP] store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
+- [DONE] store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
+    - access via Character.previousOption
 - [WIP] networth very negative at the start
 
 ### Optimisation
