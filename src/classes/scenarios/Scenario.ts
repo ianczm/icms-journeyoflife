@@ -20,6 +20,7 @@ class Scenario {
   selectionsReady: boolean;
   selections: Array<number>;
   allowMultipleSelection: boolean;
+  hasCompleted: boolean;
 
   constructor(character: Character, currentPage: number, allowMultipleSelection: boolean) {
 
@@ -31,6 +32,7 @@ class Scenario {
 
     // Scenario current page
     this.currentPage = currentPage;
+    this.hasCompleted = false;
     // Update current page of character
     // [!] need to find out how to update currentPage in the database
 
@@ -91,6 +93,9 @@ class Scenario {
       this.character.score = this.calculateScore();
 
       // Find a way to update the database
+      this.hasCompleted = true;
+
+      this.createOrUpdateDatabaseInstance();
       this.updateCharacterDatabaseInstance();
 
     } catch (e) {
@@ -201,10 +206,12 @@ class Scenario {
   async createOrUpdateDatabaseInstance() {
     await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
       selections: this.selections,
+      hasCompleted: this.hasCompleted
     });
   }
 
   async updateCharacterDatabaseInstance() {
+    console.log("After submission: " + this.hasCompleted);
     await setDoc(doc(this.db, "character", `${this.character.id}`), {
       ...this.character
     });
@@ -219,9 +226,11 @@ class Scenario {
       if (instance.exists()) {
         this.selectionsReady = true;
         this.selections = instance.data().selections;
+        this.hasCompleted = instance.data().hasCompleted;
       } else {
         setDoc(instanceRef, {
-          selections: this.selections
+          selections: this.selections,
+          hasCompleted: this.hasCompleted
         });
       }
     });
