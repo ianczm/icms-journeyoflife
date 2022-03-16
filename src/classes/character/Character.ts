@@ -1,4 +1,5 @@
 import { Scenario } from "../scenarios/Scenario";
+import { BalanceSheet } from "./BalanceSheet";
 
 class Character {
 
@@ -15,8 +16,9 @@ class Character {
     stress: number;
 
     // feature/assetliability
-    assets: Array<Asset>;
-    liabilities: Array<Liability>;
+    // assets: Array<Asset>;
+    // liabilities: Array<Liability>;
+    balanceSheet: BalanceSheet;
 
     // Navigation
     currentpage: number;
@@ -47,11 +49,7 @@ class Character {
         this.userid = userid;
         this.id = characterid;
 
-        // Initiate empty assets
-        this.assets = [];
-
-        // Initiate empty liabilities
-        this.liabilities = [];
+        this.balanceSheet = new BalanceSheet();
     }
 
     setPage(page) {
@@ -78,11 +76,11 @@ class Character {
     }
 
     pushAsset(asset) { // { amount, interest, startAge, durationYears }
-      this.assets.push(asset);
+      this.balanceSheet.assets.push(asset);
     }
 
     pushLiability(liability) { // { amount, interest, startAge, durationYears }
-      this.liabilities.push(liability);
+      this.balanceSheet.liabilities.push(liability);
     }
 }
 
