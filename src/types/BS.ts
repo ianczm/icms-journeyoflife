@@ -1,5 +1,10 @@
+export enum InterestType {
+  SIMPLE,
+  COMPOUND,
+}
 export interface Asset {
   amount: number;
+  interestType: InterestType;
   interest: number;
   startAge: number;
   durationYears: number;
@@ -32,4 +37,6 @@ export interface BS {
   remainingLiabilities: (age: number) => number;
 
   payLiability: (amount: number) => void;
+
+  autopay: (age: number) => void;
 }
