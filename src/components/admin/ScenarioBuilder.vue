@@ -72,9 +72,9 @@ import { defineComponent } from "@vue/runtime-core"
 import { ScenarioContent, Options, retrieveScenarioFromDatabase } from "../../classes/scenarios/ScenarioContent"
 
 export default defineComponent({
+    props: ['pageid'],
     data() {
         return {
-            pageid: 0 as number,
             heading: "" as string,
             phase: "" as string,
             title: "" as string,
@@ -89,9 +89,8 @@ export default defineComponent({
         }
     },
     beforeMount() {
-        const sampleScenario = retrieveScenarioFromDatabase(this.db, 1);
+        const sampleScenario = retrieveScenarioFromDatabase(this.db, this.pageid);
         sampleScenario.then(sample => {
-            this.pageid = sample.pageid;
             this.heading = sample.heading;
             this.phase = sample.phase;
             this.title = sample.title;
@@ -101,6 +100,18 @@ export default defineComponent({
     },
     created() {
         this.db = getFirestore();
+    },
+    watch: {
+        pageid(pageid) {
+            const sampleScenario = retrieveScenarioFromDatabase(this.db, this.pageid);
+            sampleScenario.then(sample => {
+                this.heading = sample.heading;
+                this.phase = sample.phase;
+                this.title = sample.title;
+                this.body = sample.body;
+                this.options = sample.options;
+            })
+        }
     },
     methods: {
         deleteOption(e) {

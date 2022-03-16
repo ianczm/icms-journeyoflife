@@ -49,6 +49,7 @@
           <div v-if="!hideScenarios" class="table-container">
             <table class="table scenario">
               <tr class="scenario header">
+                <th>+/-</th>
                 <th>pageid</th>
                 <th>heading</th>
                 <th>phase</th>
@@ -57,12 +58,13 @@
                 <th>options</th>
               </tr>
               <tr v-for="scenario in scenarios" :key="scenario.pageid" class="scenario record">
+                <td><button class="glow-button" @click="transferScenarioToEditor(scenario.pageid)">Edit</button></td>
                 <td>{{ scenario.pageid }}</td>
                 <td>{{ scenario.heading }}</td>
                 <td>{{ scenario.phase }}</td>
                 <td>{{ scenario.title }}</td>
-                <td>{{ scenario.body }}</td>
-                <td style="width: 50%">
+                <td style="width: 40%">{{ scenario.body }}</td>
+                <td style="width: 40%">
                   <ul>
                     <li v-for="option in scenario.options" :key="option.optionid">
                       <p>
@@ -81,7 +83,7 @@
             <button @click="duplicateScenario" class="glow-button">Duplicate Scenario</button>
           </div>
         </div>
-        <ScenarioBuilderVue/>
+        <ScenarioBuilderVue :pageid="pageid"/>
       </div>
     </div>
   </div>
@@ -106,6 +108,9 @@ export default defineComponent({
 
       // Hide Scenarios
       hideScenarios: true as boolean,
+
+      // Send prop
+      pageid: 1,
     }
   },
   created() {
@@ -122,6 +127,10 @@ export default defineComponent({
         })
       });
     });
+    },
+    transferScenarioToEditor(pageid) {
+      this.pageid = pageid;
+      this.hideScenarios = true;
     },
     resetAllCharacters() {
 
@@ -230,6 +239,10 @@ export default defineComponent({
     .record:hover {
       background: rgba($yellow, 0.5);
       transition: background 0.05s ease;
+
+      &.scenario {
+        background: none;
+      }
     }
 
     .header > * {
