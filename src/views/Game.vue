@@ -87,11 +87,6 @@ export default defineComponent({
       endGame: false,
     }
   },
-  provide() {
-    return {
-      characterid: computed(() => this.character.id)
-    }
-  },
   methods: {
     onSubmitClick(event) {
       this.submitted = true;

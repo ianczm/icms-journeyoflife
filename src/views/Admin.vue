@@ -46,7 +46,7 @@
         </div>
         <div id="scenario database">
           <h3 class="table-title">Scenario Database</h3>
-          <div class="table-container">
+          <div v-if="!hideScenarios" class="table-container">
             <table class="table scenario">
               <tr class="scenario header">
                 <th>pageid</th>
@@ -77,6 +77,7 @@
             </table>
           </div>
           <div class="panel">
+            <button @click="toggleHideScenarios" class="glow-button">{{ !hideScenarios ? "Hide" : "Show"}} Scenarios</button>
             <button @click="duplicateScenario" class="glow-button">Duplicate Scenario</button>
           </div>
         </div>
@@ -88,20 +89,23 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
-import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc, Firestore } from "firebase/firestore"
+import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc, Firestore, where } from "firebase/firestore"
 import { Character, useridList } from "../classes/character/Character";
 import ScenarioBuilderVue from "../components/admin/ScenarioBuilder.vue"
 
 // For presentation convenience
 export default defineComponent({
   components: {ScenarioBuilderVue},
-  inject: ['userid', 'characterid'],
+  inject: ['userid'],
   data() {
     return {
       // Database
       db: null as Firestore,
       characters: [] as Array<Character>,
       scenarios: [],
+
+      // Hide Scenarios
+      hideScenarios: true as boolean,
     }
   },
   created() {
@@ -109,11 +113,15 @@ export default defineComponent({
   },
   methods: {
     async resetCurrentCharacter() {
-      await setDoc(
-          doc(this.db, "character", `${this.characterid}`),
-          // [!] remove balanceSheet here to get it working
-          { ...new Character(this.userid, this.characterid), balanceSheet: null }
-        );
+      const characteridQuery = query(collection(this.db, "character"), where("userid", "==", `${this.userid}`));
+      onSnapshot(characteridQuery, (characters) => {
+      characters.forEach(character => {
+        const characterData = character.data() as Character;
+        setDoc(character.ref, {
+           ...new Character(characterData.userid, characterData.id), balanceSheet: null
+        })
+      });
+    });
     },
     resetAllCharacters() {
 
@@ -151,6 +159,9 @@ export default defineComponent({
         pageid: this.scenarios.length + 1
       }
       );
+    },
+    toggleHideScenarios() {
+      this.hideScenarios = !this.hideScenarios;
     }
   },
   beforeMount() {
