@@ -28,7 +28,7 @@ class Scenario {
     this.db = getFirestore();
 
     // Reference the original character object
-    this.character = character;
+    this.character = Object.assign(new Character(0, 0), character);
 
     // Scenario current page
     this.currentPage = currentPage;
@@ -87,9 +87,10 @@ class Scenario {
       }
 
       // Proceed with answer processing
-      // [!] method cannot be accessed again wth
-      // this.character.rememberOption(this.selections[0]);
+      this.character.rememberOption(this.selections[0]);
+
       this.processAnswer();
+
       // Update character upon submit after perfoming
       // logic and calculations
       this.character.calculateScore();
