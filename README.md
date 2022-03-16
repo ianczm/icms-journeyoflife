@@ -21,30 +21,31 @@ The website serves as the interface where participants get to interact with vari
 
 ## Absolutely Urgent
 
-- ~~prevent character resetting when loading the game pane (implemented)~~
-- ~~add character id as a property to Character (implemented)~~
-
-- realign calculations so that we don't get stress to 100% after first two scenarios lmao
+- [DONE] prevent character resetting when loading the game pane
+- [DONE] add character id as a property to Character
+- [WIP] realign calculations so that we don't get stress to 100% after first two scenarios lmao
 
 ## Must Have
 
 ### Game
 
-- ~~update user choice selection with firebase in real time (implemented)~~
-- ~~update character statistics in real time with firebase (implemented)~~
-- [WIP] enable page-by-page navigation for each scenario in vue
-    - update character's currentpage property
-    - submit answer button
-    - need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
+- [DONE] update user choice selection with firebase in real time
+- [DONE] game needs to figure out if character is on the outcome screen or not to sync with teammates
+- [DONE] update character statistics in real time with firebase
+- [DONE] enable page-by-page navigation for each scenario in vue
+- migrate scenarios from content document
+    - [DONE] update character's currentpage property
+    - [DONE] submit answer button
+    - [BACKLOG] need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
 - [WIP] add accounting balance sheet below main scenario screen to show assets and liabilities
-- [TODO] migrate scenarios from content document and implement calculation
+- [WIP] implement per-scenario calculation
+- [WIP] add paragraphs to scenario (allow admin to add scenarios)
+- [WIP] store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
+- [WIP] networth very negative at the start
 
-- add paragraphs to scenario (allow admin to add scenarios)
-- store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
-- game needs to figure out if character is on the outcome screen or not to sync with teammates
-- networth very negative at the start
-- improve laptop friendliness (font weight)
-- progress bar for how many questions left
+### Optimisation
+- [WIP] improve laptop friendliness (font weight)
+- [WIP] progress bar for how many questions left
 
 ---
 
@@ -55,16 +56,17 @@ The website serves as the interface where participants get to interact with vari
 _Modify: being able to create, edit, remove, reset_
 
 - enable easy database management
-    - view and modify users (needs firebase admin sdk)
+    - [WIP] view and modify scenarios (for easy scenario creation)
+    - [BACKLOG] view and modify users (needs firebase admin sdk)
         - display name
         - password
         - view uid and email (since these are read-only)
-    - view and modify individual characters
-    - view and modify scenarios (for easy scenario creation)
+    - [BACKLOG] view and modify individual characters
 - reset switch for any database tables
-    - ~~reset all users to default state~~
-    - return a list of randomly generated passwords for each user
-    - ~~characters (implemented)~~
+    - [DONE] reset all characters to default state
+    - [DONE] remove all selections
+    - [WIP] reset current character to default state
+    - [BACKLOG] return a list of randomly generated passwords for each user
 
 ---
 
@@ -72,13 +74,10 @@ _Modify: being able to create, edit, remove, reset_
 
 ### Home
 
-- add countdown timer to event
+- [BACKLOG] add countdown timer to event
 
 ### Game
 
-- add countdown timer on the game screen
-
-### Optimisations
-- improve mobile friendliness
+- [BACKLOG] add countdown timer on the game screen
 
 ---
