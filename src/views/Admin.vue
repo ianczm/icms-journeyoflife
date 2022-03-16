@@ -29,8 +29,8 @@
                 <!-- <td>{{ character.userid }}</td> -->
                 <td>{{ character.currentpage }}</td>
                 <td>{{ character.age }}</td>
-                <td>{{ ('RM ' + character.networth.toLocaleFixed(2)) }}</td>
-                <td>{{ character.score.toLocaleFixed(2) }}</td>
+                <td>{{ 'RM ' + toLocalFixed(character.networth, 2) }}</td>
+                <td>{{ toLocalFixed(character.score, 2) }}</td>
                 <td>{{ (character.happiness * 100).toFixed(1) + '%' }}</td>
                 <td>{{ (character.stress * 100).toFixed(1) + '%' }}</td>
                 <td>{{ (character.health * 100).toFixed(1) + '%' }}</td>
@@ -64,7 +64,9 @@
                 <td style="width: 50%">
                   <ul>
                     <li v-for="option in scenario.options" :key="option.optionid">
-                      <p><strong>Option {{ option.optionid }}</strong></p>
+                      <p>
+                        <strong>Option {{ option.optionid }}</strong>
+                      </p>
                       <p>{{ option.desc }}</p>
                       <p style="color: #ffbb00; font-weight: 400">{{ option.outcome }}</p>
                     </li>
@@ -77,30 +79,26 @@
             <button @click="duplicateScenario" class="glow-button">Duplicate Scenario</button>
           </div>
         </div>
+        <ScenarioBuilderVue/>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc } from "firebase/firestore"
-import { Character, useridList } from "/src/classes/Character";
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core";
+import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc, Firestore } from "firebase/firestore"
+import { Character, useridList } from "../classes/Character";
+import ScenarioBuilderVue from "../components/admin/ScenarioBuilder.vue"
 
 // For presentation convenience
-Number.prototype.toLocaleFixed = function (n) {
-  return this.toLocaleString(undefined, {
-    minimumFractionDigits: n,
-    maximumFractionDigits: n
-  });
-};
-
-export default {
+export default defineComponent({
+  components: {ScenarioBuilderVue},
   data() {
     return {
       // Database
-      db: null,
-      colRef: null,
-      characters: [],
+      db: null as Firestore,
+      characters: [] as Array<Character>,
       scenarios: [],
     }
   },
@@ -121,6 +119,12 @@ export default {
         setDocs(this.db, i + 1, useridList[i]);
       }
     },
+    toLocalFixed(n: number, digits: number) {
+      return n.toLocaleString(undefined, {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    },
     async resetCharacterScenarios() {
       // console.log("Fix reset!")
       const csCollection = collection(this.db, "character_scenario");
@@ -132,10 +136,10 @@ export default {
     },
     async duplicateScenario() {
       await setDoc(
-        doc(this.db, "scenario", `${this.scenarios.length+1}`), {
-          ...this.scenarios[this.scenarios.length-1],
-          pageid: this.scenarios.length+1
-        }
+        doc(this.db, "scenario", `${this.scenarios.length + 1}`), {
+        ...this.scenarios[this.scenarios.length - 1],
+        pageid: this.scenarios.length + 1
+      }
       );
     }
   },
@@ -146,7 +150,7 @@ export default {
       orderBy("score", "desc"),
       // orderBy("networth", "desc")
     );
-    this.colRef = onSnapshot(cQ, (characters) => {
+    onSnapshot(cQ, (characters) => {
       characterArray = [];
       characters.forEach((character) => {
         characterArray.push({ ...character.data() });
@@ -160,7 +164,7 @@ export default {
       orderBy("pageid", "asc"),
       // orderBy("networth", "desc")
     );
-    this.colRef = onSnapshot(sQ, (scenarios) => {
+    onSnapshot(sQ, (scenarios) => {
       scenarioArray = [];
       scenarios.forEach((scenario) => {
         scenarioArray.push({ ...scenario.data() });
@@ -168,7 +172,7 @@ export default {
       this.scenarios = scenarioArray;
     });
   }
-}
+})
 
 
 </script>

@@ -52,11 +52,11 @@ export default defineComponent({
       phase: null as string,
       title: null as string,
       body: null as string,
-      allowMultipleSelection: false,
+      allowMultipleSelection: false as boolean,
       options: [],
 
       // CharacterScenario Instance
-      selectionsReady: false,
+      selectionsReady: false as boolean,
       characterScenario: null as Scenario,
       selections: [] as Array<number>,
 
