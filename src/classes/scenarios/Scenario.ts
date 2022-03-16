@@ -87,7 +87,8 @@ class Scenario {
       }
 
       // Proceed with answer processing
-      this.character.rememberOption(this.selections[0]);
+      // [!] method cannot be accessed again wth
+      // this.character.rememberOption(this.selections[0]);
       this.processAnswer();
       // Update character upon submit after perfoming
       // logic and calculations
