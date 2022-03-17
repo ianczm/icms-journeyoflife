@@ -1,8 +1,13 @@
-import { InterestType, Asset, BS, Liability } from "../types/BS";
+import {
+  InterestType,
+  Asset,
+  BalanceSheet,
+  Liability,
+} from "../types/BalanceSheet";
 
 // Create a balance sheet object
-export const constructBalanceSheet = (initialCash: number): BS => {
-  let temp: BS = {
+export const constructBalanceSheet = (initialCash: number): BalanceSheet => {
+  let temp: BalanceSheet = {
     amountPaid: 0,
     assets: [],
     liabilities: [],
@@ -12,17 +17,23 @@ export const constructBalanceSheet = (initialCash: number): BS => {
 };
 
 // Add asset to a balance sheet
-export const pushAsset = (balanceSheet: BS, asset: Asset): void => {
+export const pushAsset = (balanceSheet: BalanceSheet, asset: Asset): void => {
   balanceSheet.assets.push(asset);
 };
 
 // Add liability to a balance sheet
-export const pushLiability = (balanceSheet: BS, liability: Liability): void => {
+export const pushLiability = (
+  balanceSheet: BalanceSheet,
+  liability: Liability
+): void => {
   balanceSheet.liabilities.push(liability);
 };
 
 // Obtain the total assets in a balance sheet
-export const remainingAssets = (balanceSheet: BS, age: number): number => {
+export const remainingAssets = (
+  balanceSheet: BalanceSheet,
+  age: number
+): number => {
   const calculateYield = (currSum: number, asset: Asset) => {
     const diff = age - asset.startAge;
     if (diff >= asset.durationYears) {
@@ -50,7 +61,7 @@ export const remainingAssets = (balanceSheet: BS, age: number): number => {
 
 // Converting an asset into cash
 export const liquidate = (
-  balanceSheet: BS,
+  balanceSheet: BalanceSheet,
   name: string,
   age: number
 ): number => {
@@ -86,7 +97,10 @@ export const liquidate = (
 };
 
 // Obtain the total liabilities in a balance sheet
-export const remainingLiabilities = (balanceSheet: BS, age: number): number => {
+export const remainingLiabilities = (
+  balanceSheet: BalanceSheet,
+  age: number
+): number => {
   const calculateDebt = (currSum: number, liability: Liability) => {
     const diff = age - liability.startAge;
     if (diff >= liability.durationYears) {
@@ -104,12 +118,15 @@ export const remainingLiabilities = (balanceSheet: BS, age: number): number => {
 };
 
 // Pay the liability in cash
-export const payLiability = (balanceSheet: BS, amount: number): void => {
+export const payLiability = (
+  balanceSheet: BalanceSheet,
+  amount: number
+): void => {
   balanceSheet.amountPaid += amount;
 };
 
 // Paying the payable liability up to the age
-export const autopay = (balanceSheet: BS, age: number): void => {
+export const autopay = (balanceSheet: BalanceSheet, age: number): void => {
   const calculatePayable = (currSum: number, liability: Liability) => {
     const diff = age - liability.startAge;
     if (diff >= liability.durationYears) {

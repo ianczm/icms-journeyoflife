@@ -1,5 +1,5 @@
 import { Scenario } from "./Scenario";
-import { BS } from "./BS";
+import { BalanceSheet } from "./BalanceSheet";
 
 export enum CharacterInitial {
   CASH = 5000,
@@ -24,7 +24,7 @@ export interface Character {
   // feature/assetliability
   // assets: Array<Asset>;
   // liabilities: Array<Liability>;
-  balanceSheet: BS;
+  balanceSheet: BalanceSheet;
 
   // Navigation
   currentpage: number;

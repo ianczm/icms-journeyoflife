@@ -1,6 +1,7 @@
 import { Character, CharacterInitial } from "../types/Character";
-import { Asset, Liability, BS } from "../types/BS";
+import { Asset, Liability, BalanceSheet } from "../types/BalanceSheet";
 import { constructBalanceSheet } from "./BalanceSheetUtils";
+import { Scenario } from "../classes/scenarios/Scenario";
 
 export const constructCharacter = (
   userId: number,
@@ -26,6 +27,39 @@ export const constructCharacter = (
   calculateScore(temp);
 
   return temp;
+};
+
+export const setPage = (character: Character, page: number): void => {
+  character.currentpage = page;
+};
+
+export const rememberOption = (character: Character, option: number): void => {
+  character.previousOption = option;
+};
+
+export const pushScenarioHistory = (
+  character: Character,
+  scenario: Scenario
+): void => {
+  character.scenarioHistory.push(scenario);
+};
+
+export const updateCharacterState = (
+  character: Character,
+  newCharacter: Character
+): void => {
+  // Page does not have to be updated as scenario
+  // updates it on initialisation
+  character.age = newCharacter.age;
+  character.happiness = newCharacter.happiness;
+  character.health = newCharacter.health;
+  character.networth = newCharacter.networth;
+  character.score = newCharacter.score;
+  character.security = newCharacter.security;
+  character.stress = newCharacter.stress;
+
+  // Update database with character
+  // ..
 };
 
 export const calculateScore = (character: Character): void => {

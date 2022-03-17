@@ -2,12 +2,12 @@ import {
   InterestType,
   Asset,
   Assets,
-  BS,
+  BalanceSheet,
   Liabilities,
   Liability,
-} from "../../types/BS";
+} from "../../types/BalanceSheet";
 
-class BalanceSheet implements BS {
+class BalanceSheet implements BalanceSheet {
   assets: Assets;
   liabilities: Liabilities;
   amountPaid: number;
