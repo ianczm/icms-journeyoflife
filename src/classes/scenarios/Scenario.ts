@@ -1,7 +1,6 @@
 import { Character } from '../character/Character';
 import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
 
-
 // Usage Flow
 // 1. create new scenario, constructing with character as the one to be modified
 // 2. listen for options selected via updateSelectedOptions()
@@ -73,19 +72,19 @@ class Scenario {
   // Public, onClick event
   submitAnswer() {
     // Perform multiple selection validation
-    try {
-      if (!this.selections) {
-        throw {
-          name: "NoSelectionError",
-          message: "Please choose at least one option."
-        }
-      } else if (this.selections.length > 1 && !this.allowMultipleSelection) {
-        throw {
-          name: "MultipleSelectionError",
-          message: "You may only choose one option."
-        }
-      }
+    if (!this.selections) {
+      
+      console.log("No options selected.");
+      return false;
 
+    } else if (this.selections.length > 1 && !this.allowMultipleSelection) {
+      
+      console.log("Too many options selected.");
+      return false;
+
+    } else {
+      
+      console.log("Submitting answer.");
       // Proceed with answer processing
       this.character.rememberOption(this.selections[0]);
 
@@ -101,108 +100,106 @@ class Scenario {
       this.createOrUpdateDatabaseInstance();
       this.updateCharacterDatabaseInstance();
 
-    } catch (e) {
-      // Somehow render this to HTML
-      alert(e.name + " " + e.message);
+      return true;
     }
-  }
+}
 
-  // Private, to be overridden by subclasses
-  processAnswer(): void {
-    // Logic for performing calculations
-    this.character.age += 1;
-    this.character.networth += 5000;
-    this.character.happiness *= 1.01;
-    this.character.stress *= 1.01;
-    this.character.health *= 1.01;
-    this.character.security *= 1.01;
-  }
+// Private, to be overridden by subclasses
+processAnswer() {
+  // Logic for performing calculations
+  this.character.age += 1;
+  this.character.networth += 5000;
+  this.character.happiness *= 1.01;
+  this.character.stress *= 1.01;
+  this.character.health *= 1.01;
+  this.character.security *= 1.01;
+}
 
-  // Private, to be overridden by subclasses
-  generateCase(): number {
-    // Logic for parsing user input and generating
-    // a case depending on combination of selections.
+// Private, to be overridden by subclasses
+generateCase(): number {
+  // Logic for parsing user input and generating
+  // a case depending on combination of selections.
 
-    // Used in processAnswer to determine what calculation
-    // to perform
+  // Used in processAnswer to determine what calculation
+  // to perform
 
-    // e.g. if options 2 and 3 are selected, generate case 5
+  // e.g. if options 2 and 3 are selected, generate case 5
 
-    // this.currentlySelectedOptions
-    return 1;
-  }
+  // this.currentlySelectedOptions
+  return 1;
+}
 
-  // Private, validation check
-  canProceedWithMultipleSelection(): boolean {
-    return this.allowMultipleSelection && this.selections.length >= 1;
-  }
+// Private, validation check
+canProceedWithMultipleSelection(): boolean {
+  return this.allowMultipleSelection && this.selections.length >= 1;
+}
 
   // Private, create new database instance
   async createOrUpdateDatabaseInstance() {
-    await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
-      selections: this.selections,
-      hasCompleted: this.hasCompleted
-    });
-  }
+  await setDoc(doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`), {
+    selections: this.selections,
+    hasCompleted: this.hasCompleted
+  });
+}
 
   async updateCharacterDatabaseInstance() {
-    console.log("After submission: " + this.hasCompleted);
-    await setDoc(doc(this.db, "character", `${this.character.id}`), {
-      ...this.character
-    });
-  }
+  console.log("After submission: " + this.hasCompleted);
+  await setDoc(doc(this.db, "character", `${this.character.id}`), {
+    ...this.character
+  });
+}
 
   // Private, creates a new database instance if it doesn't exist, if not,
   // just loads regularly
   async getDatabaseSelections() {
-    // if does not exist, create new
-    const instanceRef = doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`);
-    await getDoc(instanceRef).then((instance) => {
-      if (instance.exists()) {
-        this.selectionsReady = true;
-        this.selections = instance.data().selections;
-        this.hasCompleted = instance.data().hasCompleted;
-      } else {
-        setDoc(instanceRef, {
-          selections: this.selections,
-          hasCompleted: this.hasCompleted
-        });
-      }
-    });
-  }
+  // if does not exist, create new
+  const instanceRef = doc(this.db, "character_scenario", `${this.character.id}_${this.currentPage}`);
+  await getDoc(instanceRef).then((instance) => {
+    if (instance.exists()) {
+      this.selectionsReady = true;
+      this.selections = instance.data().selections;
+      this.hasCompleted = instance.data().hasCompleted;
+    } else {
+      setDoc(instanceRef, {
+        selections: this.selections,
+        hasCompleted: this.hasCompleted
+      });
+    }
+  });
+}
 
 
-  currentAssets() {
-    const calculateYield = (currSum, asset) => {
-      const diff = this.character.age - asset.startAge;
-      if (diff >= asset.durationYears) {
-        return (
-          currSum +
-          asset.amount * Math.pow(1 + asset.interest, asset.durationYears)
-        );
-      } else {
-        return currSum + asset.amount * Math.pow(1 + asset.interest, diff);
-      }
-    };
+currentAssets() {
+  const calculateYield = (currSum, asset) => {
+    const diff = this.character.age - asset.startAge;
+    if (diff >= asset.durationYears) {
+      return (
+        currSum +
+        asset.amount * Math.pow(1 + asset.interest, asset.durationYears)
+      );
+    } else {
+      return currSum + asset.amount * Math.pow(1 + asset.interest, diff);
+    }
+  };
 
-    return this.character.balanceSheet.assets.reduce(calculateYield, 0);
-  }
+  return this.character.balanceSheet.assets.reduce(calculateYield, 0);
+}
 
-  currentLiabilities() {
-    const calculateDebt = (currSum, liability) => {
-      const diff = this.character.age - liability.startAge;
-      if (diff >= liability.durationYears) {
-        return currSum;
-      } else {
-        const total =
-          liability.amount * (1 + liability.interest * liability.durationYears);
-        const paid = (total / liability.durationYears) * diff;
-        return currSum + total - paid;
-      }
-    };
+currentLiabilities() {
+  const calculateDebt = (currSum, liability) => {
+    const diff = this.character.age - liability.startAge;
+    if (diff >= liability.durationYears) {
+      return currSum;
+    } else {
+      const total =
+        liability.amount * (1 + liability.interest * liability.durationYears);
+      const paid = (total / liability.durationYears) * diff;
+      return currSum + total - paid;
+    }
+  };
 
-    return this.character.balanceSheet.liabilities.reduce(calculateDebt, 0);
-  }
+  return this.character.balanceSheet.liabilities.reduce(calculateDebt, 0);
+}
 }
 
 export { Scenario };

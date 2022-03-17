@@ -59,7 +59,7 @@ import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
 import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc, getDoc, Firestore } from "firebase/firestore";
 import { Character } from "../classes/character/Character";
-import { computed, defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
   components: { Scenario, CharacterStats },
@@ -82,7 +82,7 @@ export default defineComponent({
       // character.currentpage: 1,
 
       submitted: false,
-      showOutcome: true,
+      showOutcome: false,
 
       endGame: false,
     }
