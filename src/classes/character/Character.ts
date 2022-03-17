@@ -33,7 +33,7 @@ class Character {
     scenarioHistory: Array<Scenario>;
 
     // Registration
-    userid: number;
+    userid: string;
     id: number; // for Character
 
     constructor(userid, characterid) {

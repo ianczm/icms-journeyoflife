@@ -4,7 +4,7 @@ import { constructBalanceSheet } from "./BalanceSheetUtils";
 import { Scenario } from "../classes/scenarios/Scenario";
 
 export const constructCharacter = (
-  userId: number,
+  userId: string,
   characterId: number
 ): Character => {
   let temp: Character = {

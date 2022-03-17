@@ -32,6 +32,6 @@ export interface Character {
   scenarioHistory: Array<Scenario>;
 
   // Registration
-  userid: number;
+  userid: string;
   id: number; // for Character
 }

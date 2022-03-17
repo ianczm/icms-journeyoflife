@@ -93,6 +93,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc, Firestore, where } from "firebase/firestore"
 import { Character, useridList } from "../classes/character/Character";
 import ScenarioBuilderVue from "../components/admin/ScenarioBuilder.vue"
+import { constructCharacter } from "../utils/CharacterUtils";
 
 // For presentation convenience
 export default defineComponent({
@@ -151,7 +152,7 @@ export default defineComponent({
         await setDoc(
           doc(db, "character", `${characterid}`),
           // [!] remove balanceSheet here to get it working
-          { ...new Character(userid, characterid), balanceSheet: null }
+          constructCharacter(userid, characterid)
         );
       }
 
