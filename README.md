@@ -60,7 +60,7 @@ The website serves as the interface where participants get to interact with vari
 ### Admin Panel
 
 _Modify: being able to create, edit, remove, reset_
-
+- [WIP] sort character tables in desc order of score and asc order of id
 - enable easy database management
     - [DONE] view and modify scenarios (for easy scenario creation)
     - [BACKLOG] view and modify users (needs firebase admin sdk)
