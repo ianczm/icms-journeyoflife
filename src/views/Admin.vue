@@ -126,9 +126,7 @@ export default defineComponent({
       characters.forEach(character => {
         const characterData = character.data() as Character;
         characterid = characterData.id;
-        setDoc(character.ref, {
-           ...new Character(this.userid, characterData.id), balanceSheet: null
-        })
+        setDoc(character.ref, constructCharacter(this.userid, characterData.id));
       });
 
       const csCollection = collection(this.db, "character_scenario");
@@ -149,11 +147,7 @@ export default defineComponent({
     resetAllCharacters() {
 
       async function setDocs(db: Firestore, characterid: number, userid: string) {
-        await setDoc(
-          doc(db, "character", `${characterid}`),
-          // [!] remove balanceSheet here to get it working
-          constructCharacter(userid, characterid)
-        );
+        await setDoc(doc(db, "character", `${characterid}`), constructCharacter(userid, characterid));
       }
 
       for (var i = 0; i < useridList.length; i++) {
