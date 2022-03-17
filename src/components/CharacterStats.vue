@@ -74,7 +74,7 @@ export default defineComponent({
     props: ['character'],
     data() {
         return {
-            maxPages: 1 as number,
+            maxPages: 32 as number,
             db: null as Firestore
         }
     },
