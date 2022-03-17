@@ -33,6 +33,7 @@ The website serves as the interface where participants get to interact with vari
 - [BACKLOG] end game screen
 - [WIP] separate cash and assets
 - [WIP] update content and age
+- [WIP] use age to calculate autopayments and display amount paid in outcome summary
 - [WIP] outcome page
 
 ## Must Have
