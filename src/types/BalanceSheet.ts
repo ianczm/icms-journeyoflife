@@ -27,6 +27,7 @@ export type Liabilities = Liability[];
 export interface BalanceSheet {
   assets: Assets;
   liabilities: Liabilities;
+  cash: number;
   amountPaid: number;
   cash: number;
 }
