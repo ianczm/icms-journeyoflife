@@ -30,29 +30,37 @@ class ScenarioOneB extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += 800;
-                this.character.happiness -= 0.015;
-                this.character.stress += 0.03;
-                this.character.health -= 0.01;
+                this.character.networth -= 800;
+                this.character.happiness -= 0.04;
+                this.character.stress += 0.04;
+                this.character.health -= 0.03;
+                this.character.security += 0;
                 break;
             case 2:
-                this.character.networth += 1000;
-                this.character.happiness += 0.01;
-                this.character.stress -= 0.005;
+                this.character.networth -= 1000;
+                this.character.happiness -= 0.02;
+                this.character.stress += 0.02;
+                this.character.health += 0;
+                this.character.security += 0;
                 break;
             case 3:
-                this.character.networth += 700;
-                this.character.happiness += 0.01;
-                this.character.stress += 0.035;
-                this.character.health -= 0.01;
+                this.character.networth -= 700;
+                this.character.happiness -= 0.02;
+                this.character.stress += 0.02;
+                this.character.health -= 0.02;
+                this.character.security += 0;
                 break;
             case 4:
-                this.character.networth -= 6500;
+                this.character.networth -= -6500;
+                this.character.happiness -= 0;
+                this.character.stress += 0.02;
+                this.character.health += 0;
+                this.character.security += 0;
+                break;
+
             default:
-                throw {
-                    name: "UnmatchedOptionError",
-                    message: "Selected choices are not valid."
-                };
+                console.log("No valid option chosen.");
+                break;
         }
     }
 

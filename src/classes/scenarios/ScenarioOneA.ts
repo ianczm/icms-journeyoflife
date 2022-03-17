@@ -32,23 +32,30 @@ class ScenarioOneA extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth -= 100000;
-                this.character.stress += 0.02;
+                this.character.networth -= 105000;
+                this.character.happiness -= 0.02;
+                this.character.stress += 0.06;
+                this.character.health += 0;
+                this.character.security += 0;
                 break;
             case 2:
-                this.character.networth -= 45000;
-                this.character.stress += 0.015;
+                this.character.networth -= 110000;
+                this.character.happiness -= 0.02;
+                this.character.stress += 0.06;
+                this.character.health += 0;
+                this.character.security += 0;
                 break;
             case 3:
-                this.character.networth -= 75000;
-                this.character.stress += 0.01;
+                this.character.networth -= 80000;
+                this.character.happiness -= 0.02;
+                this.character.stress += 0.03;
+                this.character.health += 0;
+                this.character.security += 0;
                 break;
 
             default:
-                throw {
-                    name: "UnmatchedOptionError",
-                    message: "Selected choices are not valid."
-                };
+                console.log("No valid option chosen.");
+                break;
         }
     }
 
