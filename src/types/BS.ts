@@ -26,8 +26,12 @@ export type Liabilities = Liability[];
 export interface BS {
   assets: Assets;
   liabilities: Liabilities;
+  cash: number;
   amountPaid: number;
 
+  increaseCash: (amount: number) => number;
+
+  decreaseCash: (amount: number) => number;
   // Add new amount
   pushAsset: (asset: Asset) => void;
 
