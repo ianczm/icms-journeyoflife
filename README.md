@@ -40,7 +40,7 @@ The website serves as the interface where participants get to interact with vari
     - [BACKLOG] need to figure out how to perform calculations if participants backtrack (we can enforce only one way navigation to avoid this)
 - [WIP] add accounting balance sheet below main scenario screen to show assets and liabilities
 - [WIP] implement per-scenario calculation
-- [WIP] add paragraphs to scenario (allow admin to add scenarios)
+- [DONE] add paragraphs to scenario (allow admin to add scenarios)
 - [DONE] store previous answer / accountitems in character to execute complex scenarios (e.g. if they chose to buy a bungalow, then in this question their tax will be higher)
     - access via Character.previousOption
 
