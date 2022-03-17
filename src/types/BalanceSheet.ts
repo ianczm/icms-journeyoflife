@@ -29,5 +29,4 @@ export interface BalanceSheet {
   liabilities: Liabilities;
   cash: number;
   amountPaid: number;
-  cash: number;
 }
