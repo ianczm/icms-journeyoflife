@@ -1,5 +1,6 @@
-import { Character } from '../character/Character';
+import { Character } from '../../types/Character';
 import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
+import { calculateScore, constructCharacter, rememberOption } from '../../utils/CharacterUtils';
 
 
 // Usage Flow
@@ -28,7 +29,7 @@ class Scenario {
     this.db = getFirestore();
 
     // Reference the original character object
-    this.character = Object.assign(new Character(0, 0), character);
+    this.character = character;
 
     // Scenario current page
     this.currentPage = currentPage;
@@ -87,13 +88,13 @@ class Scenario {
       }
 
       // Proceed with answer processing
-      this.character.rememberOption(this.selections[0]);
+      rememberOption(this.character, this.selections[0]);
 
       this.processAnswer();
 
       // Update character upon submit after perfoming
       // logic and calculations
-      this.character.calculateScore();
+      calculateScore(this.character);
 
       // Find a way to update the database
       this.hasCompleted = true;

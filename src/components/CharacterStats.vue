@@ -10,9 +10,17 @@
                 <h3>Score</h3>
                 <h1>{{ toLocalFixed(character.score, 2) }}</h1>
             </div>
-            <div class="net-worth">
+            <div class="cash">
                 <h3>Cash</h3>
                 <h1>RM {{ toLocalFixed(character.networth, 2) }}</h1>
+            </div>
+            <div class="assets">
+                <h3>Non-Current Assets</h3>
+                <h1>RM {{ assets }}</h1>
+            </div>
+            <div class="liability">
+                <h3>Debt</h3>
+                <h1>RM {{ liabilities }}</h1>
             </div>
         </div>
         <div class="statistics">
@@ -69,18 +77,19 @@
 import { collection, Firestore, getDocs, getFirestore, limit, orderBy, query, where } from "firebase/firestore";
 import { defineComponent } from "vue";
 import { ScenarioContent } from "../classes/scenarios/ScenarioContent";
+import { getAssetAmount, getLiabilitiesAmount } from "../utils/CharacterUtils";
 
 export default defineComponent({
     props: ['character'],
     data() {
         return {
-            maxPages: 32 as number,
+            maxPages: 33 as number,
             db: null as Firestore
         }
     },
     methods: {
         // For presentation convenience
-        toLocalFixed(n: number, digits: number) {
+        toLocalFixed(n: any, digits: number) {
             return n.toLocaleString(undefined, {
                 minimumFractionDigits: digits,
                 maximumFractionDigits: digits
@@ -90,6 +99,12 @@ export default defineComponent({
     computed: {
         pageProgress() {
             return this.character.currentpage / this.maxPages;
+        },
+        assets() {
+            return getAssetAmount(this.character);
+        },
+        liabilities() {
+            return getLiabilitiesAmount(this.character);
         }
     },
     created() {

@@ -58,7 +58,6 @@
 import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
 import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc, getDoc, Firestore } from "firebase/firestore";
-import { Character } from "../classes/character/Character";
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
@@ -129,7 +128,7 @@ export default defineComponent({
 
     onSnapshot(characteridQuery, (characters) => {
       characters.forEach(character => {
-        this.character = Object.assign(character.data(), Character);
+        this.character = character.data();
       });
     });
     // this.character = getCharacterByUserID(this.db, this.userid);

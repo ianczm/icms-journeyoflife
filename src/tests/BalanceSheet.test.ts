@@ -1,5 +1,4 @@
 import { test, expect, describe } from "vitest";
-import { BalanceSheet } from "../classes/character/BalanceSheet";
 import { CharacterInitial } from "../classes/character/Character";
 import {
   InterestType,
@@ -9,6 +8,7 @@ import {
   Liabilities,
   Liability,
 } from "../types/BalanceSheet";
+import { autopay, constructBalanceSheet, pushAsset, pushLiability, remainingAssets, remainingLiabilities } from "../utils/BalanceSheetUtils";
 
 describe("BalanceSheet", () => {
   const assetOne = {
@@ -47,9 +47,9 @@ describe("BalanceSheet", () => {
 
   // pushAsset
   test("shouldPushAsset", () => {
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushAsset(assetOne);
+    pushAsset(balanceSheet, assetOne);
 
     expect(balanceSheet.assets[0]).toBe(assetOne);
     expect(balanceSheet.assets[0].name).toBe("InvestmentOne");
@@ -57,9 +57,9 @@ describe("BalanceSheet", () => {
 
   // pushLiability
   test("shouldPushLiability", () => {
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushLiability(liabilityOne);
+    pushLiability(balanceSheet, liabilityOne);
 
     expect(balanceSheet.liabilities[0]).toBe(liabilityOne);
     expect(balanceSheet.liabilities[0].name).toBe("LoanOne");
@@ -67,13 +67,13 @@ describe("BalanceSheet", () => {
 
   // remainingAssets
   test("shouldTotalAssetsWithoutAge", () => {
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushAsset(assetOne);
-    balanceSheet.pushAsset(assetTwo);
+    pushAsset(balanceSheet, assetOne);
+    pushAsset(balanceSheet, assetTwo);
 
     // without taking age into account
-    expect(balanceSheet.remainingAssets(assetOne.startAge)).toBe(
+    expect(remainingAssets(balanceSheet, assetOne.startAge)).toBe(
       assetOne.amount + assetTwo.amount
     );
   });
@@ -81,10 +81,10 @@ describe("BalanceSheet", () => {
   // remainingAssets
   test("shouldTotalAssetsWithAge", () => {
     const addedAge = 4;
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushAsset(assetOne);
-    balanceSheet.pushAsset(assetTwo);
+    pushAsset(balanceSheet, assetOne);
+    pushAsset(balanceSheet, assetTwo);
 
     // while taking age into account, after 4 years
     // simple interest
@@ -94,17 +94,17 @@ describe("BalanceSheet", () => {
     // compound interest
     const assetTwoValue = assetTwo.amount * (1 + assetTwo.interest) ** addedAge;
 
-    expect(balanceSheet.remainingAssets(assetOne.startAge + addedAge)).toBe(
+    expect(remainingAssets(balanceSheet, assetOne.startAge + addedAge)).toBe(
       assetOneValue + assetTwoValue
     );
   });
 
   // remainingLiabilities
   test("shouldTotalLiabilitiesWithoutAge", () => {
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushLiability(liabilityOne);
-    balanceSheet.pushLiability(liabilityTwo);
+    pushLiability(balanceSheet, liabilityOne);
+    pushLiability(balanceSheet, liabilityTwo);
 
     // apply payable interest on liability
     const liabilityOneAfterInterest =
@@ -117,7 +117,7 @@ describe("BalanceSheet", () => {
       (1 + liabilityTwo.interest * liabilityOne.durationYears);
 
     // without taking age into account
-    expect(balanceSheet.remainingLiabilities(liabilityOne.startAge)).toBe(
+    expect(remainingLiabilities(balanceSheet, liabilityOne.startAge)).toBe(
       liabilityOneAfterInterest + liabilityTwoAfterInterest
     );
   });
@@ -125,10 +125,10 @@ describe("BalanceSheet", () => {
   // remainingLiabilities
   test("shouldTotalLiabilitiesWithoutPaymentWithAge", () => {
     const addedAge = 4;
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushLiability(liabilityOne);
-    balanceSheet.pushLiability(liabilityTwo);
+    pushLiability(balanceSheet, liabilityOne);
+    pushLiability(balanceSheet, liabilityTwo);
 
     // apply payable interest on liability
     const liabilityOneAfterInterest =
@@ -147,17 +147,17 @@ describe("BalanceSheet", () => {
     // while taking age into account, after 4 years without payment
     // simple interest
     expect(
-      balanceSheet.remainingLiabilities(liabilityOne.startAge + addedAge)
+      remainingLiabilities(balanceSheet, liabilityOne.startAge + addedAge)
     ).toBe(liabilityOne.durationYears * (yearlyPayableOne + yearlyPayableTwo));
   });
 
   // autopay
   test("shouldAutoPayLiabilities", () => {
-    const addedAge = 4;
-    const balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+    const addedAge = 5;
+    const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
-    balanceSheet.pushLiability(liabilityOne);
-    balanceSheet.pushLiability(liabilityTwo);
+    pushLiability(balanceSheet, liabilityOne);
+    pushLiability(balanceSheet, liabilityTwo);
 
     // apply payable interest on liability
     const liabilityOneAfterInterest =
@@ -174,12 +174,12 @@ describe("BalanceSheet", () => {
       liabilityTwoAfterInterest / liabilityTwo.durationYears;
 
     // reduce liabilities by 4 years
-    balanceSheet.autopay(liabilityOne.durationYears + addedAge);
+    autopay(balanceSheet, liabilityOne.durationYears + addedAge);
 
     // while taking age into account, after 4 years with timely payment
     // simple interest
     expect(
-      balanceSheet.remainingLiabilities(liabilityOne.startAge + addedAge)
+      remainingLiabilities(balanceSheet, liabilityOne.startAge + addedAge)
     ).toBe(
       (liabilityOne.durationYears - addedAge) *
         (yearlyPayableOne + yearlyPayableTwo)

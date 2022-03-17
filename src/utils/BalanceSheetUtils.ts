@@ -56,7 +56,7 @@ export const remainingAssets = (
     }
   };
 
-  return balanceSheet.assets.reduce(calculateYield, 0);
+  return balanceSheet.assets ? balanceSheet.assets.reduce(calculateYield, 0) : 0;
 };
 
 // Converting an asset into cash

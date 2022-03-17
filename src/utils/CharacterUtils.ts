@@ -1,6 +1,6 @@
 import { Character, CharacterInitial } from "../types/Character";
 import { Asset, Liability, BalanceSheet } from "../types/BalanceSheet";
-import { constructBalanceSheet } from "./BalanceSheetUtils";
+import { constructBalanceSheet, remainingAssets, remainingLiabilities } from "./BalanceSheetUtils";
 import { Scenario } from "../classes/scenarios/Scenario";
 
 export const constructCharacter = (
@@ -138,6 +138,15 @@ export const pushLiability = (character: Character, liability: Liability) => {
   // { amount, interest, startAge, durationYears }
   character.balanceSheet.liabilities.push(liability);
 };
+
+export const getAssetAmount = (character: Character): number => {
+  console.log("Assets: " + remainingAssets(character.balanceSheet, character.age));
+  return remainingAssets(character.balanceSheet, character.age);
+}
+
+export const getLiabilitiesAmount = (character: Character): number => {
+  return remainingLiabilities(character.balanceSheet, character.age);
+}
 
 export const useridList = [
   "gSQqXTieERWbf400vpzx3VXRQhx2",
