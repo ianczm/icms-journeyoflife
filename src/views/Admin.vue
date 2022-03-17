@@ -119,7 +119,7 @@ export default defineComponent({
   methods: {
     async resetCurrentCharacter() {
       const characteridQuery = query(collection(this.db, "character"), where("userid", "==", `${this.userid}`));
-      onSnapshot(characteridQuery, (characters) => {
+      getDocs(characteridQuery).then((characters) => {
       characters.forEach(character => {
         const characterData = character.data() as Character;
         setDoc(character.ref, {
