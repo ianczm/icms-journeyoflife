@@ -19,6 +19,10 @@ The website serves as the interface where participants get to interact with vari
 
 ---
 
+## Known Bugs
+- [BACKLOG] Clicking submit answer without any options select will break the game
+- [BACKLOG] Resetting current character will break navigation
+
 ## Absolutely Urgent
 
 - [DONE] prevent character resetting when loading the game pane
