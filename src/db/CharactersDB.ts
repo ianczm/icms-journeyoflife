@@ -1,6 +1,6 @@
 // Retrieving characters
 
-import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, Firestore, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { Character } from "../classes/character/Character";
 
 export enum DB {
@@ -11,22 +11,24 @@ export enum DB {
   USERS = "users"
 }
 
-export function getCharacterByUserID(userid: string): Character {
-  const db = getFirestore();
+export function assignCharacter(character): Character {
+  return Object.assign(new Character(0,0), character);
+}
+
+export function getCharacterByUserID(db: Firestore, userid: string): Character {
   const q = query(collection(db, DB.CHARACTER), where("userid", "==", userid));
   var result;
   // should only return 1
-  getDocs(q).then((characters) => {
+  onSnapshot(q, (characters) => {
     characters.forEach(character => {
       result = character.data() as Character;
     })
   })
 
-  return Object.assign(new Character(0, 0), result);
+  return assignCharacter(result);
 }
 
-export function getAllCharacters(): Array<Character> {
-  const db = getFirestore();
+export function getAllCharacters(db: Firestore): Array<Character> {
   const c = collection(db, DB.CHARACTER);
   var results;
   // should only return 1
@@ -39,24 +41,24 @@ export function getAllCharacters(): Array<Character> {
   return results;
 }
 
-export function getCharacter(id: number): Character {
-  const db = getFirestore();
+export function getCharacter(db: Firestore, id: number): Character {
   var result;
 
-  getDoc(doc(db, DB.CHARACTER, `${id}`)).then((character) => {
+  onSnapshot(doc(db, DB.CHARACTER, `${id}`), (character) => {
     result = character.data() as Character;
   })
 
-  return Object.assign(new Character(0, 0), result);
+  return assignCharacter(result);
 }
 
-export function pushCharacter(character: Character): void {
-  const db = getFirestore();
-
+export function pushCharacter(db: Firestore, character: Character): void {
   setDoc(doc(db, DB.CHARACTER, `${character.id}`), {
     ...character
   })
 }
 
-var testCharacter = getCharacter(18);
-console.log(testCharacter.networth);
+export function updateCharacterPage(db: Firestore, characterid: number, page: number): void {
+  updateDoc(doc(db, DB.CHARACTER, `${characterid}`), {
+    currentpage: page,
+  })
+}

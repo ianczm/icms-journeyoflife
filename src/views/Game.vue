@@ -59,7 +59,7 @@ import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
 import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc, getDoc, Firestore } from "firebase/firestore";
 import { Character } from "../classes/character/Character";
-import { computed, defineComponent } from "@vue/runtime-core";
+import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
   components: { Scenario, CharacterStats },
@@ -103,6 +103,7 @@ export default defineComponent({
       console.log("Current page is " + this.character.currentpage);
       // update firebase with new characterpage
       this.updateFirebaseCharacter(this.character.currentpage);
+      // updateCharacterPage(this.db, this.character.id, this.character.currentpage);
     },
     triggerEndGame() {
       // show the endgame page
@@ -131,6 +132,7 @@ export default defineComponent({
         this.character = Object.assign(character.data(), Character);
       });
     });
+    // this.character = getCharacterByUserID(this.db, this.userid);
   }
 })
 </script>

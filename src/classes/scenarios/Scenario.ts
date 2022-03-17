@@ -148,7 +148,7 @@ class Scenario {
   async updateCharacterDatabaseInstance() {
     console.log("After submission: " + this.hasCompleted);
     await setDoc(doc(this.db, "character", `${this.character.id}`), {
-      ...this.character
+      ...JSON.parse(JSON.stringify(this.character)), balanceSheet: null
     });
   }
 
