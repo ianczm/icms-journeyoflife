@@ -3,7 +3,8 @@ import { BalanceSheet } from "./BalanceSheet";
 
 enum CharacterInitial {
     CASH = 5000,
-    SCORE = 1250
+    SCORE = 1250,
+    STATUS_SCORE = 10,
 }
 
 class Character {
@@ -13,6 +14,7 @@ class Character {
     // Main Metrics
     score: number;
     networth: number;
+    statusScore: number;
 
     // Statistics
     happiness: number;
@@ -56,6 +58,7 @@ class Character {
 
         // to be replaced with balanceSheet.cash
         this.networth = CharacterInitial.CASH;
+        this.statusScore = CharacterInitial.STATUS_SCORE;
 
         this.calculateScore();
 

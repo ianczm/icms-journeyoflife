@@ -30,6 +30,7 @@ class ScenarioOneB extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
+                this.character.statusScore += 2;
                 this.character.networth -= 800;
                 this.character.happiness -= 0.04;
                 this.character.stress += 0.04;
@@ -37,6 +38,7 @@ class ScenarioOneB extends Scenario {
                 this.character.security += 0;
                 break;
             case 2:
+                this.character.statusScore += 1;
                 this.character.networth -= 1000;
                 this.character.happiness -= 0.02;
                 this.character.stress += 0.02;
@@ -44,6 +46,7 @@ class ScenarioOneB extends Scenario {
                 this.character.security += 0;
                 break;
             case 3:
+                this.character.statusScore += 1;
                 this.character.networth -= 700;
                 this.character.happiness -= 0.02;
                 this.character.stress += 0.02;
@@ -51,6 +54,7 @@ class ScenarioOneB extends Scenario {
                 this.character.security += 0;
                 break;
             case 4:
+                this.character.statusScore += -1;
                 this.character.networth -= -6500;
                 this.character.happiness -= 0;
                 this.character.stress += 0.02;
