@@ -16,6 +16,7 @@ class Options {
 class ScenarioContent {
 
     pageid: number;
+    scenarioAge: number;
 
     heading: string; // Phase 1
     phase: string; // Phase 1A
@@ -26,6 +27,7 @@ class ScenarioContent {
 
     constructor(
         pageid: number,
+        scenarioAge: number,
         heading: string,
         phase: string,
         title: string,
@@ -33,6 +35,7 @@ class ScenarioContent {
         options: Array<Options>
     ) {
         this.pageid = pageid;
+        this.scenarioAge = scenarioAge;
         this.heading = heading;
         this.phase = phase;
         this.title = title;

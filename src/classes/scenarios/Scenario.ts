@@ -15,7 +15,7 @@ import { calculateScore, constructCharacter, rememberOption } from '../../utils/
 
 // 0/5. push or pay any assets or liabilities --> show in outcome page
 // >>>>>>>>>>> new scenario >>>>>>>>>>>>>
-// 1. load age from scenario
+// 1. load age from scenarioContent
 // 2. set character age to match scenario
 // 3. auto pay after updating age --> remember value
 // 4. submit choice as usual
@@ -32,6 +32,8 @@ class Scenario {
   allowMultipleSelection: boolean;
   hasCompleted: boolean;
 
+  scenarioAge: number;
+
   constructor(character: Character, currentPage: number, allowMultipleSelection: boolean) {
 
     // Initialise firebase
@@ -39,6 +41,8 @@ class Scenario {
 
     // Reference the original character object
     this.character = character;
+
+    this.scenarioAge = 1,
 
     // Scenario current page
     this.currentPage = currentPage;
@@ -172,6 +176,8 @@ class Scenario {
         this.selectionsReady = true;
         this.selections = instance.data().selections;
         this.hasCompleted = instance.data().hasCompleted;
+        // added age --> to set character to an age
+        this.scenarioAge = instance.data().scenarioAge;
       } else {
         setDoc(instanceRef, {
           selections: this.selections,

@@ -41,6 +41,7 @@ import { getFirestore, doc, onSnapshot, Firestore } from "firebase/firestore"
 import { defineComponent } from "vue";
 import { Scenario } from "../classes/scenarios/Scenario";
 import { ScenarioSelector } from "../classes/scenarios/ScenarioSelector";
+import { autopayCharacter } from "../utils/CharacterUtils";
 
 export default defineComponent({
   props: ['pageid', 'character', 'submitted'],
@@ -48,6 +49,7 @@ export default defineComponent({
   data() {
     return {
       // Scenario and Phases
+      scenarioAge: 0 as number,
       heading: null as string,
       phase: null as string,
       title: null as string,
@@ -60,6 +62,7 @@ export default defineComponent({
       characterScenario: null as Scenario,
       selections: [] as Array<number>,
       hasCompleted: false as boolean,
+      amountPaid: 0 as number,
 
       // Database
       db: null as Firestore,
@@ -97,7 +100,6 @@ export default defineComponent({
   },
   async beforeMount() {
 
-    console.log("Before mount pageid is " + this.pageid);
     // Initialise scenario
     // might need a scenario factory here
     this.characterScenario = ScenarioSelector.getScenario(this.character, this.pageid);
@@ -107,11 +109,19 @@ export default defineComponent({
     onSnapshot(doc(this.db, "scenario", `${this.pageid}`), (doc) => {
       if (doc.exists()) {
         const scenarioContent = doc.data();
+        // for display
+        this.scenarioAge = scenarioContent.scenarioAge;
+
         this.heading = scenarioContent.heading;
         this.phase = scenarioContent.phase;
         this.title = scenarioContent.title;
         this.body = scenarioContent.body;
         this.options = scenarioContent.options;
+
+        // for updating character age
+        this.character.age = scenarioContent.scenarioAge;
+        // auto pay when age updates
+        this.amountPaid = autopayCharacter(this.character.balanceSheet);
       } else {
         // indicates that the game has ended
         this.$emit('endGame');

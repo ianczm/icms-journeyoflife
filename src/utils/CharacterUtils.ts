@@ -1,6 +1,6 @@
 import { Character, CharacterInitial } from "../types/Character";
 import { Asset, Liability, BalanceSheet } from "../types/BalanceSheet";
-import { constructBalanceSheet, remainingAssets, remainingLiabilities } from "./BalanceSheetUtils";
+import { autopay, constructBalanceSheet, remainingAssets, remainingLiabilities } from "./BalanceSheetUtils";
 import { Scenario } from "../classes/scenarios/Scenario";
 
 export const constructCharacter = (
@@ -145,6 +145,10 @@ export const getAssetAmount = (character: Character): number => {
 
 export const getLiabilitiesAmount = (character: Character): number => {
   return remainingLiabilities(character.balanceSheet, character.age);
+}
+
+export const autopayCharacter = (character: Character): number => {
+  return autopay(character.balanceSheet, character.age);
 }
 
 export const useridList = [

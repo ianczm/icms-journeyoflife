@@ -30,8 +30,6 @@ class ScenarioOneA extends Scenario {
         // Do NOT calculate score here, score will be
         // updated before submission automatically
 
-        this.character.happiness -= 0.05;
-
         switch (this.generateCase()) {
             case 1:
                 pushLiability(this.character, {

@@ -137,8 +137,8 @@ export const payLiability = (
   balanceSheet.amountPaid += amount;
 };
 
-// Paying the payable liability up to the age
-export const autopay = (balanceSheet: BalanceSheet, age: number): void => {
+// Paying the payable liability up to the age, returning how much was paid during the function call
+export const autopay = (balanceSheet: BalanceSheet, age: number): number => {
   /*
   const calculatePayable = (currSum: number, liability: Liability) => {
     const diff = age - liability.startAge;
@@ -171,4 +171,5 @@ export const autopay = (balanceSheet: BalanceSheet, age: number): void => {
   const payable = balanceSheet.liabilities.reduce(calculatePayable, 0);
   balanceSheet.cash -= payable - balanceSheet.amountPaid;
   balanceSheet.amountPaid = payable;
+  return payable;
 }

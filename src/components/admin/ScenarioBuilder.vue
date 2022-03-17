@@ -2,9 +2,15 @@
     <div class="scenario builder">
         <h3 class="table-title">Scenario Builder</h3>
         <form>
-            <div class="pageid form-group">
-                <label>Page ID</label>
+            <div class="pageid-age form-group">
+                <div class="pageid">
+                    <label>Page ID</label>
                 <input v-model="pageid" type="number" />
+                </div>
+                <div class="age">
+                    <label>Age</label>
+                <input v-model="scenarioAge" type="number" />
+                </div>
             </div>
             <div class="heading form-group">
                 <label>Heading</label>
@@ -75,6 +81,7 @@ export default defineComponent({
     props: ['pageid'],
     data() {
         return {
+            scenarioAge: 0 as number,
             heading: "" as string,
             phase: "" as string,
             title: "" as string,
@@ -91,6 +98,7 @@ export default defineComponent({
     beforeMount() {
         const sampleScenario = retrieveScenarioFromDatabase(this.db, this.pageid);
         sampleScenario.then(sample => {
+            this.scenarioAge = sample.scenarioAge;
             this.heading = sample.heading;
             this.phase = sample.phase;
             this.title = sample.title;
@@ -105,6 +113,7 @@ export default defineComponent({
         pageid(pageid) {
             const sampleScenario = retrieveScenarioFromDatabase(this.db, this.pageid);
             sampleScenario.then(sample => {
+                this.scenarioAge = sample.scenarioAge;
                 this.heading = sample.heading;
                 this.phase = sample.phase;
                 this.title = sample.title;
@@ -136,6 +145,7 @@ export default defineComponent({
         submitScenario() {
             const scenarioContent = new ScenarioContent(
                 this.pageid,
+                this.scenarioAge,
                 this.heading,
                 this.phase,
                 this.title,
@@ -208,6 +218,15 @@ export default defineComponent({
             .record {
                 &:hover {
                     background: none;
+                }
+            }
+
+            &.pageid-age {
+                display: flex;
+                @include spaceChildren(10px);
+
+                input, label { 
+                    width: 60%;
                 }
             }
         }
