@@ -11,7 +11,7 @@
                 <h1>{{ toLocalFixed(character.score, 2) }}</h1>
             </div>
             <div class="net-worth">
-                <h3>Net Worth</h3>
+                <h3>Cash</h3>
                 <h1>RM {{ toLocalFixed(character.networth, 2) }}</h1>
             </div>
         </div>

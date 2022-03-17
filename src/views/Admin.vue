@@ -41,7 +41,6 @@
           <div class="panel">
             <button @click="resetCurrentCharacter" class="glow-button">Reset Current Character</button>
             <button @click="resetAllCharacters" class="glow-button">Reset Characters</button>
-            <button @click="resetCharacterScenarios" class="glow-button">Reset Selected Options</button>
           </div>
         </div>
         <div id="scenario database">
@@ -118,14 +117,28 @@ export default defineComponent({
   },
   methods: {
     async resetCurrentCharacter() {
+
+      var characterid;
+
       const characteridQuery = query(collection(this.db, "character"), where("userid", "==", `${this.userid}`));
       getDocs(characteridQuery).then((characters) => {
       characters.forEach(character => {
         const characterData = character.data() as Character;
+        characterid = characterData.id;
         setDoc(character.ref, {
-           ...new Character(characterData.userid, characterData.id), balanceSheet: null
+           ...new Character(this.userid, characterData.id), balanceSheet: null
         })
       });
+
+      const csCollection = collection(this.db, "character_scenario");
+      getDocs(csCollection).then(csSnapshot => {
+        csSnapshot.forEach((cs) => {
+          if (cs.id.split("_")[0] == `${characterid}`) {
+            deleteDoc(cs.ref);
+          }
+        });
+      });
+
     });
     },
     transferScenarioToEditor(pageid) {
@@ -145,6 +158,8 @@ export default defineComponent({
       for (var i = 0; i < useridList.length; i++) {
         setDocs(this.db, i + 1, useridList[i]);
       }
+
+      this.resetCharacterScenarios();
     },
     toLocalFixed(n: number, digits: number) {
       return n.toLocaleString(undefined, {

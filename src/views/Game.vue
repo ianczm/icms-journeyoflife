@@ -160,7 +160,7 @@ export default defineComponent({
 
 .game-panel {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 4fr 7fr;
   // grid-template-rows: min-content 45px min-content;
   grid-template-areas: "character scenario";
   grid-gap: 20px 50px;
@@ -221,7 +221,7 @@ export default defineComponent({
 
     .scores {
       display: grid;
-      grid-template-columns: 3fr 5fr;
+      grid-template-columns: 5fr 7fr;
       margin: 35px 0;
 
       h3 {
@@ -229,7 +229,7 @@ export default defineComponent({
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin-bottom: 0;
       }
     }
@@ -256,7 +256,7 @@ export default defineComponent({
         margin-top: 10px;
         $borderradius: 50px;
         width: 100%;
-        height: 25px;
+        height: 20px;
         border-radius: $borderradius;
         display: block;
         @include createGlass($outlineopacity: 0.03);
