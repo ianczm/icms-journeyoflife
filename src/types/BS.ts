@@ -27,20 +27,5 @@ export interface BS {
   assets: Assets;
   liabilities: Liabilities;
   amountPaid: number;
-
-  // Add new amount
-  pushAsset: (asset: Asset) => void;
-
-  pushLiability: (liability: Liability) => void;
-
-  // Return remaining amount
-  remainingAssets: (age: number) => number;
-
-  liquidate: (name: string, age: number) => number;
-
-  remainingLiabilities: (age: number) => number;
-
-  payLiability: (amount: number) => void;
-
-  autopay: (age: number) => void;
+  cash: number;
 }
