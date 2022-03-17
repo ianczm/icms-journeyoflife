@@ -1,7 +1,7 @@
 import { InterestType, Asset, BS, Liability } from "../types/BS";
 
 // Create a balance sheet object
-export const createBalanceSheet = (initialCash: number): BS => {
+export const constructBalanceSheet = (initialCash: number): BS => {
   let temp: BS = {
     amountPaid: 0,
     assets: [],
