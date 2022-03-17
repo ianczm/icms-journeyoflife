@@ -25,6 +25,20 @@ export function getCharacterByUserID(userid: string): Character {
   return Object.assign(new Character(0, 0), result);
 }
 
+export function getAllCharacters(): Array<Character> {
+  const db = getFirestore();
+  const c = collection(db, DB.CHARACTER);
+  var results;
+  // should only return 1
+  getDocs(c).then((characters) => {
+    characters.forEach(character => {
+      results.push(Object.assign(new Character(0,0), character.data()));
+    })
+  })
+
+  return results;
+}
+
 export function getCharacter(id: number): Character {
   const db = getFirestore();
   var result;
@@ -43,3 +57,6 @@ export function pushCharacter(character: Character): void {
     ...character
   })
 }
+
+var testCharacter = getCharacter(18);
+console.log(testCharacter.networth);
