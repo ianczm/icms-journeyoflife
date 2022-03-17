@@ -38,9 +38,12 @@ export interface BalanceSheet {
   cash: number;
   amountPaid: number;
 
-  // monthly income and expenses
-  monthlyIncome: MonthlyAccounts;
-  monthlyExpenses: MonthlyAccounts;
+  /**
+   * monthly income and expenses
+   * - monthlyIncome: MonthlyAccounts;
+   * - monthlyExpenses: MonthlyAccounts;
+   */
+  
 
   /**
    * 
