@@ -2,30 +2,42 @@ import {
   InterestType,
   Asset,
   Assets,
-  BS,
+  BalanceSheet,
   Liabilities,
   Liability,
-} from "../../types/BS";
+} from "../../types/BalanceSheet";
 
-class BalanceSheet implements BS {
+class BalanceSheetClass implements BalanceSheet {
   assets: Assets;
   liabilities: Liabilities;
-  amountPaid: number;
   cash: number;
+  amountPaid: number;
 
-  constructor(cash) {
+  constructor(cash: number) {
     this.assets = [];
     this.liabilities = [];
     this.amountPaid = 0;
     this.cash = cash;
   }
 
+  increaseCash(amount: number): number {
+    this.cash += amount;
+    return this.cash;
+  }
+
+  decreaseCash(amount: number): number {
+    this.cash -= amount;
+    return this.cash;
+  }
+
   // Add new amount
   pushAsset(asset: Asset): void {
+    this.cash -= asset.amount;
     this.assets.push(asset);
   }
 
   pushLiability(liability: Liability): void {
+    // this.cash += liability.amount;
     this.liabilities.push(liability);
   }
 
@@ -82,6 +94,7 @@ class BalanceSheet implements BS {
       if ((this.assets[i].name = name)) {
         found = true;
         const res = calculateYield(this.assets[i]);
+        this.cash += res;
         this.assets.splice(i, 1);
         return res;
       }
@@ -91,6 +104,7 @@ class BalanceSheet implements BS {
   }
 
   remainingLiabilities(age: number): number {
+    /*
     const calculateDebt = (currSum: number, liability: Liability) => {
       const diff = age - liability.startAge;
       if (diff >= liability.durationYears) {
@@ -101,15 +115,23 @@ class BalanceSheet implements BS {
         return currSum + total;
       }
     };
+    */
+    const calculateDebt = (currSum: number, liability: Liability) => {
+      const total =
+        liability.amount * (1 + liability.interest * liability.durationYears);
+      return currSum + total;
+    };
 
     return this.liabilities.reduce(calculateDebt, 0) - this.amountPaid;
   }
 
   payLiability(amount: number): void {
+    this.cash -= amount;
     this.amountPaid += amount;
   }
 
   autopay(age: number): void {
+    /*
     const calculatePayable = (currSum: number, liability: Liability) => {
       const diff = age - liability.startAge;
       if (diff >= liability.durationYears) {
@@ -121,9 +143,27 @@ class BalanceSheet implements BS {
         return currSum + payable;
       }
     };
+    */
+    const calculatePayable = (currSum: number, liability: Liability) => {
+      const diff = age - liability.startAge;
+      if (diff >= liability.durationYears) {
+        const payable =
+          liability.amount * (1 + liability.interest * liability.durationYears);
+        return currSum + payable;
+      } else {
+        const payable =
+          (liability.amount *
+            (1 + liability.interest * liability.durationYears) *
+            diff) /
+          liability.durationYears;
+        return currSum + payable;
+      }
+    };
 
-    this.amountPaid += this.liabilities.reduce(calculatePayable, 0);
+    const payable = this.liabilities.reduce(calculatePayable, 0);
+    this.cash -= payable - this.amountPaid;
+    this.amountPaid = payable;
   }
 }
 
-export { BalanceSheet };
+export { BalanceSheetClass };

@@ -1,5 +1,6 @@
-import { Character } from '../character/Character';
+import { Character } from '../../types/Character';
 import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
+import { calculateScore, constructCharacter, rememberOption } from '../../utils/CharacterUtils';
 
 
 // Usage Flow
@@ -11,6 +12,15 @@ import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore
 //      - processes selected options --> calculation done here
 //      - updates character and history
 // 4. always listen for firebase updates e.g. allowMultipleSelections
+
+// 0/5. push or pay any assets or liabilities --> show in outcome page
+// >>>>>>>>>>> new scenario >>>>>>>>>>>>>
+// 1. load age from scenario
+// 2. set character age to match scenario
+// 3. auto pay after updating age --> remember value
+// 4. submit choice as usual
+// >>>>>>>>>>> finish scenario >>>>>>>>>>>>>
+// 5/0. repeat
 
 class Scenario {
 
@@ -28,7 +38,7 @@ class Scenario {
     this.db = getFirestore();
 
     // Reference the original character object
-    this.character = Object.assign(new Character(0, 0), character);
+    this.character = character;
 
     // Scenario current page
     this.currentPage = currentPage;
@@ -87,13 +97,13 @@ class Scenario {
       }
 
       // Proceed with answer processing
-      this.character.rememberOption(this.selections[0]);
+      rememberOption(this.character, this.selections[0]);
 
       this.processAnswer();
 
       // Update character upon submit after perfoming
       // logic and calculations
-      this.character.calculateScore();
+      calculateScore(this.character);
 
       // Find a way to update the database
       this.hasCompleted = true;
@@ -147,9 +157,9 @@ class Scenario {
 
   async updateCharacterDatabaseInstance() {
     console.log("After submission: " + this.hasCompleted);
-    await setDoc(doc(this.db, "character", `${this.character.id}`), {
-      ...JSON.parse(JSON.stringify(this.character)), balanceSheet: null
-    });
+    await setDoc(doc(this.db, "character", `${this.character.id}`), 
+      this.character
+    );
   }
 
   // Private, creates a new database instance if it doesn't exist, if not,
