@@ -193,6 +193,7 @@ export default defineComponent({
     const cQ = query(
       collection(this.db, "character"),
       orderBy("score", "desc"),
+      orderBy("id", "asc")
       // orderBy("networth", "desc")
     );
     onSnapshot(cQ, (characters) => {

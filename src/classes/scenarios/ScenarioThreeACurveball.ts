@@ -7,7 +7,7 @@ import { Scenario } from "./Scenario"
 const allowMultipleSelection: boolean = false;
 
 
-class ScenarioOneB extends Scenario {
+class ScenarioThreeACurveball extends Scenario {
     constructor(character: Character, currentPage: number) {
         // Build scenario
         // [!] page is still hardcoded
@@ -30,36 +30,20 @@ class ScenarioOneB extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += 800;
-                this.character.statusScore += 2;
-                this.character.happiness += 0.04;
+                this.character.networth += 0;
+                this.character.statusScore += -1;
+                this.character.happiness += -0.04;
                 this.character.stress += 0.04;
-                this.character.health += -0.03;
-                this.character.security += 0;
+                this.character.health += 0.00;
+                this.character.security += -0.00;
                 break;
             case 2:
-                this.character.networth += 1000;
+                this.character.networth += 0;
                 this.character.statusScore += 1;
                 this.character.happiness += 0.02;
-                this.character.stress += 0.02;
-                this.character.health += 0;
-                this.character.security += 0;
-                break;
-            case 3:
-                this.character.networth += 700;
-                this.character.statusScore += 1;
-                this.character.happiness += 0.02;
-                this.character.stress += 0.02;
+                this.character.stress += 0.04;
                 this.character.health += -0.02;
-                this.character.security += 0;
-                break;
-            case 4:
-                this.character.networth += -6500;
-                this.character.statusScore += -1;
-                this.character.happiness += 0;
-                this.character.stress += 0.02;
-                this.character.health += 0;
-                this.character.security += 0;
+                this.character.security += -0.02;
                 break;
 
             default:
@@ -82,4 +66,4 @@ class ScenarioOneB extends Scenario {
     }
 }
 
-export { ScenarioOneB }
+export { ScenarioThreeACurveball }
