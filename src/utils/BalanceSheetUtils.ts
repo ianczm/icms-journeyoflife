@@ -26,20 +26,20 @@ export const decreaseCash = (balanceSheet: BalanceSheet, amount: number): number
   return balanceSheet.cash;
 }
 
-// // Add asset to a balance sheet
-// export const pushAsset = (balanceSheet: BalanceSheet, asset: Asset): void => {
-//   // [!] what if we do not want to deduct cash e.g. some assets are added because of a loan
-//   // balanceSheet.cash -= asset.amount;
-//   balanceSheet.assets.push(asset);
-// };
+// Add asset to a balance sheet
+export const pushAsset = (balanceSheet: BalanceSheet, asset: Asset): void => {
+  // [!] what if we do not want to deduct cash e.g. some assets are added because of a loan
+  // balanceSheet.cash -= asset.amount;
+  balanceSheet.assets.push(asset);
+};
 
-// // Add liability to a balance sheet
-// export const pushLiability = (
-//   balanceSheet: BalanceSheet,
-//   liability: Liability
-// ): void => {
-//   balanceSheet.liabilities.push(liability);
-// };
+// Add liability to a balance sheet
+export const pushLiability = (
+  balanceSheet: BalanceSheet,
+  liability: Liability
+): void => {
+  balanceSheet.liabilities.push(liability);
+};
 
 // Assets methods
 export const remainingAssets = (balanceSheet: BalanceSheet, age: number): number => {
