@@ -191,6 +191,7 @@ export default defineComponent({
     font-size: 1rem;
     margin-bottom: 0;
     line-height: 1.5;
+    font-weight: 300;
   }
 
   @media only screen and (max-width: 1050px) {
@@ -200,7 +201,7 @@ export default defineComponent({
     }
 
     h2 {
-      font-size: 1rem;
+      font-size: 1.15rem;
       margin-bottom: 1.5rem;
     }
 
@@ -209,7 +210,7 @@ export default defineComponent({
       margin-bottom: 1rem;
     }
     p {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       margin-bottom: 0;
       line-height: 1.5;
     }

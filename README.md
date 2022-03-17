@@ -45,7 +45,7 @@ The website serves as the interface where participants get to interact with vari
     - access via Character.previousOption
 
 ### Optimisation
-- [WIP] improve laptop friendliness (font weight)
+- [DONE] improve laptop friendliness (font weight)
 - [WIP] progress bar for how many questions left
 
 ---
