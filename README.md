@@ -22,6 +22,7 @@ The website serves as the interface where participants get to interact with vari
 ## Known Bugs
 - [BACKLOG] Clicking submit answer without any options select will break the game
 - [BACKLOG] Resetting current character will break navigation
+- [BACKLOG] next button sometimes broken
 
 ## Absolutely Urgent
 
@@ -30,6 +31,9 @@ The website serves as the interface where participants get to interact with vari
 - [WIP] realign calculations so that we don't get stress to 100% after first two scenarios lmao
 - [WIP] networth very negative at the start
 - [BACKLOG] end game screen
+- [WIP] separate cash and assets
+- [WIP] update content and age
+- [WIP] outcome page
 
 ## Must Have
 
@@ -51,7 +55,7 @@ The website serves as the interface where participants get to interact with vari
 
 ### Optimisation
 - [DONE] improve laptop friendliness (font weight)
-- [WIP] progress bar for how many questions left
+- [DONE] progress bar for how many questions left
 
 ---
 
