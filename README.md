@@ -29,6 +29,7 @@ The website serves as the interface where participants get to interact with vari
 - [DONE] add character id as a property to Character
 - [WIP] realign calculations so that we don't get stress to 100% after first two scenarios lmao
 - [WIP] networth very negative at the start
+- [BACKLOG] end game screen
 
 ## Must Have
 
