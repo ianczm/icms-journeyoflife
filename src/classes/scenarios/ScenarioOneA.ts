@@ -1,3 +1,5 @@
+import { Liability } from "../../types/BalanceSheet";
+import { pushLiability } from "../../utils/CharacterUtils";
 import { Character } from "../character/Character";
 import { Scenario } from "./Scenario"
 
@@ -32,7 +34,14 @@ class ScenarioOneA extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += -105000;
+                pushLiability(this.character, {
+                    amount: 105000,
+                    durationYears: 10,
+                    interest: 0.01,
+                    name: "Foundation and Degree Loan",
+                    startAge: this.character.age
+                });
+                this.character.networth += 0;
                 this.character.statusScore += 1;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.06;
@@ -40,7 +49,14 @@ class ScenarioOneA extends Scenario {
                 this.character.security += 0;
                 break;
             case 2:
-                this.character.networth += -110000;
+                pushLiability(this.character, {
+                    amount: 110000,
+                    durationYears: 10,
+                    interest: 0.01,
+                    name: "A-Levels and Degree Loan",
+                    startAge: this.character.age
+                });
+                this.character.networth += 0;
                 this.character.statusScore += 1;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.06;
@@ -48,7 +64,14 @@ class ScenarioOneA extends Scenario {
                 this.character.security += 0;
                 break;
             case 3:
-                this.character.networth += -80000;
+                pushLiability(this.character, {
+                    amount: 80000,
+                    durationYears: 10,
+                    interest: 0.01,
+                    name: "STPM and Degree Loan",
+                    startAge: this.character.age
+                });
+                this.character.networth += 0;
                 this.character.statusScore += 1;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.03;

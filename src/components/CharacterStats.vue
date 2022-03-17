@@ -16,11 +16,11 @@
             </div>
             <div class="assets">
                 <h3>Non-Current Assets</h3>
-                <h1>RM {{ assets }}</h1>
+                <h1>RM {{ toLocalFixed(assets, 2) }}</h1>
             </div>
             <div class="liability">
                 <h3>Debt</h3>
-                <h1>RM {{ liabilities }}</h1>
+                <h1>RM {{ toLocalFixed(liabilities, 2) }}</h1>
             </div>
         </div>
         <div class="statistics">

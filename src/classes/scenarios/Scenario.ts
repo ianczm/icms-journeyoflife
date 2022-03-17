@@ -13,6 +13,15 @@ import { calculateScore, constructCharacter, rememberOption } from '../../utils/
 //      - updates character and history
 // 4. always listen for firebase updates e.g. allowMultipleSelections
 
+// 0/5. push or pay any assets or liabilities --> show in outcome page
+// >>>>>>>>>>> new scenario >>>>>>>>>>>>>
+// 1. load age from scenario
+// 2. set character age to match scenario
+// 3. auto pay after updating age --> remember value
+// 4. submit choice as usual
+// >>>>>>>>>>> finish scenario >>>>>>>>>>>>>
+// 5/0. repeat
+
 class Scenario {
 
   db: Firestore;
