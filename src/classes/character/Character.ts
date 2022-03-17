@@ -1,5 +1,5 @@
 import { Scenario } from "../scenarios/Scenario";
-import { BalanceSheet } from "./BalanceSheet";
+import { BalanceSheetClass } from "./BalanceSheet";
 
 enum CharacterInitial {
     CASH = 5000,
@@ -25,7 +25,7 @@ class Character {
     // feature/assetliability
     // assets: Array<Asset>;
     // liabilities: Array<Liability>;
-    balanceSheet: BalanceSheet;
+    balanceSheet: BalanceSheetClass;
 
     // Navigation
     currentpage: number;
@@ -62,7 +62,7 @@ class Character {
 
         this.calculateScore();
 
-        this.balanceSheet = new BalanceSheet(CharacterInitial.CASH);
+        this.balanceSheet = new BalanceSheetClass(CharacterInitial.CASH);
     }
 
     setPage(page) {

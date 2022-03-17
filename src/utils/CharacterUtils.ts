@@ -140,7 +140,6 @@ export const pushLiability = (character: Character, liability: Liability) => {
 };
 
 export const getAssetAmount = (character: Character): number => {
-  console.log("Assets: " + remainingAssets(character.balanceSheet, character.age));
   return remainingAssets(character.balanceSheet, character.age);
 }
 

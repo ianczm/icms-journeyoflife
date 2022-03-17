@@ -148,9 +148,9 @@ class Scenario {
 
   async updateCharacterDatabaseInstance() {
     console.log("After submission: " + this.hasCompleted);
-    await setDoc(doc(this.db, "character", `${this.character.id}`), {
-      ...JSON.parse(JSON.stringify(this.character)), balanceSheet: null
-    });
+    await setDoc(doc(this.db, "character", `${this.character.id}`), 
+      this.character
+    );
   }
 
   // Private, creates a new database instance if it doesn't exist, if not,

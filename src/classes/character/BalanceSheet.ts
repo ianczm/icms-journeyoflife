@@ -7,7 +7,7 @@ import {
   Liability,
 } from "../../types/BalanceSheet";
 
-class BalanceSheet implements BalanceSheet {
+class BalanceSheetClass implements BalanceSheet {
   assets: Assets;
   liabilities: Liabilities;
   cash: number;
@@ -166,4 +166,4 @@ class BalanceSheet implements BalanceSheet {
   }
 }
 
-export { BalanceSheet };
+export { BalanceSheetClass };

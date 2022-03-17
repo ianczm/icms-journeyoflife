@@ -16,8 +16,20 @@ export const constructBalanceSheet = (initialCash: number): BalanceSheet => {
   return temp;
 };
 
+export const increaseCash = (balanceSheet: BalanceSheet, amount: number): number => {
+  balanceSheet.cash += amount;
+  return balanceSheet.cash;
+}
+
+export const decreaseCash = (balanceSheet: BalanceSheet, amount: number): number => {
+  balanceSheet.cash -= amount;
+  return balanceSheet.cash;
+}
+
 // Add asset to a balance sheet
 export const pushAsset = (balanceSheet: BalanceSheet, asset: Asset): void => {
+  // [!] what if we do not want to deduct cash e.g. some assets are added because of a loan
+  // balanceSheet.cash -= asset.amount;
   balanceSheet.assets.push(asset);
 };
 
@@ -29,11 +41,8 @@ export const pushLiability = (
   balanceSheet.liabilities.push(liability);
 };
 
-// Obtain the total assets in a balance sheet
-export const remainingAssets = (
-  balanceSheet: BalanceSheet,
-  age: number
-): number => {
+// Assets methods
+export const remainingAssets = (balanceSheet: BalanceSheet, age: number): number => {
   const calculateYield = (currSum: number, asset: Asset) => {
     const diff = age - asset.startAge;
     if (diff >= asset.durationYears) {
@@ -56,8 +65,8 @@ export const remainingAssets = (
     }
   };
 
-  return balanceSheet.assets ? balanceSheet.assets.reduce(calculateYield, 0) : 0;
-};
+  return balanceSheet.assets.reduce(calculateYield, 0);
+}
 
 // Converting an asset into cash
 export const liquidate = (
@@ -88,6 +97,7 @@ export const liquidate = (
     if ((balanceSheet.assets[i].name = name)) {
       found = true;
       const res = calculateYield(balanceSheet.assets[i]);
+      balanceSheet.cash += res;
       balanceSheet.assets.splice(i, 1);
       return res;
     }
@@ -96,11 +106,8 @@ export const liquidate = (
   return 0;
 };
 
-// Obtain the total liabilities in a balance sheet
-export const remainingLiabilities = (
-  balanceSheet: BalanceSheet,
-  age: number
-): number => {
+export const remainingLiabilities = (balanceSheet: BalanceSheet, age: number): number => {
+  /*
   const calculateDebt = (currSum: number, liability: Liability) => {
     const diff = age - liability.startAge;
     if (diff >= liability.durationYears) {
@@ -111,22 +118,28 @@ export const remainingLiabilities = (
       return currSum + total;
     }
   };
+  */
+  const calculateDebt = (currSum: number, liability: Liability) => {
+    const total =
+      liability.amount * (1 + liability.interest * liability.durationYears);
+    return currSum + total;
+  };
 
-  return (
-    balanceSheet.liabilities.reduce(calculateDebt, 0) - balanceSheet.amountPaid
-  );
-};
+  return balanceSheet.liabilities.reduce(calculateDebt, 0) - balanceSheet.amountPaid;
+}
 
 // Pay the liability in cash
 export const payLiability = (
   balanceSheet: BalanceSheet,
   amount: number
 ): void => {
+  balanceSheet.cash -= amount;
   balanceSheet.amountPaid += amount;
 };
 
 // Paying the payable liability up to the age
 export const autopay = (balanceSheet: BalanceSheet, age: number): void => {
+  /*
   const calculatePayable = (currSum: number, liability: Liability) => {
     const diff = age - liability.startAge;
     if (diff >= liability.durationYears) {
@@ -138,9 +151,24 @@ export const autopay = (balanceSheet: BalanceSheet, age: number): void => {
       return currSum + payable;
     }
   };
+  */
+  const calculatePayable = (currSum: number, liability: Liability) => {
+    const diff = age - liability.startAge;
+    if (diff >= liability.durationYears) {
+      const payable =
+        liability.amount * (1 + liability.interest * liability.durationYears);
+      return currSum + payable;
+    } else {
+      const payable =
+        (liability.amount *
+          (1 + liability.interest * liability.durationYears) *
+          diff) /
+        liability.durationYears;
+      return currSum + payable;
+    }
+  };
 
-  balanceSheet.amountPaid += balanceSheet.liabilities.reduce(
-    calculatePayable,
-    0
-  );
-};
+  const payable = balanceSheet.liabilities.reduce(calculatePayable, 0);
+  balanceSheet.cash -= payable - balanceSheet.amountPaid;
+  balanceSheet.amountPaid = payable;
+}
