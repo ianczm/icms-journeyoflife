@@ -2,6 +2,7 @@ import { Character, CharacterInitial } from "../types/Character";
 import { Asset, Liability, BalanceSheet } from "../types/BalanceSheet";
 import { autopay, constructBalanceSheet, remainingAssets, remainingLiabilities } from "./BalanceSheetUtils";
 import { Scenario } from "../classes/scenarios/Scenario";
+import { doc, Firestore, setDoc } from "firebase/firestore";
 
 export const constructCharacter = (
   userId: string,
@@ -147,8 +148,17 @@ export const getLiabilitiesAmount = (character: Character): number => {
   return remainingLiabilities(character.balanceSheet, character.age);
 }
 
-export const autopayCharacter = (character: Character): number => {
-  return autopay(character.balanceSheet, character.age);
+export const autopayCharacter = (db: Firestore, character: Character): number => {
+  var amountPaid = autopay(character.balanceSheet, character.age);
+  updateCharacterAfterAutopay(db, character);
+  return amountPaid;
+}
+
+export const updateCharacterAfterAutopay = (db: Firestore, character: Character): void => {
+  console.log("Updating character after autopay: " + character.balanceSheet.amountPaid);
+  setDoc(doc(db, "character", `${character.id}`), {
+    ...character,
+  });
 }
 
 export const useridList = [

@@ -42,6 +42,7 @@ import { defineComponent } from "vue";
 import { Scenario } from "../classes/scenarios/Scenario";
 import { ScenarioSelector } from "../classes/scenarios/ScenarioSelector";
 import { autopayCharacter } from "../utils/CharacterUtils";
+import { autopayScenario, updateCharacterDatabaseInstance } from "../utils/ScenarioUtils";
 
 export default defineComponent({
   props: ['pageid', 'character', 'submitted'],
@@ -121,7 +122,7 @@ export default defineComponent({
         // for updating character age
         this.character.age = scenarioContent.scenarioAge;
         // auto pay when age updates
-        this.amountPaid = autopayCharacter(this.character);
+        this.amountPaid = this.characterScenario.autopayScenario();
       } else {
         // indicates that the game has ended
         this.$emit('endGame');

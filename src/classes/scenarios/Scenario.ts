@@ -1,6 +1,6 @@
 import { Character } from '../../types/Character';
 import { getFirestore, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
-import { calculateScore, constructCharacter, rememberOption } from '../../utils/CharacterUtils';
+import { autopayCharacter, calculateScore, constructCharacter, rememberOption } from '../../utils/CharacterUtils';
 
 
 // Usage Flow
@@ -41,6 +41,8 @@ class Scenario {
 
     // Reference the original character object
     this.character = character;
+    console.log("Construct character: " + this.character.balanceSheet.amountPaid);
+    this.autopayScenario();
 
     this.scenarioAge = 1,
 
@@ -121,6 +123,14 @@ class Scenario {
     }
   }
 
+  autopayScenario(): number {
+    this.character.balanceSheet.amountPaid = autopayCharacter(this.db, this.character);
+    setDoc(doc(this.db, "character", `${this.character.id}`), 
+      this.character
+    );
+    return this.character.balanceSheet.amountPaid;
+  }
+
   // Private, to be overridden by subclasses
   processAnswer(): void {
     // Logic for performing calculations
@@ -161,6 +171,7 @@ class Scenario {
 
   async updateCharacterDatabaseInstance() {
     console.log("After submission: " + this.hasCompleted);
+    console.log("Scenario balance: " + this.character.balanceSheet.amountPaid);
     await setDoc(doc(this.db, "character", `${this.character.id}`), 
       this.character
     );

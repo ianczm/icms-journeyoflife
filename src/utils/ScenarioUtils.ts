@@ -1,7 +1,7 @@
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, Firestore, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { Scenario } from "../types/Scenario";
 import { Character } from "../types/Character";
-import { rememberOption, calculateScore } from "./CharacterUtils";
+import { rememberOption, calculateScore, autopayCharacter } from "./CharacterUtils";
 
 export const constructScenario = (
   character: Character,
@@ -89,6 +89,14 @@ export const submitAnswer = (scenario: Scenario): void => {
     alert(e.name + " " + e.message);
   }
 };
+
+export const autopayScenario = (scenario: Scenario): number => {
+  scenario.character.balanceSheet.amountPaid = autopayCharacter(scenario.db, scenario.character);
+  setDoc(doc(scenario.db, "character", `${scenario.character.id}`), 
+    scenario.character
+  );
+  return scenario.character.balanceSheet.amountPaid;
+}
 
 // Private, to be overridden by subclasses
 export const processAnswer = (scenario: Scenario): void => {

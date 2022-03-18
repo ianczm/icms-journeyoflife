@@ -104,6 +104,7 @@ export default defineComponent({
             return getAssetAmount(this.character);
         },
         liabilities() {
+            console.log("Balance paid: " + this.character.balanceSheet.amountPaid);
             return getLiabilitiesAmount(this.character);
         }
     },
