@@ -7,7 +7,7 @@ import { Scenario } from "./Scenario"
 const allowMultipleSelection: boolean = false;
 
 
-class ScenarioThreeD extends Scenario {
+class ScenarioFourD extends Scenario {
     constructor(character: Character, currentPage: number) {
         // Build scenario
         // [!] page is still hardcoded
@@ -30,36 +30,28 @@ class ScenarioThreeD extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.balanceSheet.cash += -11525;
-                this.character.statusScore += 1;
+                this.character.balanceSheet.cash += -20000;
+                this.character.statusScore += 0;
+                this.character.happiness += -0.02;
+                this.character.stress += 0;
+                this.character.health += 0;
+                this.character.security += 0;
+                break;
+            case 2:
+                this.character.balanceSheet.cash += -12000;
+                this.character.statusScore += 0;
                 this.character.happiness += 0.04;
                 this.character.stress += -0.02;
                 this.character.health += 0;
                 this.character.security += 0;
                 break;
-            case 2:
-                this.character.balanceSheet.cash += -5928;
-                this.character.statusScore += 1;
-                this.character.happiness += 0.02;
-                this.character.stress += -0.02;
-                this.character.health += 0.04;
-                this.character.security += 0;
-                break;
             case 3:
-                this.character.balanceSheet.cash += -5540;
-                this.character.statusScore += 0;
-                this.character.happiness += 0.02;
-                this.character.stress += -0.02;
+                this.character.balanceSheet.cash += -30000;
+                this.character.statusScore += -1;
+                this.character.happiness += -0.04;
+                this.character.stress += 0.04;
                 this.character.health += 0;
-                this.character.security += 0;
-                break;
-            case 4:
-                this.character.balanceSheet.cash += -3600;
-                this.character.statusScore += 0;
-                this.character.happiness += 0;
-                this.character.stress += 0;
-                this.character.health += 0;
-                this.character.security += 0;
+                this.character.security += -0.02;
                 break;
 
             default:
@@ -82,4 +74,4 @@ class ScenarioThreeD extends Scenario {
     }
 }
 
-export { ScenarioThreeD }
+export { ScenarioFourD }

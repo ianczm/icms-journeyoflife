@@ -15,6 +15,22 @@ import { ScenarioThreeBCurveball } from "./ScenarioThreeBCurveball";
 import { ScenarioThreeC } from "./ScenarioThreeC";
 import { ScenarioThreeCCurveball } from "./ScenarioThreeCCurveball";
 import { ScenarioThreeD } from "./ScenarioThreeD";
+import { ScenarioThreeDCurveball } from "./ScenarioThreeDCurveball";
+import { ScenarioFourA } from "./ScenarioFourA";
+import { ScenarioFourACurveball } from "./ScenarioFourACurveball";
+import { ScenarioFourB } from "./ScenarioFourB";
+import { ScenarioFourC } from "./ScenarioFourC";
+import { ScenarioFourD } from "./ScenarioFourD";
+import { ScenarioFourE } from "./ScenarioFourE";
+import { ScenarioFiveA } from "./ScenarioFiveA";
+import { ScenarioFiveACurveball } from "./ScenarioFiveACurveball";
+import { ScenarioFiveB } from "./ScenarioFiveB";
+import { ScenarioFiveBCurveball } from "./ScenarioFiveBCurveball";
+import { ScenarioFiveC } from "./ScenarioFiveBCurveball copy";
+import { ScenarioThreeE } from "./ScenarioThreeE";
+import { ScenarioThreeF } from "./ScenarioThreeF";
+import { ScenarioThreeFCurveball } from "./ScenarioThreeFCurveball";
+import { ScenarioFourECurveball } from "./ScenarioFourECurveball";
 
 class ScenarioSelector {
 
@@ -52,6 +68,40 @@ class ScenarioSelector {
                 return new ScenarioThreeCCurveball(character, pageid);
             case 15:
                 return new ScenarioThreeD(character, pageid);
+            case 16:
+                return new ScenarioThreeDCurveball(character, pageid);
+            case 17:
+                return new ScenarioThreeE(character, pageid);
+            case 18:
+                return new ScenarioThreeF(character, pageid);
+            case 19:
+                return new ScenarioThreeFCurveball(character, pageid);
+            case 20:
+                return new ScenarioFourA(character, pageid);
+            case 21:
+                return new ScenarioFourACurveball(character, pageid);
+            case 22:
+                return new ScenarioFourB(character, pageid);
+            case 23:
+                return new ScenarioFourC(character, pageid);
+            case 24:
+                return new ScenarioFourD(character, pageid);
+            case 25:
+                return new ScenarioFourDCurveball(character, pageid);
+            case 26:
+                return new ScenarioFourE(character, pageid);
+            case 27:
+                return new ScenarioFourECurveball(character, pageid);
+            case 28:
+                return new ScenarioFiveA(character, pageid);
+            case 29:
+                return new ScenarioFiveACurveball(character, pageid);
+            case 30:
+                return new ScenarioFiveB(character, pageid);
+            case 31:
+                return new ScenarioFiveBCurveball(character, pageid);
+            case 32:
+                return new ScenarioFiveC(character, pageid);
             default:
                 return new Scenario(character, pageid, false);
                 break;
