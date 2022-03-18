@@ -3,7 +3,9 @@ import {
   Asset,
   BalanceSheet,
   Liability,
+  MonthlyAccount,
 } from "../types/BalanceSheet";
+import { currentAssets } from "./ScenarioUtils";
 
 // Create a balance sheet object
 export const constructBalanceSheet = (initialCash: number): BalanceSheet => {
@@ -11,20 +13,27 @@ export const constructBalanceSheet = (initialCash: number): BalanceSheet => {
     amountPaid: 0,
     assets: [],
     liabilities: [],
+    accounts: [],
     cash: initialCash,
   };
   return temp;
 };
 
-export const increaseCash = (balanceSheet: BalanceSheet, amount: number): number => {
+export const increaseCash = (
+  balanceSheet: BalanceSheet,
+  amount: number
+): number => {
   balanceSheet.cash += amount;
   return balanceSheet.cash;
-}
+};
 
-export const decreaseCash = (balanceSheet: BalanceSheet, amount: number): number => {
+export const decreaseCash = (
+  balanceSheet: BalanceSheet,
+  amount: number
+): number => {
   balanceSheet.cash -= amount;
   return balanceSheet.cash;
-}
+};
 
 // Add asset to a balance sheet
 export const pushAsset = (balanceSheet: BalanceSheet, asset: Asset): void => {
@@ -42,7 +51,10 @@ export const pushLiability = (
 };
 
 // Assets methods
-export const remainingAssets = (balanceSheet: BalanceSheet, age: number): number => {
+export const remainingAssets = (
+  balanceSheet: BalanceSheet,
+  age: number
+): number => {
   const calculateYield = (currSum: number, asset: Asset) => {
     const diff = age - asset.startAge;
     if (diff >= asset.durationYears) {
@@ -66,7 +78,7 @@ export const remainingAssets = (balanceSheet: BalanceSheet, age: number): number
   };
 
   return balanceSheet.assets.reduce(calculateYield, 0);
-}
+};
 
 // Converting an asset into cash
 export const liquidate = (
@@ -106,7 +118,10 @@ export const liquidate = (
   return 0;
 };
 
-export const remainingLiabilities = (balanceSheet: BalanceSheet, age: number): number => {
+export const remainingLiabilities = (
+  balanceSheet: BalanceSheet,
+  age: number
+): number => {
   /*
   const calculateDebt = (currSum: number, liability: Liability) => {
     const diff = age - liability.startAge;
@@ -125,8 +140,10 @@ export const remainingLiabilities = (balanceSheet: BalanceSheet, age: number): n
     return currSum + total;
   };
 
-  return balanceSheet.liabilities.reduce(calculateDebt, 0) - balanceSheet.amountPaid;
-}
+  return (
+    balanceSheet.liabilities.reduce(calculateDebt, 0) - balanceSheet.amountPaid
+  );
+};
 
 // Pay the liability in cash
 export const payLiability = (
@@ -171,4 +188,20 @@ export const autopay = (balanceSheet: BalanceSheet, age: number): void => {
   const payable = balanceSheet.liabilities.reduce(calculatePayable, 0);
   balanceSheet.cash -= payable - balanceSheet.amountPaid;
   balanceSheet.amountPaid = payable;
-}
+};
+
+// Add account to balance sheet
+export const pushAccount = (
+  balanceSheet: BalanceSheet,
+  account: MonthlyAccount
+): void => {
+  balanceSheet.accounts.push(account);
+};
+
+export const remainingCash = (balanceSheet: BalanceSheet, age: number) => {
+  const calculateCash = (currCash: number, account: MonthlyAccount): number => {
+    // TODO: implement calculate cash
+    return currCash;
+  };
+  return balanceSheet.accounts.reduce(calculateCash, balanceSheet.cash);
+};
