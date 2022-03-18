@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts">
-import { collection, Firestore, getDocs, getFirestore, limit, orderBy, query, where } from "firebase/firestore";
+import { collection, doc, Firestore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { defineComponent } from "vue";
 import { ScenarioContent } from "../classes/scenarios/ScenarioContent";
 import { getAssetAmount, getLiabilitiesAmount } from "../utils/CharacterUtils";
@@ -92,7 +92,7 @@ export default defineComponent({
             maxPages: 33 as number,
             db: null as Firestore,
 
-            statusScoreMode: true as boolean,
+            statusScoreMode: false as boolean,
         }
     },
     methods: {
@@ -124,6 +124,10 @@ export default defineComponent({
         scenarios.forEach((scenarioSnap) => {
             const scenario = scenarioSnap.data() as ScenarioContent;
             this.maxPages = scenario.pageid;
+        })
+
+        onSnapshot(doc(this.db, "settings", "statusScore"), (docRef) => {
+            this.statusScoreMode = docRef.data().enabled;
         })
     }
 })
