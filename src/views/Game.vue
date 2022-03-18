@@ -21,29 +21,25 @@
           <p>Here are some statistics that you have managed to achieve during your life,
             as you faced challenge after challenge.
           </p>
-          <div v-if="statusScoreMode" class="choices end-game-stats">
+          <div class="choices end-game-stats">
             <ul>
               <li>
                 <p>You have attained the status of</p>
                 <h2>T20</h2>
               </li>
-            </ul>
-          </div>
-          <div v-else class="choices end-game-stats">
-            <ul>
-              <li>
+              <li v-if="!statusScoreMode">
                 <p>Highest Score</p>
                 <h2>3,430.00</h2>
               </li>
-              <li>
+              <li v-if="!statusScoreMode">
                 <p>Highest Net Worth</p>
                 <h2>RM 7,000.00</h2>
               </li>
-              <li>
+              <li v-if="!statusScoreMode">
                 <p>Most Happy At</p>
                 <h2>Age 35</h2>
               </li>
-              <li>
+              <li v-if="!statusScoreMode">
                 <p>Most Stressed At</p>
                 <h2>Age 27</h2>
               </li>
