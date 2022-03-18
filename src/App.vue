@@ -26,6 +26,9 @@
               <router-link to="/game">Game</router-link>
             </li>
             <li v-if="isAdmin">
+              <a href="#" @click.prevent="toggleStatusScore">Switch Mode</a>
+            </li>
+            <li v-if="isAdmin">
               <router-link to="/admin">Admin</router-link>
             </li>
             <li>
@@ -121,13 +124,17 @@ export default {
 
       // Mobile Nav
       isMobileNavOpen: false,
-      shouldMobileNavClose: true
+      shouldMobileNavClose: true,
+
+      // status score
+      localStatusScoreMode: false
     }
   },
   provide() {
     return {
       userid: computed(() => this.userid),
-      username: computed(() => this.username)
+      username: computed(() => this.username),
+      localStatusScoreModeComputed: computed(() => this.localStatusScoreMode)
     }
   },
   created() {
@@ -150,6 +157,9 @@ export default {
   methods: {
     submitSignOut() {
       signOut(this.auth);
+    },
+    toggleStatusScore() {
+      this.localStatusScoreMode = !this.localStatusScoreMode;
     },
     openNav() {
       this.isMobileNavOpen = true;
@@ -186,7 +196,9 @@ export default {
       if (!this.signedIn) {
         return false;
       } else {
-        return this.getUsername().includes('admin');
+        if (this.getUsername().includes('admin') || this.getUsername().includes('maybank')) {
+          return true;
+        }
       };
     }
   }

@@ -5,7 +5,7 @@
             <h2>Age {{ character.age }}</h2>
         </div>
         <div class="divider"></div>
-        <div v-if="statusScoreMode" class="scores">
+        <div v-if="showStatusScore" class="scores">
             <div class="statusScore">
                 <h3>Status Score</h3>
                 <h1>{{ toLocalFixed(character.statusScore, 1) }}</h1>
@@ -87,6 +87,7 @@ import { getAssetAmount, getLiabilitiesAmount } from "../utils/CharacterUtils";
 
 export default defineComponent({
     props: ['character'],
+    inject: ['localStatusScoreModeComputed'],
     data() {
         return {
             maxPages: 33 as number,
@@ -113,6 +114,10 @@ export default defineComponent({
         },
         liabilities() {
             return getLiabilitiesAmount(this.character);
+        },
+        showStatusScore() {
+            console.log(!(this.statusScoreMode && !this.localStatusScoreModeComputed));
+            return !(this.statusScoreMode && !this.localStatusScoreModeComputed);
         }
     },
     created() {
