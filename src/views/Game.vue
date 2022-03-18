@@ -222,8 +222,9 @@ export default defineComponent({
 
     .scores {
       display: grid;
-      grid-template-columns: 5fr 7fr;
+      grid-template-columns: 1fr 1fr;
       margin: 35px 0;
+      grid-gap: 20px 15px;
 
       h3 {
         margin-bottom: 5px;
@@ -238,7 +239,6 @@ export default defineComponent({
     @media only screen and (max-width: 1525px) {
       .scores {
         grid-template-columns: auto;
-        grid-gap: 35px;
         h3 {
           font-size: 1rem;
         }

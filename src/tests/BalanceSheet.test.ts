@@ -153,7 +153,7 @@ describe("BalanceSheet", () => {
 
   // autopay
   test("shouldAutoPayLiabilities", () => {
-    const addedAge = 5;
+    const addedAge = 4; // should return 7200
     const balanceSheet = constructBalanceSheet(CharacterInitial.CASH);
 
     pushLiability(balanceSheet, liabilityOne);
