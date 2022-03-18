@@ -39,7 +39,7 @@ class ScenarioOneA extends Scenario {
                     name: "Foundation and Degree Loan",
                     startAge: this.character.age
                 });
-                this.character.networth += 0;
+                this.character.balanceSheet.cash += 105000;
                 this.character.statusScore += 1;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.06;

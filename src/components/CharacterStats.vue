@@ -11,11 +11,11 @@
                 <h1>{{ toLocalFixed(character.score, 2) }}</h1>
             </div>
             <div class="cash">
-                <h3>Cash</h3>
+                <h3>Bank</h3>
                 <h1>RM {{ toLocalFixed(character.balanceSheet.cash, 2) }}</h1>
             </div>
             <div class="assets">
-                <h3>Non-Current Assets</h3>
+                <h3>Fixed Assets</h3>
                 <h1>RM {{ toLocalFixed(assets, 2) }}</h1>
             </div>
             <div class="liability">
