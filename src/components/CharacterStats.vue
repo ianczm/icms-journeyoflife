@@ -123,7 +123,7 @@ export default defineComponent({
         const scenarios = await getDocs(q).then();
         scenarios.forEach((scenarioSnap) => {
             const scenario = scenarioSnap.data() as ScenarioContent;
-            this.maxPages = scenario.pageid;
+            this.maxPages = scenario.pageid + 1;
         })
 
         onSnapshot(doc(this.db, "settings", "statusScore"), (docRef) => {

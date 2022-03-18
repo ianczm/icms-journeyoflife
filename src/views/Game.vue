@@ -21,7 +21,15 @@
           <p>Here are some statistics that you have managed to achieve during your life,
             as you faced challenge after challenge.
           </p>
-          <div class="choices end-game-stats">
+          <div v-if="statusScoreMode" class="choices end-game-stats">
+            <ul>
+              <li>
+                <p>You have attained the status of</p>
+                <h2>T20</h2>
+              </li>
+            </ul>
+          </div>
+          <div v-else class="choices end-game-stats">
             <ul>
               <li>
                 <p>Highest Score</p>
@@ -84,6 +92,8 @@ export default defineComponent({
       showOutcome: true,
 
       endGame: false,
+
+      statusScoreMode: false,
     }
   },
   methods: {
@@ -130,6 +140,10 @@ export default defineComponent({
         this.character = character.data();
       });
     });
+
+    onSnapshot(doc(this.db, "settings", "statusScore"), (docRef) => {
+      this.statusScoreMode = docRef.data().enabled;
+    })
     // this.character = getCharacterByUserID(this.db, this.userid);
   }
 })
