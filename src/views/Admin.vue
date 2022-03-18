@@ -165,7 +165,6 @@ export default defineComponent({
       });
     },
     async resetCharacterScenarios() {
-      // console.log("Fix reset!")
       const csCollection = collection(this.db, "character_scenario");
       await getDocs(csCollection).then(csSnapshot => {
         csSnapshot.forEach(cs => {

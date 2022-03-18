@@ -99,7 +99,6 @@ export default defineComponent({
     onNextClick(event) {
       this.character.currentpage += 1;
       this.submitted = false;
-      console.log("Current page is " + this.character.currentpage);
       // update firebase with new characterpage
       this.updateFirebaseCharacter(this.character.currentpage);
       // updateCharacterPage(this.db, this.character.id, this.character.currentpage);
