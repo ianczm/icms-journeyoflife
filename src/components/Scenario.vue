@@ -121,7 +121,7 @@ export default defineComponent({
         // for updating character age
         this.character.age = scenarioContent.scenarioAge;
         // auto pay when age updates
-        this.amountPaid = autopayCharacter(this.character.balanceSheet);
+        this.amountPaid = autopayCharacter(this.character);
       } else {
         // indicates that the game has ended
         this.$emit('endGame');

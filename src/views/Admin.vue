@@ -60,7 +60,7 @@
               <tr v-for="scenario in scenarios" :key="scenario.pageid" class="scenario record">
                 <td><button class="glow-button" @click="transferScenarioToEditor(scenario.pageid)">Edit</button></td>
                 <td>{{ scenario.pageid }}</td>
-                <td>{{ scenario.age ? scenario.age : 0 }}</td>
+                <td>{{ scenario.scenarioAge ? scenario.scenarioAge : 0 }}</td>
                 <td>{{ scenario.heading }}</td>
                 <td>{{ scenario.phase }}</td>
                 <td>{{ scenario.title }}</td>

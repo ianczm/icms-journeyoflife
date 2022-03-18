@@ -12,7 +12,7 @@
             </div>
             <div class="cash">
                 <h3>Cash</h3>
-                <h1>RM {{ toLocalFixed(character.networth, 2) }}</h1>
+                <h1>RM {{ toLocalFixed(character.balanceSheet.cash, 2) }}</h1>
             </div>
             <div class="assets">
                 <h3>Non-Current Assets</h3>
