@@ -13,7 +13,7 @@ export const constructCharacter = (
     score: 0,
     health: 0.5,
     security: 0.5,
-    stress: 0.5,
+    stress: 0.2,
     currentpage: 1,
     scenarioHistory: [],
     userid: userId,
@@ -62,24 +62,49 @@ export const updateCharacterState = (
   // ..
 };
 
-export const calculateScore = (character: Character): void => {
-  // Implement some default behaviour
+// export const calculateScore = (character: Character): void => {
+//   // Implement some default behaviour
 
-  // cap quality of life at 2
+//   // cap quality of life at 2
+//   var qualityOfLife = character.happiness + 1 - character.stress;
+
+//   // Perform score base calculation
+//   var score =
+//     character.networth * qualityOfLife * character.health * character.security;
+
+//   var bonus = handleScoreOverflow(character);
+
+//   if (character.networth <= 0) {
+//     character.score = CharacterInitial.SCORE * bonus;
+//   } else {
+//     character.score = bonus * score;
+//   }
+// };
+
+export const calculateScore = (character: Character): number => {
   var qualityOfLife = character.happiness + 1 - character.stress;
+  var score = character.statusScore * qualityOfLife * character.health * character.security;
+  var bonus = 1;
 
-  // Perform score base calculation
-  var score =
-    character.networth * qualityOfLife * character.health * character.security;
+  var metricArray = [character.health, character.happiness, character.security, character.stress]
+  metricArray.forEach((metric, idx, array) => {
+    if (metric > 1) {
+      // bonus += (metric - 1);
+      array[idx] = 1;
+    } else if (metric < 0) {
+      // bonus += -metric - 1;
+      array[idx] = 0;
+    }
 
-  var bonus = handleScoreOverflow(character);
+    // bonus /= 4;
+  });
 
-  if (character.networth <= 0) {
-    character.score = CharacterInitial.SCORE * bonus;
-  } else {
-    character.score = bonus * score;
-  }
-};
+  handleScoreOverflow(character);
+  const res = score * bonus * 15;
+
+  character.score = res;
+  return res;
+}
 
 export const handleScoreOverflow = (character: Character): number => {
   // in case there is overflow, these 4 metrics will add a bonus
@@ -122,11 +147,11 @@ export const handleScoreOverflow = (character: Character): number => {
   }
 
   // average
-  var bonus =
-    0.25 *
-      (healthOverflow + securityOverflow + happinessOverflow + stressOverflow) +
-    1;
-  return bonus;
+  // var bonus =
+  //   0.25 *
+  //     (healthOverflow + securityOverflow + happinessOverflow + stressOverflow) +
+  //   1;
+  return 1;
 };
 
 export const pushAsset = (character: Character, asset: Asset) => {

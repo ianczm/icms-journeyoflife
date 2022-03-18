@@ -25,7 +25,11 @@
             <ul>
               <li>
                 <p>You have attained the status of</p>
-                <h2>T20</h2>
+                <h2>{{ finalStatus }}</h2>
+              </li>
+              <li>
+                <p>Within {{ finalStatus }}, you are the top</p>
+                <h2>{{ (100 - finalStatusPercentage).toFixed(2) }}%</h2>
               </li>
               <li v-if="!statusScoreMode">
                 <p>Highest Score</p>
@@ -63,6 +67,7 @@ import Scenario from "../components/Scenario.vue";
 import CharacterStats from "../components/CharacterStats.vue";
 import { getFirestore, onSnapshot, query, where, collection, doc, updateDoc, getDoc, Firestore } from "firebase/firestore";
 import { defineComponent } from "@vue/runtime-core";
+import { Character } from "../types/Character";
 
 export default defineComponent({
   components: { Scenario, CharacterStats },
@@ -79,7 +84,7 @@ export default defineComponent({
       // Can temporarily be fixed by getting character from database directly
 
       // character: new Character(this.userid, 18),
-      character: null,
+      character: null as Character,
 
       // Page
       // character.currentpage: 1,
@@ -90,6 +95,31 @@ export default defineComponent({
       endGame: false,
 
       statusScoreMode: false,
+    }
+  },
+  computed: {
+    finalStatus() {
+      const score = this.character.statusScore;
+      if (score >= 30) {
+        return "T20";
+      } else if (score < 30 && score > 6) {
+        return "M40";
+      } else {
+        return "B40";
+      }
+    },
+    finalStatusPercentage() {
+      const score = this.character.statusScore;
+      if (score >= 30) {
+        const res = ((score-30) / (42-30)) * 100;
+        return res > 42 ? 100 : res;
+      } else if (score < 30 && score > 6) {
+        const res = ((score-6) / (30-6)) * 100;
+        return res;
+      } else {
+        const res = ((score+18) / (6+18)) * 100;
+        return res;
+      }
     }
   },
   methods: {
@@ -331,6 +361,7 @@ export default defineComponent({
 
     // [!] need to refactor
     &.end-game-stats {
+
       p {
         margin-bottom: 10px;
         color: white;
@@ -344,7 +375,7 @@ export default defineComponent({
     ul {
       list-style: none;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: auto;
       grid-gap: 15px;
 
       li {

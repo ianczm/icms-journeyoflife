@@ -186,7 +186,7 @@ export default {
       if (!this.signedIn) {
         return false;
       } else {
-        return this.getUsername().includes('admin');
+        return this.getUsername().includes('admin') || this.getUsername().includes('maybank');
       };
     }
   }

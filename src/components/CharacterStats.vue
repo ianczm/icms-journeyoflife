@@ -6,8 +6,12 @@
         </div>
         <div class="divider"></div>
         <div v-if="statusScoreMode" class="scores">
+            <div class="final">
+                <h3>Final Score</h3>
+                <h1>{{ toLocalFixed(character.score, 2) }}</h1>
+            </div>
             <div class="statusScore">
-                <h3>Status Score</h3>
+                <h3>Status</h3>
                 <h1>{{ toLocalFixed(character.statusScore, 1) }}</h1>
             </div>
         </div>

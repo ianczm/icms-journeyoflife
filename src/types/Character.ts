@@ -2,8 +2,7 @@ import { Scenario } from "./Scenario";
 import { BalanceSheet } from "./BalanceSheet";
 
 export enum CharacterInitial {
-  CASH = 5000,
-  SCORE = 1250,
+  CASH = 7500,
   STATUS_SCORE = 10,
 }
 
