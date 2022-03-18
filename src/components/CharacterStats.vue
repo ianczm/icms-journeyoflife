@@ -5,7 +5,13 @@
             <h2>Age {{ character.age }}</h2>
         </div>
         <div class="divider"></div>
-        <div class="scores">
+        <div v-if="statusScoreMode" class="scores">
+            <div class="statusScore">
+                <h3>Status Score</h3>
+                <h1>{{ toLocalFixed(character.statusScore, 1) }}</h1>
+            </div>
+        </div>
+        <div v-else class="scores">
             <div class="final">
                 <h3>Score</h3>
                 <h1>{{ toLocalFixed(character.score, 2) }}</h1>
@@ -84,7 +90,9 @@ export default defineComponent({
     data() {
         return {
             maxPages: 33 as number,
-            db: null as Firestore
+            db: null as Firestore,
+
+            statusScoreMode: true as boolean,
         }
     },
     methods: {
