@@ -30,7 +30,7 @@ class ScenarioThreeC extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += -100000;
+                this.character.balanceSheet.cash += -100000;
                 this.character.statusScore += -2;
                 this.character.happiness -= 0;
                 this.character.stress += 0.06;
@@ -38,7 +38,7 @@ class ScenarioThreeC extends Scenario {
                 this.character.security += 0;
                 break;
             case 2:
-                this.character.networth += -20000;
+                this.character.balanceSheet.cash += -20000;
                 this.character.statusScore += 0;
                 this.character.happiness += 0.02;
                 this.character.stress += 0.02;
@@ -46,7 +46,7 @@ class ScenarioThreeC extends Scenario {
                 this.character.security += 0;
                 break;
             case 3:
-                this.character.networth += -30000;
+                this.character.balanceSheet.cash += -30000;
                 this.character.statusScore += 0;
                 this.character.happiness += 0.04;
                 this.character.stress += 0.03;
@@ -54,7 +54,7 @@ class ScenarioThreeC extends Scenario {
                 this.character.security += 0;
                 break;
             case 4:
-                this.character.networth += 0;
+                this.character.balanceSheet.cash += 0;
                 this.character.statusScore += 0;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.03;

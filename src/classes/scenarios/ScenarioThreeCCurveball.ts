@@ -30,7 +30,7 @@ class ScenarioThreeCCurveball extends Scenario {
 
         switch (this.generateCase()) {
             case 1:
-                this.character.networth += -36000;
+                this.character.balanceSheet.cash += -36000;
                 this.character.statusScore += 2;
                 this.character.happiness -= 0;
                 this.character.stress += -0.04;
@@ -38,7 +38,7 @@ class ScenarioThreeCCurveball extends Scenario {
                 this.character.security += 0.04;
                 break;
             case 2:
-                this.character.networth += -60000;
+                this.character.balanceSheet.cash += -60000;
                 this.character.statusScore += 2;
                 this.character.happiness += 0;
                 this.character.stress += 0.04;

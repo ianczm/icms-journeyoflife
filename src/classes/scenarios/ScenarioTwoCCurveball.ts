@@ -31,7 +31,7 @@ class ScenarioTwoCCurveball extends Scenario {
         switch (this.generateCase()) {
             case 1:
                 // should be based on salary, not net worth
-                this.character.networth += 0;
+                this.character.balanceSheet.cash += 0;
                 this.character.statusScore += 0;
                 this.character.happiness += 0.00;
                 this.character.stress += -0.00;
@@ -40,7 +40,7 @@ class ScenarioTwoCCurveball extends Scenario {
                 break;
             case 2:
                 // should be based on salary, not net worth
-                this.character.networth += 0;
+                this.character.balanceSheet.cash += 0;
                 this.character.statusScore += 0;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.02;

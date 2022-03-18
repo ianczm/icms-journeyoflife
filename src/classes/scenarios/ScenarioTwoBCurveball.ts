@@ -31,7 +31,7 @@ class ScenarioTwoBCurveball extends Scenario {
         switch (this.generateCase()) {
             case 1:
                 // should be based on salary, not net worth
-                this.character.networth += this.character.networth+48000;
+                this.character.balanceSheet.cash += this.character.balanceSheet.cash+48000;
                 this.character.statusScore += 1;
                 this.character.happiness += 0.02;
                 this.character.stress += 0.01;
@@ -40,7 +40,7 @@ class ScenarioTwoBCurveball extends Scenario {
                 break;
             case 2:
                 // should be based on salary, not net worth
-                this.character.networth += this.character.networth+36000;
+                this.character.balanceSheet.cash += this.character.balanceSheet.cash+36000;
                 this.character.statusScore += 0;
                 this.character.happiness += 0.00;
                 this.character.stress += 0.04;
@@ -49,7 +49,7 @@ class ScenarioTwoBCurveball extends Scenario {
                 break;
             case 3:
                 // should be based on salary, not net worth
-                this.character.networth += this.character.networth+33600;
+                this.character.balanceSheet.cash += this.character.balanceSheet.cash+33600;
                 this.character.statusScore += 2;
                 this.character.happiness += 0.00;
                 this.character.stress += 0.04;
@@ -57,7 +57,7 @@ class ScenarioTwoBCurveball extends Scenario {
                 this.character.security += 0.02;
                 break;
             case 4:
-                this.character.networth += this.character.networth+31500;
+                this.character.balanceSheet.cash += this.character.balanceSheet.cash+31500;
                 this.character.statusScore += 1;
                 this.character.happiness += 0.02;
                 this.character.stress += -0.01;

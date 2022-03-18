@@ -125,7 +125,7 @@ class Scenario {
   processAnswer(): void {
     // Logic for performing calculations
     this.character.age += 1;
-    this.character.networth += 5000;
+    this.character.balanceSheet.cash += 5000;
     this.character.happiness *= 1.01;
     this.character.stress *= 1.01;
     this.character.health *= 1.01;
