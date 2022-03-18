@@ -26,7 +26,7 @@ import { ScenarioFiveA } from "./ScenarioFiveA";
 import { ScenarioFiveACurveball } from "./ScenarioFiveACurveball";
 import { ScenarioFiveB } from "./ScenarioFiveB";
 import { ScenarioFiveBCurveball } from "./ScenarioFiveBCurveball";
-import { ScenarioFiveC } from "./ScenarioFiveBCurveball copy";
+import { ScenarioFiveC } from "./ScenarioFiveC";
 import { ScenarioThreeE } from "./ScenarioThreeE";
 import { ScenarioThreeF } from "./ScenarioThreeF";
 import { ScenarioThreeFCurveball } from "./ScenarioThreeFCurveball";

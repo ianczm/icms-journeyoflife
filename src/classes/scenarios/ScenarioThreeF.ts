@@ -47,7 +47,7 @@ class ScenarioThreeF extends Scenario {
                 break;
             case 3:
                 this.character.balanceSheet.cash += 960;
-                this.character.statusScore += 0.01;
+                this.character.statusScore += 1;
                 this.character.happiness += 0.02;
                 this.character.stress += -0.04;
                 this.character.health += 0.02;

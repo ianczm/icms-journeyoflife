@@ -39,7 +39,7 @@ class ScenarioThreeCCurveball extends Scenario {
                 break;
             case 2:
                 this.character.balanceSheet.cash += -60000;
-                this.character.statusScore += 2;
+                this.character.statusScore += -2;
                 this.character.happiness += 0;
                 this.character.stress += 0.04;
                 this.character.health += 0;
