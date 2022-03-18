@@ -18,6 +18,7 @@
                 <th>Age</th>
                 <th>Networth</th>
                 <th>Score</th>
+                <th>Status Score</th>
                 <th>Happiness</th>
                 <th>Stress</th>
                 <th>Health</th>
@@ -29,8 +30,9 @@
                 <!-- <td>{{ character.userid }}</td> -->
                 <td>{{ character.currentpage }}</td>
                 <td>{{ character.age }}</td>
-                <td>{{ 'RM ' + toLocalFixed(character.networth, 2) }}</td>
+                <td>{{ 'RM ' + toLocalFixed(networth(character), 2) }}</td>
                 <td>{{ toLocalFixed(character.score, 2) }}</td>
+                <td>{{ toLocalFixed(character.statusScore, 2) }}</td>
                 <td>{{ (character.happiness * 100).toFixed(1) + '%' }}</td>
                 <td>{{ (character.stress * 100).toFixed(1) + '%' }}</td>
                 <td>{{ (character.health * 100).toFixed(1) + '%' }}</td>
@@ -95,7 +97,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { orderBy, query, doc, setDoc, getFirestore, collection, onSnapshot, getDocs, deleteDoc, Firestore, where } from "firebase/firestore"
 import { Character, useridList } from "../classes/character/Character";
 import ScenarioBuilderVue from "../components/admin/ScenarioBuilder.vue"
-import { constructCharacter } from "../utils/CharacterUtils";
+import { constructCharacter, getNetWorth } from "../utils/CharacterUtils";
 
 // For presentation convenience
 export default defineComponent({
@@ -141,6 +143,9 @@ export default defineComponent({
       });
 
     });
+    },
+    networth(character) {
+      return getNetWorth(character);
     },
     transferScenarioToEditor(pageid) {
       this.pageid = pageid;

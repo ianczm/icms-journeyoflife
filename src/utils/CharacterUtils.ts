@@ -147,6 +147,10 @@ export const getLiabilitiesAmount = (character: Character): number => {
   return remainingLiabilities(character.balanceSheet, character.age);
 }
 
+export const getNetWorth = (character: Character): number => {
+  return character.balanceSheet.cash + getAssetAmount(character) - getLiabilitiesAmount(character);
+}
+
 export const autopayCharacter = (character: Character): number => {
   return autopay(character.balanceSheet, character.age);
 }
