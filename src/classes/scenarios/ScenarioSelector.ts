@@ -20,7 +20,7 @@ import { ScenarioFourA } from "./ScenarioFourA";
 import { ScenarioFourACurveball } from "./ScenarioFourACurveball";
 import { ScenarioFourB } from "./ScenarioFourB";
 import { ScenarioFourC } from "./ScenarioFourC";
-import { ScenarioFourD } from "./ScenarioFourD";
+import { ScenarioFourDCurveball } from "./ScenarioFourDCurveball";
 import { ScenarioFourE } from "./ScenarioFourE";
 import { ScenarioFiveA } from "./ScenarioFiveA";
 import { ScenarioFiveACurveball } from "./ScenarioFiveACurveball";
@@ -31,6 +31,7 @@ import { ScenarioThreeE } from "./ScenarioThreeE";
 import { ScenarioThreeF } from "./ScenarioThreeF";
 import { ScenarioThreeFCurveball } from "./ScenarioThreeFCurveball";
 import { ScenarioFourECurveball } from "./ScenarioFourECurveball";
+import { ScenarioFourD } from "./ScenarioFourD";
 
 class ScenarioSelector {
 

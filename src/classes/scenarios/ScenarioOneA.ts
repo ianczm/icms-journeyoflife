@@ -54,7 +54,7 @@ class ScenarioOneA extends Scenario {
                     name: "A-Levels and Degree Loan",
                     startAge: this.character.age
                 });
-                this.character.balanceSheet.cash += 0;
+                this.character.balanceSheet.cash += 110000;
                 this.character.statusScore += 1;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.06;
@@ -69,7 +69,7 @@ class ScenarioOneA extends Scenario {
                     name: "STPM and Degree Loan",
                     startAge: this.character.age
                 });
-                this.character.balanceSheet.cash += 0;
+                this.character.balanceSheet.cash += 80000;
                 this.character.statusScore += 1;
                 this.character.happiness += -0.02;
                 this.character.stress += 0.03;
